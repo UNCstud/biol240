@@ -996,7 +996,7 @@ hr.div{border:none;border-top:1px solid var(--border);margin:2.5rem 0;}
     <h2>Practice <em>Quiz</em></h2>
     <p>Select all correct answers — no partial credit. Includes select-all-that-apply, single best answer, and find-the-false-statement formats.</p>
     <div class="quiz-meta-row">
-      <div class="qm-pill qm-purple">20 questions</div>
+      <div class="qm-pill qm-purple">52 questions</div>
       <div class="qm-pill qm-teal">No partial credit</div>
       <div class="qm-pill qm-red">Select all that apply</div>
     </div>
@@ -1053,145 +1053,548 @@ function sw(id, btn) {
 }
 
 const ALL_QUESTIONS = [
-  {
-    topic:'stem', type:'sata', tag:'Stem Cells',
-    stem:'Which of the following are true of Paneth cells in the intestinal stem cell niche? <strong>Select all that apply.</strong>',
-    opts:['They secrete Wnt3, EGF, and Dll4 to support Lgr5⁺ stem cells','They are located at the tips of intestinal villi','They provide the Notch ligand Dll4 to neighboring stem cells','They are the primary +4 reserve stem cells activated after injury','Their ablation leads to loss of ISC self-renewal due to lost Wnt signaling'],
-    correct:[0,2,4],
-    explain:'Paneth cells sit at the crypt <em>base</em> flanking stem cells — not villi tips (B wrong). They secrete Wnt3, EGF, and Dll4 (A, C correct). The +4/Bmi1⁺ reserve cells are a <em>separate</em> population (D wrong). Loss of Paneth cells impairs ISC self-renewal through lost Wnt3 and Dll4 (E correct).'
-  },
-  {
-    topic:'stem', type:'false', tag:'Stem Cells',
-    stem:'Which of the following statements about stem cell potency is <strong>FALSE</strong>?',
-    opts:['Totipotent cells can give rise to all embryonic and extraembryonic cell types including the placenta','Embryonic stem cells are pluripotent and are derived from the inner cell mass of the blastocyst','iPSCs and ESCs are both pluripotent and are functionally identical in every measurable way','Multipotent adult stem cells are restricted to generating cell types within their tissue lineage','Unipotent stem cells can only produce one differentiated cell type'],
-    correct:[2],
-    explain:'C is false. iPSCs and ESCs are similar but not functionally identical in every measurable way — iPSCs may retain epigenetic memory of their source cell type and can differ in gene expression at certain loci. All other statements are accurate.'
-  },
-  {
-    topic:'stem', type:'sata', tag:'Stem Cells',
-    stem:'A skin stem cell is displaced from the hair follicle bulge niche. Which molecular events would <strong>directly contribute</strong> to its death or loss of stemness? <strong>Select all that apply.</strong>',
-    opts:['Loss of integrin-ECM contact triggers anoikis via FAK/Akt pathway collapse','Removal from BMP signals causes immediate hyperproliferation','Loss of Sox9 and Tcf3 expression destabilizes stem cell identity','Wnt signaling increases upon displacement, driving terminal differentiation','Pro-apoptotic BH3-only proteins become active when Akt signaling drops'],
-    correct:[0,2,4],
-    explain:'A and E are correct — loss of integrin/ECM contact collapses FAK → Akt → BH3-only proteins activate apoptosis (anoikis). C is correct — Sox9/Tcf3 maintain bulge identity and their loss destabilizes stemness. B is wrong — loss of BMP <em>activates</em> stem cells, it does not cause hyperproliferation upon displacement. D is wrong — Wnt does not increase upon displacement.'
-  },
-  {
-    topic:'stem', type:'mc', tag:'Stem Cells',
-    stem:'In generating iPSCs, c-Myc is included in the Yamanaka reprogramming cocktail primarily because it:',
-    opts:['Directly activates Oct4 and Sox2 transcription by binding their promoters','Globally opens chromatin and drives cell proliferation, accelerating epigenetic remodeling','Suppresses p53-mediated apoptosis to keep reprogrammed cells alive','Replaces the function of Nanog in maintaining the pluripotency network','Methylates CpG islands at differentiation-associated gene promoters'],
-    correct:[1],
-    explain:'c-Myc globally activates RNA Pol II and opens chromatin, which accelerates the widespread epigenetic remodeling needed for reprogramming. It is not a sequence-specific activator of Oct4/Sox2 (A wrong), does not replace Nanog (D wrong), and does not methylate DNA (E wrong). Its oncogenic risk comes from this same global proliferation-promoting activity.'
-  },
-  {
-    topic:'cancer', type:'sata', tag:'Cancer',
-    stem:'Which of the following correctly describe differences between oncogenes and tumor suppressor genes? <strong>Select all that apply.</strong>',
-    opts:['Oncogenes act via gain-of-function mutations; tumor suppressors act via loss-of-function','A single mutant allele of an oncogene is sufficient to promote tumor growth (dominant)','Tumor suppressor genes require loss of both alleles to contribute to cancer (two-hit)','RAS is a tumor suppressor because it normally restrains cell proliferation','APC acts as a tumor suppressor by targeting β-catenin for degradation in the absence of Wnt ligand'],
-    correct:[0,1,2,4],
-    explain:'A, B, C, E are all correct. D is false — RAS is a proto-<em>oncogene</em>. Wild-type RAS promotes growth when activated; gain-of-function RAS mutations constitutively drive proliferation. APC is indeed a TSG that targets β-catenin for destruction to keep Wnt signaling off.'
-  },
-  {
-    topic:'cancer', type:'false', tag:'Cancer',
-    stem:'Which statement about cancer stem cells (CSCs) is <strong>FALSE</strong>?',
-    opts:['CSCs are defined by their ability to self-renew and give rise to the heterogeneous tumor cell population','CSCs are typically CD44⁺/CD24⁻ in breast cancer models','CSCs are more sensitive to conventional chemotherapy than bulk tumor cells because they divide rapidly','Surviving CSCs after chemotherapy can regenerate the tumor, contributing to relapse','The CSC model is compatible with plasticity — non-CSCs can dedifferentiate into CSCs'],
-    correct:[2],
-    explain:'C is false — CSCs are <em>more resistant</em> to chemotherapy, not more sensitive. They are often quiescent (slow-cycling), express ABC drug efflux transporters, and have elevated DNA repair. It is the rapidly dividing bulk tumor cells that are preferentially killed. All other statements accurately describe CSC biology.'
-  },
-  {
-    topic:'cancer', type:'sata', tag:'Cancer',
-    stem:'Regarding tumor angiogenesis, which statements are correct? <strong>Select all that apply.</strong>',
-    opts:['Tumors larger than ~1–2 mm require new blood vessels because diffusion alone cannot supply sufficient oxygen','Hypoxia stabilizes HIF-1α by preventing its prolyl hydroxylase-dependent degradation','VEGF binds directly to HIF-1α to form a transcriptional complex promoting vessel growth','DLL4/Notch signaling between tip and stalk endothelial cells limits excessive sprouting','Anti-VEGF therapy (bevacizumab) blocks new vessel formation to cut off tumor nutrient supply'],
-    correct:[0,1,3,4],
-    explain:'A, B, D, E are correct. C is false — VEGF does not bind HIF-1α. VEGF is a secreted growth factor <em>transcriptionally induced by</em> HIF-1α. VEGF then binds VEGFR on endothelial cell surfaces. These are two separate molecules in a linear cascade, not a binding pair.'
-  },
-  {
-    topic:'cancer', type:'sata', tag:'Cancer',
-    stem:'Which features correctly distinguish a malignant tumor from a benign tumor? <strong>Select all that apply.</strong>',
-    opts:['Malignant tumors are capable of metastasis; benign tumors are not','Malignant tumors are always larger than benign tumors at diagnosis','Benign tumors are well-encapsulated with defined borders; malignant tumors infiltrate surrounding tissue','Malignant tumors are typically poorly differentiated (anaplastic) compared to benign tumors','Benign tumors have a higher rate of recurrence after surgical removal than malignant tumors'],
-    correct:[0,2,3],
-    explain:'A, C, D are correct defining features. B is false — tumor size at diagnosis depends on location and detection, not malignancy; benign tumors can be very large. E is false — <em>malignant</em> tumors have higher recurrence rates because residual cells may persist after surgery.'
-  },
-  {
-    topic:'signaling', type:'false', tag:'Signaling',
-    stem:'Which statement about GPCR signaling is <strong>FALSE</strong>?',
-    opts:['GPCRs have seven transmembrane-spanning helices and are coupled to heterotrimeric G proteins','Upon ligand binding, Gα exchanges GDP for GTP and dissociates from Gβγ','Adenylyl cyclase activated by Gαs produces cAMP, which activates protein kinase A','GPCRs terminate signaling exclusively through receptor endocytosis and lysosomal degradation','Phospholipase C activated by Gαq cleaves PIP₂ into IP₃ and DAG'],
-    correct:[3],
-    explain:'D is false. GPCRs terminate signaling primarily through the intrinsic GTPase activity of Gα (hydrolyzes GTP → GDP) and phosphodiesterase degrading cAMP. GRK/β-arrestin desensitization also occurs. Endocytosis/lysosomal degradation are not the exclusive or primary mechanism of termination.'
-  },
-  {
-    topic:'signaling', type:'sata', tag:'Signaling',
-    stem:'Which of the following correctly describe events in RTK (receptor tyrosine kinase) signaling? <strong>Select all that apply.</strong>',
-    opts:['Ligand binding induces receptor dimerization and trans-autophosphorylation of cytoplasmic tyrosines','Phosphotyrosine residues on the activated receptor serve as docking sites for SH2 domain-containing proteins','RTK signaling is terminated exclusively by cAMP phosphodiesterase activity','Activated RAS-GTP can simultaneously activate both the MAPK and PI3K/Akt pathways downstream of RTKs','Receptor internalization via endocytosis contributes to downregulation of RTK signaling'],
-    correct:[0,1,3,4],
-    explain:'A, B, D, E are correct. C is false — phosphodiesterase degrades cAMP and is relevant to GPCR/PKA signaling, not RTK termination. RTK signaling is terminated by protein tyrosine phosphatases and receptor endocytosis/lysosomal degradation.'
-  },
-  {
-    topic:'signaling', type:'sata', tag:'Cell Cycle',
-    stem:'Regarding CDK/cyclin regulation of the cell cycle, which statements are correct? <strong>Select all that apply.</strong>',
-    opts:['Cyclin D/CDK4/6 phosphorylates Rb, releasing E2F to activate S-phase gene transcription','CDKs are constitutively active in cycling cells and are regulated solely by cyclin degradation','Loss-of-function mutation in RB1 removes the restriction point brake, leading to constitutive E2F activity','Cyclin B/CDK1 (MPF) is the key complex driving entry into mitosis','Overexpression of Cyclin D can drive cells through G1 even without growth factor signaling'],
-    correct:[0,2,3,4],
-    explain:'A, C, D, E are correct. B is false — CDKs are <em>not</em> constitutively active. They require cyclin binding and can also be negatively regulated by CKI proteins (p21, p27, p16) and inhibitory phosphorylation. Cyclin availability is a major rate-limiting control, but it is not the only mechanism.'
-  },
-  {
-    topic:'signaling', type:'mc', tag:'Signaling',
-    stem:'Gene A loss-of-function causes reduced proliferation. Gene B gain-of-function causes increased proliferation. In the A-null/B-gain-of-function double mutant, cells show <em>increased</em> proliferation. What does this tell you?',
-    opts:['Gene A acts downstream of gene B, because B\'s constitutive activity can bypass A\'s loss','Gene A acts upstream of gene B, because A\'s loss has no effect when B is already active','The two genes act in parallel pathways with no epistatic relationship','Gene B acts downstream of gene A, because B\'s gain-of-function is epistatic to A\'s loss','Gene A and gene B encode redundant proteins in the same complex'],
-    correct:[0],
-    explain:'When the double mutant shows the B gain-of-function phenotype, B is epistatic — B acts <em>downstream</em> of A. Constitutively active B bypasses the requirement for A, so A\'s loss has no effect. The gene whose phenotype wins in the double mutant acts downstream in the pathway.'
-  },
+
+/* ── GENE EXPRESSION & EPIGENETICS (Exam 1) ── */
   {
     topic:'gene', type:'sata', tag:'Gene Expression',
-    stem:'Which of the following are true of epigenetic mechanisms? <strong>Select all that apply.</strong>',
-    opts:['DNA methylation at CpG islands is typically associated with transcriptional silencing','H3K4me3 is a histone mark associated with actively transcribed gene promoters','Histone acetylation compacts chromatin and reduces transcriptional activity','DNMT1 copies methylation patterns to newly synthesized DNA strands after replication','H3K27me3 is deposited by Polycomb Repressive Complex 2 and marks transcriptionally repressed regions'],
-    correct:[0,1,3,4],
-    explain:'A, B, D, E are correct. C is false — histone acetylation <em>opens</em> chromatin and <em>increases</em> transcriptional activity by neutralizing the positive charge on histone lysines. It is <em>deacetylation</em> (by HDACs) that compacts chromatin and represses transcription.'
+    lo:'Explain how differences in gene expression lead to differences in cell structure and behavior',
+    stem:'Which statements correctly explain how differential gene expression produces distinct cell types? <strong>Select all that apply.</strong>',
+    opts:['Cells with different functions express different subsets of the genome even though they share nearly identical DNA sequences','A liver cell and a neuron differ primarily because they contain different DNA sequences acquired during differentiation','Transcription factors bind to enhancers and promoters to activate or repress specific gene sets in each cell type','A single master regulatory transcription factor (e.g., MyoD) can reprogram one cell type into another by activating a new gene expression program','Post-translational modifications can alter protein activity without changing the underlying gene expression pattern'],
+    correct:[0,2,3,4],
+    explain:'B is false — nearly all somatic cells share <em>identical</em> DNA sequences (demonstrated by nuclear transplantation/Gurdon experiments and cloning). They differ because of which genes are expressed, not because of different DNA. A, C, D, E are all correct: differential expression is driven by TFs binding regulatory elements, master regulators can reprogram fate, and post-translational modifications provide additional layers of control.'
   },
   {
     topic:'gene', type:'false', tag:'Gene Expression',
-    stem:'Regarding the UAS/Gal4 system in Drosophila, which statement is <strong>FALSE</strong>?',
-    opts:['The Gal4 protein is a yeast transcription factor that binds to the UAS','Using a tissue-specific promoter to drive Gal4 restricts gene expression to defined cell types','Crossing a Gal4 line with UAS-GFP allows visualization of where the Gal4 driver is expressed','The UAS-RNAi approach causes overexpression of the gene of interest in Gal4-expressing cells','Crossing a Gal4 driver with UAS-gene X ectopically expresses gene X in Gal4-positive cells'],
-    correct:[3],
-    explain:'D is false. UAS-RNAi contains an inverted repeat that, when transcribed by Gal4, produces dsRNA triggering RNAi-mediated gene <em>knockdown</em> — the "Lose it" experiment. Overexpression is achieved with UAS-gene X ("Move it"). All other statements accurately describe the UAS/Gal4 system.'
+    lo:'Describe experimental evidence that somatic cells contain identical genetic content',
+    stem:'Which statement about the genetic content of somatic cells is <strong>FALSE</strong>?',
+    opts:['Gurdon\'s nuclear transplantation experiments showed that a differentiated frog intestinal cell nucleus could direct development of a complete tadpole','Somatic cell nuclear transfer (cloning) demonstrates that differentiated cells retain a complete and functional genome','Differences between a skin cell and a neuron arise because each cell type irreversibly deletes the genes it does not need','The fact that iPSCs can be generated from adult fibroblasts supports the idea that differentiated cells retain pluripotency genes','Whole-genome sequencing of different tissues from the same individual shows nearly identical DNA sequences across cell types'],
+    correct:[2],
+    explain:'C is false. Cells do <em>not</em> delete unused genes — differentiation works through reversible epigenetic silencing, not gene deletion. The Gurdon and Dolly experiments (A, B) prove the full genome is retained. iPSC generation (D) confirms pluripotency genes are silenced but present. Sequencing data (E) shows sequence identity across tissues.'
   },
   {
-    topic:'gene', type:'sata', tag:'Genetics / Meiosis',
-    stem:'A fetus has trisomy 18. Molecular markers show both extra copies of chromosome 18 are identical (same alleles at every locus). Which conclusions are supported? <strong>Select all that apply.</strong>',
-    opts:['Non-disjunction occurred in Meiosis II, not Meiosis I','The error occurred in whichever parent was heterozygous at chromosome 18 loci','If the two identical copies are maternal, the mother\'s Meiosis II produced a disomic egg','A Meiosis I error would also produce identical sister chromatid copies in the gamete','The normal parent contributed one copy of chromosome 18 via a normal gamete'],
+    topic:'gene', type:'sata', tag:'Epigenetics',
+    lo:'Define basic epigenetic mechanisms and explain how they influence gene expression without altering DNA sequence',
+    stem:'Which of the following correctly describe epigenetic mechanisms? <strong>Select all that apply.</strong>',
+    opts:['DNA methylation at CpG islands is associated with transcriptional silencing and is copied by DNMT1 after replication','H3K4me3 marks actively transcribed promoters; H3K27me3 marks polycomb-repressed regions','Histone acetylation by HATs opens chromatin and promotes transcription; deacetylation by HDACs closes chromatin','Epigenetic marks always involve changes to the DNA sequence itself, which is why they are heritable','SWI/SNF chromatin remodeling complexes use ATP to reposition nucleosomes, exposing or hiding regulatory sequences'],
     correct:[0,1,2,4],
-    explain:'A is correct — identical copies indicate sister chromatids failed to separate in MII. B, C, E are correct — we can identify the parent and division from the marker data. D is false — a MI error segregates both homologs which are <em>non-identical</em> if the parent is heterozygous; identical copies only arise from MII non-disjunction.'
+    explain:'D is false — by definition, epigenetic mechanisms alter gene expression <em>without</em> changing the DNA sequence. They involve modifications to histones, DNA methylation (on cytosine bases, not the sequence), and chromatin structure. A, B, C, E are all accurate descriptions of major epigenetic mechanisms.'
   },
   {
-    topic:'methods', type:'sata', tag:'Methods',
-    stem:'You co-IP protein A and detect protein B in the precipitate. Which conclusions are <strong>directly supported</strong>? <strong>Select all that apply.</strong>',
-    opts:['Proteins A and B are found in the same protein complex under the lysis conditions used','Proteins A and B directly and physically contact each other with no intermediary proteins','The interaction between A and B occurs inside the cell and is not a lysis artifact','Protein B is localized to the same subcellular compartment as protein A','This result is consistent with A and B being in the same complex, but does not rule out indirect interaction'],
-    correct:[0,4],
-    explain:'Only A and E are directly supported. B is false — co-IP detects complex membership but cannot distinguish direct from indirect interaction bridged by other proteins (BiFC or crosslinking is needed for that). C is not directly proven — bridging artifacts in lysate are possible. D is false — co-IP tells you nothing about subcellular localization.'
+    topic:'gene', type:'sata', tag:'Gene Regulatory Elements',
+    lo:'Identify and describe key gene elements including promoters, enhancers, coding regions, and regulatory sequences',
+    stem:'Which statements about gene regulatory elements are correct? <strong>Select all that apply.</strong>',
+    opts:['Promoters are located near the transcription start site (TSS) and include the TATA box where general transcription factors assemble','Enhancers can act over large distances (tens of kilobases) to increase transcription of their target gene','The coding region (exons) contains the information directly translated into protein sequence','Silencers repress transcription and insulators prevent enhancers from activating genes in neighboring chromosomal domains','Enhancers can only activate transcription when located immediately upstream of the gene they regulate'],
+    correct:[0,1,2,3],
+    explain:'E is false — enhancers are defined by their ability to act at a distance, often tens to hundreds of kilobases from their target gene, and can be located upstream, downstream, or even within introns. A, B, C, D are all correct: promoters sit at the TSS, enhancers act over distance, coding regions encode protein, and silencers/insulators provide repressive and insulating regulatory functions.'
   },
   {
-    topic:'methods', type:'false', tag:'Methods',
-    stem:'Which statement about immunofluorescence (IF) versus BiFC is <strong>FALSE</strong>?',
-    opts:['IF requires fixation; BiFC can be performed in living cells','IF can detect co-localization of two proteins, but co-localization does not prove direct interaction','BiFC produces fluorescence only when two tagged proteins physically interact, reconstituting a split fluorophore','Both IF and BiFC use secondary antibodies conjugated to fluorescent dyes to generate signal','A limitation of BiFC is that the reconstituted fluorophore is essentially irreversible, potentially stabilizing transient interactions'],
-    correct:[3],
-    explain:'D is false. BiFC does <em>not</em> use antibodies at all. BiFC works by directly tagging the two proteins with complementary halves of a split fluorescent protein (e.g., YN and YC fragments of YFP) — no antibodies involved. IF uses antibodies; BiFC uses direct genetic fusion tags. All other statements correctly distinguish these techniques.'
+    topic:'gene', type:'mc', tag:'Gene Expression / Methods',
+    lo:'Explain how find it, move it, and lose it experiments and the UAS/Gal4 system work',
+    stem:'A researcher wants to test whether the transcription factor <em>eyeless</em> is sufficient to induce eye formation when expressed in the leg disc of Drosophila. Which UAS/Gal4 cross is correct?',
+    opts:['Cross UAS-eyeless × leg-disc-Gal4 driver; examine adult legs for ectopic eye tissue','Cross UAS-GFP × eyeless-Gal4 driver; examine larvae for GFP in leg discs','Cross UAS-RNAi-eyeless × ubiquitous-Gal4; examine flies for loss of eyes','Cross eyeless-Gal4 × UAS-GFP; examine eye discs for where Gal4 is expressed','Cross UAS-eyeless × eye-disc-Gal4; examine whether eyes form normally'],
+    correct:[0],
+    explain:'This is a "Move it" experiment — expressing a gene ectopically (in a new location) to test sufficiency. The correct approach is to put the gene of interest (eyeless) downstream of UAS, then use a tissue-specific Gal4 driver (leg disc) to express it where it normally wouldn\'t be active. B/D test expression pattern ("Find it"). C tests requirement by knockdown ("Lose it"). E uses eye-disc Gal4, which is the normal eyeless domain — not an ectopic test.'
   },
   {
-    topic:'genetics', type:'sata', tag:'Genetics',
-    stem:'Two true-breeding strains: black fur × white fur. F1 all gray. F2: 1 black : 2 gray : 1 white. Which statements correctly interpret this? <strong>Select all that apply.</strong>',
-    opts:['This is incomplete dominance — neither allele is fully dominant','The 1:2:1 F2 ratio indicates a single gene with two alleles and no dominance relationship','F1 gray animals are heterozygous (B¹B²), producing an intermediate phenotype','This cross demonstrates epistasis between two independently assorting genes','The black parent is homozygous B¹B¹ and the white parent is homozygous B²B²'],
+    topic:'gene', type:'sata', tag:'Meiosis & Aneuploidy',
+    lo:'Compare and contrast mitosis and meiosis; determine consequences of non-disjunction; discuss prenatal tests for aneuploidy',
+    stem:'Which statements about meiosis and non-disjunction are correct? <strong>Select all that apply.</strong>',
+    opts:['Non-disjunction in Meiosis I results in all four gametes being aneuploid','Non-disjunction in Meiosis II results in two normal gametes and two aneuploid gametes','If two identical copies of a chromosome are present in a trisomic fetus, non-disjunction occurred in Meiosis II of the contributing parent','Chorionic villus sampling (CVS) and amniocentesis both allow prenatal karyotyping but carry a small procedural risk; cell-free fetal DNA (cfDNA) screening is non-invasive','In Meiosis I, homologous chromosomes separate; in Meiosis II, sister chromatids separate — analogous to mitosis'],
+    correct:[0,1,2,3,4],
+    explain:'All five statements are correct. MI non-disjunction sends both homologs to one cell, making all four resulting gametes aneuploid (two n+1, two n−1 — A correct). MII non-disjunction of one chromosome produces two normal gametes and two aneuploid (B correct). Identical copies = MII error; non-identical = MI error (C correct). CVS/amnio are invasive; cfDNA is non-invasive (D correct). Meiosis II is mechanistically like mitosis, separating sister chromatids (E correct).'
+  },
+
+/* ── PROTEINS, ANTIBODIES & METHODS (Exam 1) ── */
+  {
+    topic:'methods', type:'sata', tag:'Protein Structure',
+    lo:'Differentiate between primary, secondary, tertiary, and quaternary protein structure; explain how an enzyme lowers activation energy',
+    stem:'Which statements about protein structure and function are correct? <strong>Select all that apply.</strong>',
+    opts:['Primary structure is the amino acid sequence; secondary structure includes α-helices and β-sheets stabilized by backbone hydrogen bonds','Tertiary structure is the overall 3D fold of a single polypeptide, stabilized by side-chain interactions including disulfide bonds, hydrophobic packing, and van der Waals forces','Quaternary structure refers to the assembly of multiple polypeptide subunits into a functional complex','Enzymes increase the activation energy of a reaction to make it thermodynamically favorable','An allosteric inhibitor can change enzyme conformation at a site distant from the active site to reduce catalytic activity'],
     correct:[0,1,2,4],
-    explain:'A, B, C, E are correct. This is classic incomplete dominance: 1:2:1 phenotypic ratio from a single gene where heterozygotes show intermediate phenotype. D is false — epistasis requires interaction between two <em>different</em> genes producing a modified 9:3:3:1 ratio. Here only one gene is segregating.'
+    explain:'D is false — enzymes <em>lower</em> activation energy by stabilizing the transition state, making reactions faster without changing thermodynamic favorability (ΔG). They do not add energy. A, B, C, E are all correct descriptions of protein structural levels and enzyme/allosteric regulation.'
   },
   {
-    topic:'stem', type:'sata', tag:'Stem Cells / Cancer',
-    stem:'Which features are shared between normal tissue stem cells and cancer stem cells (CSCs)? <strong>Select all that apply.</strong>',
-    opts:['Both can self-renew and give rise to a hierarchy of more differentiated daughter cells','Both rely on Wnt, Notch, and related pathways to maintain their stem-like state','Both are equally sensitive to conventional chemotherapy due to their proliferative capacity','Both can be enriched using surface markers such as CD44⁺ in breast tissue contexts','Both undergo asymmetric divisions to balance self-renewal and differentiation output'],
-    correct:[0,1,3,4],
-    explain:'A, B, D, E are correct. CSCs co-opt the same Wnt, Notch, and Hedgehog pathways as normal stem cells and share self-renewal capacity. C is false — normal stem cells in their niche are quiescent and chemo-resistant; CSCs are also <em>resistant</em> (not sensitive) due to quiescence and drug efflux. Neither population is readily killed by conventional chemotherapy.'
+    topic:'methods', type:'false', tag:'Antibodies & IF',
+    lo:'Draw the structure of antibodies; explain variable and constant regions; describe immunofluorescence; differentiate co-localization info from IF vs BiFC',
+    stem:'Which statement about antibodies and immunofluorescence is <strong>FALSE</strong>?',
+    opts:['Antibodies have two heavy chains and two light chains arranged in a Y shape; antigen binding occurs at the variable regions of the Fab arms','Monoclonal antibodies recognize a single epitope and are produced from one B-cell clone; polyclonal antibodies recognize multiple epitopes','In immunofluorescence, co-localization of two proteins in the same compartment proves they directly interact with each other','BiFC (Bimolecular Fluorescence Complementation) only produces fluorescence when two protein-tagged split-fluorophore fragments are brought into direct physical proximity','Secondary antibodies are raised against the constant (Fc) region of primary antibodies and allow signal amplification'],
+    correct:[2],
+    explain:'C is false — co-localization in IF only shows that two proteins occupy the same compartment (e.g., both in the nucleus), but does NOT prove direct interaction. A protein complex could localize two proteins to the same compartment without them ever touching. BiFC (D) is the technique that specifically requires direct physical contact. All other statements (A, B, D, E) are correct.'
   },
   {
-    topic:'cancer', type:'sata', tag:'Cancer / Signaling',
-    stem:'Which statements about sequential genetic alterations in colorectal cancer are correct? <strong>Select all that apply.</strong>',
-    opts:['APC loss is typically the earliest event, resulting in constitutive β-catenin/Wnt signaling','KRAS mutation provides a constitutively active GTPase that signals independently of upstream growth factor receptors','TP53 loss typically occurs early (before APC loss) and initiates the adenoma-to-carcinoma transition','Each sequential mutation provides a clonal growth advantage, allowing that subclone to outcompete neighbors','The accumulation of driver mutations over years reflects Darwinian evolution of somatic cells under selective pressure'],
+    topic:'methods', type:'sata', tag:'Protein Isolation & Western',
+    lo:'Describe different strategies to break open cells and isolate cellular organelles/molecules; diagram western blotting',
+    stem:'Which statements about cell lysis, fractionation, and western blotting are correct? <strong>Select all that apply.</strong>',
+    opts:['Differential centrifugation separates cellular components by size and density: low speed pellets nuclei, higher speeds pellet mitochondria, then microsomes/ER fragments','SDS in SDS-PAGE denatures proteins and coats them uniformly with negative charge, so separation is by molecular weight (size) alone','In western blotting, the primary antibody provides specificity for the target protein; the secondary antibody (conjugated to HRP or a fluorophore) provides the detectable signal','To preserve protein-protein interactions for co-IP, cells should be lysed under denaturing conditions using SDS','A western blot can directly determine the subcellular localization of a protein'],
+    correct:[0,1,2],
+    explain:'D is false — co-IP requires <em>gentle, non-denaturing</em> lysis (e.g., detergents like NP-40 or Triton X-100 at low concentration) to preserve protein-protein interactions. SDS would destroy the interactions. E is false — western blotting tells you about protein size and abundance, not localization; immunofluorescence or cell fractionation followed by western blotting addresses localization. A, B, C are all correct.'
+  },
+  {
+    topic:'methods', type:'sata', tag:'Protein Interactions',
+    lo:'Design an experiment that allows you to determine if two proteins interact in the cell',
+    stem:'You hypothesize that kinase X and scaffold protein Y interact in the cytoplasm of HeLa cells. Which experimental approaches would provide valid evidence for this interaction? <strong>Select all that apply.</strong>',
+    opts:['Co-immunoprecipitation: lyse cells gently, pull down X with anti-X antibody, western blot the precipitate for Y','BiFC: fuse X to YN fragment and Y to YC fragment of YFP; transfect cells and image for fluorescence in specific compartments','Immunofluorescence showing X and Y co-localize to the cytoplasm, which definitively proves they interact','Western blot showing X and Y are expressed at similar levels, suggesting they could interact','Co-IP with a control using beads plus IgG (no specific antibody) to rule out non-specific binding of Y'],
+    correct:[0,1,4],
+    explain:'C is false — IF co-localization shows they are in the same compartment but does NOT prove interaction (see IF vs BiFC distinction). D is false — similar expression levels say nothing about physical interaction. A (co-IP) and B (BiFC) are the two standard methods to test for interaction. E is a correct and essential negative control for co-IP to rule out non-specific precipitation.'
+  },
+
+/* ── MEMBRANES, TRANSPORT & SECRETION (Exam 2) ── */
+  {
+    topic:'cell', type:'false', tag:'Membrane Transport',
+    lo:'Given molecules of differing water solubility, predict relative rates of diffusion; compare channels and carriers',
+    stem:'Which statement about membrane transport is <strong>FALSE</strong>?',
+    opts:['Small nonpolar molecules such as O₂ and CO₂ diffuse freely across lipid bilayers without requiring a transport protein','Ions such as Na⁺ and K⁺ cannot diffuse freely across membranes and require channels or carriers for transport','Channel proteins allow passive, selective passage of ions down their electrochemical gradient and undergo a conformational change with each ion transported','Carrier proteins (e.g., glucose transporters) bind their substrate and undergo conformational changes; they can mediate active or passive transport depending on whether they use energy','Inhibiting the Na⁺/K⁺ ATPase will indirectly impair secondary active transporters that depend on the Na⁺ gradient (e.g., SGLT)'],
+    correct:[2],
+    explain:'C is false — channel proteins are passive pores that do NOT undergo a conformational change per ion transported. Ions flow through a stationary open pore down their gradient. It is <em>carrier proteins</em> (B) that undergo conformational changes with each transport cycle. Channels are faster and gated (open/close) but do not have a conformational transport cycle. A, B, D, E are all correct.'
+  },
+  {
+    topic:'cell', type:'sata', tag:'Protein Targeting & Secretion',
+    lo:'Describe mechanisms that direct newly synthesized proteins to cellular compartments; compare molecular recognition events in secretion pathways; explain how transmembrane protein orientation is determined',
+    stem:'Which statements about protein targeting and the secretory pathway are correct? <strong>Select all that apply.</strong>',
+    opts:['Proteins destined for the ER contain an N-terminal signal peptide recognized by the signal recognition particle (SRP), which docks the ribosome to the ER membrane for co-translational translocation','The orientation of a transmembrane protein is established as it inserts into the ER membrane and never changes after that point','SNARE proteins on vesicles (v-SNAREs) pair with complementary t-SNAREs on target membranes to drive membrane fusion','Nuclear proteins are imported post-translationally; importin recognizes the nuclear localization signal (NLS) and Ran-GTP drives directionality','Proteins are sorted in the Golgi from trans to cis cisternae before being delivered to the plasma membrane'],
+    correct:[0,1,2,3],
+    explain:'E is false — the direction is <em>cis to trans</em>, not trans to cis. Proteins enter the Golgi at the cis face (nearest the ER) and are processed/sorted as they move to the trans face, from which vesicles bud toward the plasma membrane or lysosomes. A, B, C, D are all correct.'
+  },
+  {
+    topic:'cell', type:'sata', tag:'Cellular Respiration',
+    lo:'Identify inputs and outputs of each stage of cellular respiration; describe anaerobic respiration; compare cellular respiration to photosynthesis',
+    stem:'Which statements about cellular respiration are correct? <strong>Select all that apply.</strong>',
+    opts:['Glycolysis occurs in the cytoplasm and produces a net of 2 ATP, 2 NADH, and 2 pyruvate per glucose','The citric acid cycle occurs in the mitochondrial matrix and produces NADH and FADH₂ that feed the electron transport chain','The electron transport chain uses NADH and FADH₂ to pump protons across the inner mitochondrial membrane; ATP synthase uses this gradient to synthesize ATP (chemiosmosis)','In anaerobic conditions, human muscle cells convert pyruvate to ethanol and CO₂ to regenerate NAD⁺ for continued glycolysis','Photosynthesis and cellular respiration are essentially reverse processes: photosynthesis stores energy in glucose using light; respiration releases that energy as ATP'],
+    correct:[0,1,2,4],
+    explain:'D is false — human muscle cells perform <em>lactic acid fermentation</em>, converting pyruvate to lactate (not ethanol + CO₂). Alcoholic fermentation (pyruvate → ethanol + CO₂) is performed by yeast, not human cells. NADH is regenerated to NAD⁺ in both types of fermentation, allowing glycolysis to continue. A, B, C, E are correct.'
+  },
+  {
+    topic:'cell', type:'sata', tag:'Cytoskeleton',
+    lo:'Identify monomer building blocks of each cytoskeletal filament; distinguish polar from non-polar filaments; name roles and pathologies; differentiate dynamic instability from treadmilling; understand molecular motors',
+    stem:'Which statements about the cytoskeleton are correct? <strong>Select all that apply.</strong>',
+    opts:['Microtubules and actin filaments are polar (have distinct + and − ends); intermediate filaments and septins are non-polar','Dynamic instability refers to the stochastic switching of microtubule plus ends between growth and rapid shrinkage (catastrophe), driven by GTP hydrolysis','Treadmilling occurs in actin filaments when subunits are added at the + end and lost from the − end at the same rate, so the filament moves without changing length','Myosin motors move toward the minus end of actin filaments; kinesin motors move toward the plus end of microtubules','Mutations in keratin intermediate filaments cause epidermolysis bullosa, a skin blistering disease, while defects in ciliary microtubule-associated proteins cause primary ciliary dyskinesia'],
+    correct:[0,1,2,4],
+    explain:'D is partially false — most conventional myosins (including myosin II and V) move toward the <em>plus</em> end of actin, not the minus end. Myosin VI is the unusual exception that moves to the minus end. Kinesin moving toward the microtubule plus end is correct. A, B, C, E are correct statements about cytoskeletal properties and pathologies.'
+  },
+
+/* ── CELL SIGNALING (Exam 2/3) ── */
+  {
+    topic:'signaling', type:'sata', tag:'Cell Signaling',
+    lo:'Explain how a cell\'s interactions with its environment can influence cell morphology, behavior, division, or survival; describe how membrane-bound receptors affect cell physiology',
+    stem:'Which statements correctly describe how extracellular signals influence cell behavior? <strong>Select all that apply.</strong>',
+    opts:['Growth factors binding RTKs can promote cell proliferation by ultimately upregulating Cyclin D, which drives CDK4/6 activity and Rb phosphorylation','ECM-integrin interactions activate FAK/Src signaling, which supports cell survival through the PI3K/Akt pathway','A ligand must always enter the cell to exert its effect — receptors are simply the first contact point','Juxtacrine signaling (e.g., Notch/Delta) requires direct cell-cell contact; paracrine signaling acts on nearby cells through secreted molecules','Loss of cell-ECM contact leads to anoikis, a form of apoptosis caused by collapse of integrin-mediated survival signals'],
     correct:[0,1,3,4],
-    explain:'A, B, D, E are correct. C is false — TP53 loss is a <em>late</em> event, typically at or after the adenoma-to-carcinoma transition. The Vogelstein sequence is APC → KRAS → SMAD4 → TP53. APC loss initiates the process; TP53 loss enables the final malignant transition by removing the DNA damage checkpoint.'
+    explain:'C is false — many ligands never enter the cell. Ligands such as growth factors, hormones, and cytokines bind surface receptors and trigger intracellular signaling cascades without crossing the membrane. Steroid hormones are an exception (they cross the membrane), but this is not universally true. A, B, D, E are all correct.'
+  },
+  {
+    topic:'signaling', type:'false', tag:'GPCR vs RTK',
+    lo:'Compare and contrast the molecular mechanisms of GPCR and enzyme-coupled receptor-mediated signal transduction',
+    stem:'Which statement comparing GPCR and RTK signaling is <strong>FALSE</strong>?',
+    opts:['GPCRs have seven transmembrane helices; RTKs have a single transmembrane helix with an intracellular kinase domain','GPCR activation leads to Gα-GTP dissociation and activation of effectors such as adenylyl cyclase (→ cAMP) or PLC (→ IP₃ + DAG)','RTK activation involves receptor dimerization and trans-autophosphorylation of cytoplasmic tyrosine residues','Both GPCRs and RTKs are terminated exclusively by ligand dissociation — once ligand unbinds, signaling immediately stops','RTK phosphotyrosines serve as docking sites for SH2-domain proteins that relay signals to RAS, PI3K, and PLC-γ'],
+    correct:[3],
+    explain:'D is false. Signal termination is not simply ligand dissociation. GPCRs are terminated by Gα GTPase activity, phosphodiesterase (degrading cAMP), and GRK/β-arrestin desensitization. RTKs are terminated by protein tyrosine phosphatases (PTPs) and receptor endocytosis/ubiquitination. Both systems have active termination mechanisms independent of ligand unbinding.'
+  },
+  {
+    topic:'signaling', type:'sata', tag:'Pathway Epistasis',
+    lo:'Evaluate whether a newly discovered protein acts upstream or downstream of a known protein in a signaling pathway',
+    stem:'Gene A loss-of-function → no wings. Gene B loss-of-function → extra wings. Double mutant A+B → extra wings. Which conclusions are directly supported? <strong>Select all that apply.</strong>',
+    opts:['Gene B acts downstream of gene A, because the B loss-of-function phenotype is epistatic (wins) in the double mutant','Gene A\'s loss can be bypassed by loss of B, consistent with A acting upstream of a B-mediated inhibition step','The double mutant result places A and B in the same pathway, not in parallel independent pathways','Gene B normally suppresses wing formation; loss of B constitutively activates the wing-promoting output of the pathway','A constitutively active form of a protein downstream of B should rescue the no-wing phenotype caused by A loss'],
+    correct:[0,1,2,3,4],
+    explain:'All five conclusions are supported. The epistasis rule: the gene whose loss-of-function phenotype wins in the double mutant acts <em>downstream</em>. B loss → extra wings wins in the double mutant, so B acts downstream of A (A). A acts upstream of B (B). Same pathway logic (C). B is a negative regulator — its loss activates the output (D). A constitutively active protein downstream of B would bypass both A and B requirements (E).'
+  },
+  {
+    topic:'signaling', type:'mc', tag:'Pathway Epistasis',
+    lo:'Evaluate whether a newly discovered protein acts upstream or downstream of a known protein; design an experiment to determine how alterations in protein function result in a change in cell behavior',
+    stem:'Gene X loss-of-function → cells fail to proliferate. Gene Y gain-of-function → cells proliferate constitutively. X-null / Y-gain-of-function double mutant → cells proliferate constitutively. Where does gene Y act in the pathway?',
+    opts:['Y acts downstream of X — constitutively active Y drives proliferation regardless of X status','Y acts upstream of X — Y must activate X for proliferation to occur','X and Y act in parallel, independent pathways that both promote proliferation','X acts downstream of Y — X loss prevents Y\'s signal from reaching the cell cycle machinery','X and Y encode redundant proteins; loss of one is buffered by the other'],
+    correct:[0],
+    explain:'Y gain-of-function phenotype wins in the double mutant, making Y epistatic. The rule: <em>the gene whose phenotype wins in the double mutant acts downstream</em>. Constitutively active Y drives proliferation whether or not X is present, meaning Y does not need X to function — Y acts downstream of X. X acts upstream (its loss is irrelevant when the downstream output Y is constitutively active).'
+  },
+  {
+    topic:'signaling', type:'sata', tag:'Cell Cycle CDK/Cyclin',
+    lo:'Describe how CDK/cyclin interaction regulates the cell cycle; predict how mutations affect cell cycle progression; design an experiment to test CDK-cyclin interaction',
+    stem:'Which statements about CDK/cyclin regulation are correct? <strong>Select all that apply.</strong>',
+    opts:['Cyclin D/CDK4/6 phosphorylates Rb at G1, releasing E2F transcription factor to activate S-phase genes','CDKs are only active when bound to their cyclin partner; cyclin levels oscillate through the cell cycle while CDK levels remain relatively constant','A mutation that prevents Cyclin B from binding CDK1 would block cells at the G2/M transition','To test whether a mutant Cyclin D can still interact with CDK4, you would perform a co-immunoprecipitation in cells expressing the mutant: pull down CDK4, then western blot for Cyclin D','Loss-of-function in RB1 (tumor suppressor) would cause cells to skip the G1 restriction point and enter S phase without growth factor stimulation'],
+    correct:[0,1,2,3,4],
+    explain:'All five statements are correct. CDK activity requires cyclin binding (B). Cyclin B/CDK1 (MPF) is essential for mitotic entry — its disruption blocks G2/M (C). Co-IP is the correct method to test CDK-cyclin physical interaction (D). RB1 loss = constitutive E2F activity = bypass of the restriction point (E).'
+  },
+  {
+    topic:'signaling', type:'sata', tag:'Cell Specification',
+    lo:'Compare and contrast autonomous and conditional specification; understand anterior-posterior axis in C. elegans',
+    stem:'Which statements about cell specification are correct? <strong>Select all that apply.</strong>',
+    opts:['In autonomous specification, cell fate is determined by cytoplasmic determinants that segregate asymmetrically at division — an isolated cell develops the same fate as it would in the intact embryo','In conditional (inductive) specification, fate is determined by signals from neighboring cells — an isolated cell develops differently without its normal neighbors','C. elegans anterior-posterior polarity is established by PAR proteins: PAR-3/PAR-6 localize to the anterior cortex and PAR-1/PAR-2 to the posterior cortex at fertilization','In C. elegans, P granules are germline determinants that localize to the posterior cell (P₁) due to PAR-dependent asymmetry, specifying the germline','Loss of PAR-2 in C. elegans causes symmetric PAR-3/PAR-6 distribution, resulting in symmetric first division and loss of anterior-posterior axis'],
+    correct:[0,1,2,3,4],
+    explain:'All five statements are correct descriptions of autonomous vs. conditional specification and C. elegans A-P axis establishment. PAR proteins create cortical polarity (sperm entry triggers this), which drives asymmetric P granule segregation, establishing the germline. PAR-2 loss disrupts posterior identity and symmetrizes division.'
+  },
+
+/* ── STEM CELLS (Primary Focus PDF) ── */
+  {
+    topic:'stem', type:'sata', tag:'Skin Stem Cell Niche',
+    lo:'Describe the key cellular and molecular cues that define the skin stem cell niche',
+    stem:'Which of the following correctly describe the skin stem cell niche? <strong>Select all that apply.</strong>',
+    opts:['Skin stem cells reside in the bulge region of the hair follicle, adjacent to the dermal papilla','BMP signals from the dermal papilla maintain stem cell quiescence; BMP inhibition by noggin activates them','Wnt signaling promotes skin stem cell self-renewal; its absence drives cells toward differentiation','Transcription factors Sox9, Lhx2, and Tcf3 maintain bulge stem cell identity','Integrin-mediated adhesion to the basement membrane provides survival signals; loss of this contact triggers anoikis'],
+    correct:[0,1,2,3,4],
+    explain:'All five statements are correct. The skin SC niche is defined by location (bulge), quiescence signals (BMP), activation signals (Wnt, noggin), identity-maintaining TFs (Sox9/Lhx2/Tcf3), and ECM anchorage via integrins. All are tested directly in learning objective questions.'
+  },
+  {
+    topic:'stem', type:'false', tag:'Intestinal Stem Cell Niche',
+    lo:'Explain how the intestinal stem cell niche is organized',
+    stem:'Which statement about the intestinal stem cell niche is <strong>FALSE</strong>?',
+    opts:['Lgr5⁺ crypt base columnar (CBC) cells are the active cycling stem cells at the base of intestinal crypts','Paneth cells flank Lgr5⁺ stem cells and provide niche signals including Wnt3, EGF, and the Notch ligand Dll4','A high Wnt signaling gradient at the villus tip maintains stem cell identity, while lower Wnt at the crypt base promotes differentiation','Notch signaling via lateral inhibition determines absorptive (enterocyte) vs. secretory (goblet, enteroendocrine) cell fate','Reserve stem cells marked by Bmi1 expression (+4 cells) are a slow-cycling backup population activated after tissue injury'],
+    correct:[2],
+    explain:'C is false — the Wnt gradient is inverted. Wnt is <strong>high at the crypt base</strong> (where Paneth cells secrete Wnt3) and decreases toward the villus tip. High crypt Wnt = stem cell self-renewal; low villus Wnt = differentiation. The statement has the gradient exactly backwards.'
+  },
+  {
+    topic:'stem', type:'sata', tag:'Stem Cell Potency',
+    lo:'Define totipotency, pluripotency, multipotency, and unipotency',
+    stem:'Which statements about stem cell potency are correct? <strong>Select all that apply.</strong>',
+    opts:['Totipotent cells can give rise to all embryonic cell types and extraembryonic tissues including the placenta; only the zygote and early blastomeres are truly totipotent','Pluripotent cells (ESCs, iPSCs) can give rise to all three germ layers but cannot form extraembryonic/placental tissues','Multipotent stem cells are restricted to generating cell types within a particular tissue lineage (e.g., HSCs → all blood cell types)','Unipotent stem cells can only generate one specific differentiated cell type (e.g., spermatogonial stem cells → sperm)','Adult somatic cells are all unipotent, meaning any adult cell can only produce identical copies of itself through division'],
+    correct:[0,1,2,3],
+    explain:'E is false — adult somatic cells are not classified as stem cells at all; they are terminally differentiated or progenitor cells. "Unipotent" refers specifically to stem cells that can self-renew AND produce one differentiated cell type. Many adult somatic cells don\'t fit even this definition. A, B, C, D are all correct definitions.'
+  },
+  {
+    topic:'stem', type:'sata', tag:'iPSCs vs ESCs',
+    lo:'Explain how induced pluripotent stem cells are generated and evaluate how iPSCs differ from embryonic and adult stem cells',
+    stem:'Which statements about iPSC generation and comparison with ESCs are correct? <strong>Select all that apply.</strong>',
+    opts:['iPSCs are generated by delivering the Yamanaka factors (Oct4, Sox2, Klf4, c-Myc) into somatic cells, driving epigenetic remodeling to a pluripotent state','iPSCs and ESCs have nearly identical gene expression profiles and pluripotency, but iPSCs may retain some epigenetic memory of their source cell type','Unlike ESCs, iPSCs can be generated without destroying a human embryo, making them ethically preferable for patient-specific therapies','c-Myc increases reprogramming efficiency but poses a cancer risk because it is a proto-oncogene that can drive uncontrolled proliferation','iPSCs are more potent than ESCs because they can form placental and embryonic tissues (totipotent), unlike ESCs which are only pluripotent'],
+    correct:[0,1,2,3],
+    explain:'E is false — both iPSCs and ESCs are <em>pluripotent</em>, not totipotent. Neither can form placental tissue. iPSCs are not "more potent" than ESCs; they occupy the same level of the potency hierarchy. A, B, C, D correctly describe Yamanaka reprogramming, epigenetic memory, ethical advantages, and the oncogenic risk of c-Myc.'
+  },
+  {
+    topic:'stem', type:'false', tag:'ESC Properties',
+    lo:'Describe the properties of embryonic stem cells',
+    stem:'Which statement about embryonic stem cells (ESCs) is <strong>FALSE</strong>?',
+    opts:['ESCs are derived from the inner cell mass (ICM) of the blastocyst and are pluripotent','ESCs are maintained in culture by the transcription factor triad Oct4, Sox2, and Nanog, which form an autoregulatory network','ESCs can form teratomas (tumors containing tissues from all three germ layers) when injected into immunocompromised mice, demonstrating pluripotency','ESCs can self-renew indefinitely in culture when grown on feeder cells or with LIF (mouse) or FGF2 (human)','ESCs are totipotent because they can be derived from the very first cell divisions of the embryo before the inner cell mass forms'],
+    correct:[4],
+    explain:'E is false — ESCs are derived from the ICM of the blastocyst (not the very early cleavage stages) and are <em>pluripotent</em>, not totipotent. Totipotent cells are the zygote and early blastomeres (before ICM formation). ESCs cannot form placenta or extraembryonic tissues, which is the defining limitation of pluripotency vs. totipotency.'
+  },
+
+/* ── CANCER BIOLOGY (Primary Focus PDF) ── */
+  {
+    topic:'cancer', type:'sata', tag:'Tumor vs Cancer',
+    lo:'Define and distinguish between a tumor and cancer, including criteria that differentiate benign from malignant growths',
+    stem:'Which correctly distinguish benign from malignant tumors? <strong>Select all that apply.</strong>',
+    opts:['Benign tumors are well-encapsulated and do not invade surrounding tissue; malignant tumors actively invade through basement membranes','Malignant tumors can metastasize to distant sites through blood or lymphatics; benign tumors lack this ability','Benign tumors are always small; malignant tumors are always large at the time of diagnosis','Malignant tumor cells are typically anaplastic (poorly differentiated) compared to benign tumor cells, which resemble their tissue of origin','Benign tumors rarely recur after complete surgical removal; malignant tumors have much higher recurrence rates'],
+    correct:[0,1,3,4],
+    explain:'C is false — tumor size at diagnosis depends on location, rate of growth, and when it is detected, not on malignancy. Benign tumors can grow very large (e.g., benign uterine fibroids or ovarian cysts). Malignant tumors can be detected when small. A, B, D, E are the correct defining criteria.'
+  },
+  {
+    topic:'cancer', type:'false', tag:'Oncogenes & TSGs',
+    lo:'Define oncogenes and tumor suppressor genes and explain how alterations in each contribute differently to cancer',
+    stem:'Which statement about oncogenes and tumor suppressor genes is <strong>FALSE</strong>?',
+    opts:['Oncogenes arise from proto-oncogenes through gain-of-function mutations, amplification, or chromosomal translocation','A single mutant allele of an oncogene is sufficient to promote cancer because the mutation is dominant (gain-of-function)','Tumor suppressor genes follow the two-hit hypothesis: both alleles must be inactivated to lose tumor suppression, because loss-of-function is recessive','RAS normally cycles between active (GTP-bound) and inactive (GDP-bound) forms; an activating mutation locks RAS in the GTP-bound state constitutively','TP53 is an oncogene because its mutation in the gain-of-function form drives cell proliferation'],
+    correct:[4],
+    explain:'E is false — TP53 (p53) is a <em>tumor suppressor gene</em>. Wild-type p53 halts the cell cycle and promotes apoptosis in response to DNA damage. It is lost by <em>loss-of-function</em> mutations in most cancers. While some specific TP53 mutations can have gain-of-function oncogenic properties, TP53 is classically and definitionally a tumor suppressor. A, B, C, D are correct.'
+  },
+  {
+    topic:'cancer', type:'sata', tag:'Cancer Evolution',
+    lo:'Describe examples of cancer evolution and explain how selective pressures drive clonal expansion; understand how sequential genetic alterations lead to cancer',
+    stem:'Which statements about cancer evolution and clonal expansion are correct? <strong>Select all that apply.</strong>',
+    opts:['Cancer evolution proceeds by somatic Darwinian selection: cells with growth-advantageous mutations expand clonally and outcompete neighbors','In colorectal cancer, APC loss is typically the first event, followed by KRAS mutation, then SMAD4 and TP53 loss over years','Intratumor heterogeneity (multiple genetically distinct subclones within one tumor) contributes to therapy resistance when resistant subclones are selected by treatment','TP53 loss is typically the initiating event in colorectal cancer because it immediately removes all cell cycle checkpoints','Metastasis occurs through additional rounds of selection for cells that can invade, survive in circulation, and colonize distant sites'],
+    correct:[0,1,2,4],
+    explain:'D is false — TP53 loss is a <em>late</em> event in colorectal tumorigenesis, not the initiating event. APC loss initiates the process; TP53 loss typically occurs at or after the adenoma-to-carcinoma transition, enabling the genomic instability that drives full malignancy. A, B, C, E are all correct.'
+  },
+  {
+    topic:'cancer', type:'sata', tag:'Cell Fate Decisions in Cancer',
+    lo:'Analyze how cells make decisions to proliferate, differentiate, or undergo cell death, and how these processes are disrupted in cancer',
+    stem:'Which statements correctly describe how normal cell fate decisions are disrupted in cancer? <strong>Select all that apply.</strong>',
+    opts:['In normal cells, CDK inhibitors (p21, p27) and Rb enforce the G1 restriction point; oncogenic mutations bypass these checkpoints to force uncontrolled proliferation','Normal cells terminally differentiate in response to specific signals; cancer cells are often arrested in a progenitor-like undifferentiated state (anaplasia)','p53 normally triggers G1 arrest or apoptosis after DNA damage; TP53 loss removes this checkpoint, allowing damaged cells to continue dividing and accumulate mutations','RAS gain-of-function mutations mimic constitutive growth factor signaling by locking RAS-GTP on, driving Cyclin D expression and cell cycle entry','Cancer cells evade apoptosis exclusively by overexpressing p53, which blocks the intrinsic apoptosis pathway'],
+    correct:[0,1,2,3],
+    explain:'E is false — cancer cells evade apoptosis through <em>loss</em> of p53 (not overexpression) and/or <em>overexpression</em> of anti-apoptotic proteins like Bcl-2 and Bcl-XL. Overexpressing wild-type p53 would actually <em>promote</em> apoptosis, not block it. A, B, C, D correctly describe how proliferation control, differentiation, DNA damage response, and RAS signaling are each disrupted in cancer.'
+  },
+  {
+    topic:'cancer', type:'false', tag:'Cancer Stem Cells',
+    lo:'Define cancer stem cells and evaluate their proposed roles in tumor initiation, maintenance, and relapse',
+    stem:'Which statement about cancer stem cells (CSCs) is <strong>FALSE</strong>?',
+    opts:['CSCs are defined by their capacity for self-renewal and ability to recapitulate the full heterogeneous tumor upon transplantation','Evidence for CSCs includes xenograft experiments showing only CD44⁺/CD24⁻ breast cancer cells can initiate tumors in immunocompromised mice','CSCs are typically the most rapidly proliferating population in the tumor, making them the primary target of cytotoxic chemotherapy','After chemotherapy eliminates bulk tumor cells, surviving quiescent CSCs can regenerate the tumor, explaining relapse','Plasticity between CSC and non-CSC states has been observed, meaning CSC identity is not always fixed'],
+    correct:[2],
+    explain:'C is false — CSCs are typically <em>quiescent</em> (slow-cycling), which is precisely why they resist cytotoxic chemotherapy (which targets rapidly dividing cells). The rapidly proliferating bulk tumor cells are killed by chemo; the slow-cycling CSCs survive. This quiescence is what makes them so clinically problematic for relapse.'
+  },
+  {
+    topic:'cancer', type:'sata', tag:'Tumor Angiogenesis',
+    lo:'Describe how tumors induce angiogenesis and analyze the role of negative feedback signaling loops in regulating blood vessel growth',
+    stem:'Which statements about tumor angiogenesis are correct? <strong>Select all that apply.</strong>',
+    opts:['Tumor hypoxia stabilizes HIF-1α by preventing prolyl hydroxylase-dependent ubiquitination and proteasomal degradation','HIF-1α transcriptionally activates VEGF, which binds VEGFR on endothelial cells to stimulate vessel sprouting and proliferation','Negative feedback: new vessels restore O₂ → prolyl hydroxylases become active → HIF-1α is degraded → VEGF levels drop','DLL4/Notch signaling between tip cells (high DLL4) and stalk cells (Notch activated) limits how many endothelial cells adopt the angiogenic tip cell fate, preventing excessive sprouting','Tumors permanently disable negative feedback by secreting VEGF constitutively from oncogene-driven pathways (e.g., RAS → PI3K → mTOR → HIF-1α) even under normoxia'],
+    correct:[0,1,2,3,4],
+    explain:'All five statements are correct. HIF-1α stabilization under hypoxia (A), VEGF induction and VEGFR signaling (B), the O₂-mediated negative feedback loop (C), DLL4/Notch tip-stalk cell lateral inhibition (D), and tumor override of negative feedback via oncogenic signaling ("pseudohypoxia") (E) are all key concepts in tumor angiogenesis.'
+  },
+
+/* ── GENETICS (Primary Focus PDF) ── */
+  {
+    topic:'genetics', type:'sata', tag:'Genetic Complementation',
+    lo:'Interpret the results of genetic complementation tests',
+    stem:'Which statements correctly interpret complementation test results? <strong>Select all that apply.</strong>',
+    opts:['If two recessive mutants are crossed and F1 is wild type, the mutations complement each other, indicating they affect different genes','If two recessive mutants are crossed and F1 shows the mutant phenotype, they fail to complement, indicating mutations in the same gene','Complementation tests require both parental mutations to be recessive and in trans (heterozygous) configuration','A dominant negative mutation can cause false failure of complementation because the dominant mutant allele suppresses the function of the wild-type allele provided by the other parent','Complementation tests are used to determine how many genes are represented by a collection of mutants with the same phenotype'],
+    correct:[0,1,2,3,4],
+    explain:'All five statements are correct. Complementation: wild-type F1 = different genes (A); mutant F1 = same gene (B). Both must be recessive and in trans (C). Dominant negatives cause false-negative complementation (D). This test is foundational for gene counting in a mutant collection (E).'
+  },
+  {
+    topic:'genetics', type:'mc', tag:'Dihybrid Cross',
+    lo:'Construct a dihybrid cross; interpret phenotypic ratios and assign genotypes when two genes are interacting',
+    stem:'In a dihybrid cross AaBb × AaBb, what is the expected ratio of phenotypic classes if the two genes assort independently and both show complete dominance?',
+    opts:['9 A_B_ : 3 A_bb : 3 aaB_ : 1 aabb','1 A_B_ : 1 A_bb : 1 aaB_ : 1 aabb','3 A_B_ : 1 aabb','9 A_B_ : 6 A_bb or aaB_ : 1 aabb','1:2:1 for each gene independently'],
+    correct:[0],
+    explain:'The standard dihybrid cross with independent assortment and complete dominance gives the 9:3:3:1 phenotypic ratio. This arises because each gene gives a 3:1 ratio independently (3 A_ : 1 aa and 3 B_ : 1 bb), and multiplying these: (3+1)(3+1) = 9:3:3:1. A_B_ = 9/16, A_bb = 3/16, aaB_ = 3/16, aabb = 1/16.'
+  },
+  {
+    topic:'genetics', type:'sata', tag:'Epistasis',
+    lo:'Interpret the results of epistasis tests; explain how one or more genes can result in a particular phenotype',
+    stem:'Two genes A and B both affect pigment color in a plant. Single mutants: aa = white; bb = white. Double mutant aabb = white. Wild type (A_B_) = purple. F2 from AaBb × AaBb gives 9 purple : 7 white. Which statements are correct? <strong>Select all that apply.</strong>',
+    opts:['This is complementary (duplicate recessive) epistasis: purple requires dominant alleles at BOTH loci','The 9:7 ratio arises because the three non-9 classes (3+3+1 = 7) all lack at least one functional copy of one of the two required genes','Both genes are required in the same pigment synthesis pathway; loss of either prevents purple pigment production','The parents of the original cross were likely AAbb (white) × aaBB (white), which complemented to give purple AaBb F1','This pattern indicates A and B act in parallel, independent pathways that can substitute for each other'],
+    correct:[0,1,2,3],
+    explain:'E is false — if A and B were in parallel independent pathways, you would expect a different ratio; specifically, if either pathway alone were sufficient, the double mutant might still have pigment. The 9:7 ratio with purple only in A_B_ means both are <em>required</em> in the same pathway (complementary epistasis), not parallel redundant pathways. A, B, C, D are all correct interpretations.'
+  },
+
+/* ── MIXED / INTEGRATIVE ── */
+  {
+    topic:'cancer', type:'sata', tag:'Oncogenes & Cell Cycle',
+    lo:'Analyze how cells make decisions to proliferate; connect oncogene mutations to cell cycle disruption',
+    stem:'A tumor cell has a constitutively active RAS mutation and loss of both RB1 alleles. Which statements correctly describe the consequences? <strong>Select all that apply.</strong>',
+    opts:['Constitutively active RAS drives continuous MAPK signaling → Cyclin D overexpression → CDK4/6 hyperactivation even without growth factors','Loss of both RB1 alleles means E2F is constitutively active, driving continuous transcription of S-phase entry genes','Together, RAS activation and RB1 loss create redundant drives toward S-phase: both independently push through the G1 restriction point','The cell would be insensitive to CDK4/6 inhibitors (e.g., palbociclib) because Rb loss bypasses the need for CDK4/6 to phosphorylate Rb','This combination demonstrates why cancers typically require multiple "hits" — each mutation alone might be insufficient for full transformation'],
+    correct:[0,1,2,3,4],
+    explain:'All five statements are correct and illustrate important principles: constitutively active RAS drives Cyclin D (A); Rb loss means CDK4/6 activity is irrelevant for E2F release (B), so CDK4/6 inhibitors would be ineffective (D); both mutations independently and redundantly push toward S-phase (C); and multi-hit cancer models explain why both are needed for transformation (E).'
+  },
+  {
+    topic:'stem', type:'false', tag:'Stem Cells & Cancer Connections',
+    lo:'Connect stem cell niche signaling to cancer; understand how Wnt is shared between SC niche and cancer contexts',
+    stem:'Which statement about the relationship between Wnt signaling in the intestinal stem cell niche and colorectal cancer is <strong>FALSE</strong>?',
+    opts:['In the normal intestinal crypt, Paneth cells secrete Wnt3 to maintain Lgr5⁺ stem cells in a self-renewing state','APC is a component of the β-catenin destruction complex; its loss in colorectal cancer causes constitutive nuclear β-catenin and constitutive Wnt target gene activation','In colorectal cancer, APC loss locks cells in a "stem cell"-like state by constitutively activating the same Wnt target genes that maintain normal crypt stem cells','APC loss is a late event in colorectal tumorigenesis that occurs after KRAS and TP53 mutations have already established the tumor','APC loss-of-function follows the two-hit hypothesis, with both alleles needing to be inactivated for colorectal tumorigenesis to initiate'],
+    correct:[3],
+    explain:'D is false — APC loss is the <em>earliest</em> and most common initiating event in colorectal cancer, not a late event. The Vogelstein model places APC loss first (benign adenoma), followed by KRAS, then SMAD4, then TP53 (invasive carcinoma). All other statements are correct.'
+  },
+  {
+    topic:'methods', type:'sata', tag:'Methods Integration',
+    lo:'Apply multiple lab methods to answer biological questions about protein function and interaction',
+    stem:'You discover that protein Z is overexpressed in cancer cells. Which experimental approaches would be appropriate to characterize its function? <strong>Select all that apply.</strong>',
+    opts:['Western blot on cancer cell lysates vs. normal cell lysates to confirm overexpression and determine if there are size differences (e.g., truncation or modification)','Immunofluorescence to determine the subcellular localization of protein Z in cancer vs. normal cells','Co-IP to identify binding partners of protein Z that might explain its function in cancer signaling','UAS/Gal4 in Drosophila to knock down the Z homolog and observe phenotypic consequences if the gene is conserved','Flow cytometry using cell-cycle markers to determine whether Z overexpression affects cell cycle progression'],
+    correct:[0,1,2,3,4],
+    explain:'All five approaches are valid and complementary. Western blot (A) confirms overexpression and checks for size alterations. IF (B) localizes the protein. Co-IP (C) finds interaction partners. Drosophila genetics (D) provides in vivo functional data if conserved. Cell cycle analysis (E) tests whether Z affects proliferation. A complete characterization would use multiple orthogonal approaches.'
+  },
+
+/* ── GENE REGULATION: PREDICTION & THERAPY (Exam 1 cont.) ── */
+  {
+    topic:'gene', type:'sata', tag:'Gene Regulation Applications',
+    lo:'Apply concepts of gene regulation to predict cellular outcomes when gene expression is altered experimentally; explain how gene expression can be manipulated for therapeutic purposes',
+    stem:'Which predictions about experimental manipulation of gene expression are correct? <strong>Select all that apply.</strong>',
+    opts:[
+      'Delivering a constitutively active form of MyoD into fibroblasts would be expected to activate muscle-specific genes because MyoD is a master regulator of skeletal muscle fate',
+      'Treating cells with a histone deacetylase (HDAC) inhibitor would generally open chromatin and increase transcription of silenced genes, which is one basis for HDAC inhibitors as cancer therapeutics',
+      'Knocking out an enhancer that drives tumor-suppressor gene expression would be expected to reduce that tumor suppressor\'s expression in the relevant tissue',
+      'Introducing a short interfering RNA (siRNA) targeting an oncogene mRNA would reduce its protein levels by promoting mRNA degradation — a form of post-transcriptional gene silencing used therapeutically',
+      'Methylating the promoter CpG island of a gene always increases its transcription by recruiting transcriptional activators'
+    ],
+    correct:[0,1,2,3],
+    explain:'E is false — CpG island methylation is associated with transcriptional <em>silencing</em>, not activation. Methylation recruits methyl-CpG binding proteins and HDACs that compact chromatin. A (MyoD master regulator), B (HDAC inhibitors opening chromatin), C (enhancer knockout reducing target expression), and D (siRNA knockdown as therapeutic strategy) are all correct applications of gene regulation concepts.'
+  },
+  {
+    topic:'gene', type:'mc', tag:'Gene Regulation Prediction',
+    lo:'Apply concepts of gene regulation to predict cellular outcomes when gene expression is altered',
+    stem:'A researcher deletes the enhancer that drives expression of gene X specifically in pancreatic beta cells. Gene X encodes a transcription factor required for insulin production. What is the most likely outcome?',
+    opts:[
+      'Gene X expression is lost specifically in beta cells, leading to reduced insulin production in those cells; other cell types that use different enhancers for gene X are unaffected',
+      'Gene X is deleted from the genome in all cell types because enhancers are part of the coding sequence',
+      'Gene X is overexpressed in beta cells because removing the enhancer eliminates a repressor binding site',
+      'All cell types lose gene X expression because enhancers control basal transcription in every tissue',
+      'Beta cells undergo apoptosis immediately because enhancers are required for cell survival in all contexts'
+    ],
+    correct:[0],
+    explain:'Enhancers are tissue-specific regulatory elements. Deleting an enhancer active only in beta cells removes transcriptional activation in that tissue while leaving enhancers in other cell types intact — so gene X expression is lost specifically in beta cells. Gene X\'s coding sequence is unaffected (B wrong). Enhancers are activators, not repressors (C wrong). Cell-type specificity means other tissues are unaffected (D wrong). Cell death is not an automatic consequence of losing one TF\'s enhancer (E wrong).'
+  },
+
+/* ── PROTEIN SMALL MOLECULE BINDING (Exam 1) ── */
+  {
+    topic:'methods', type:'sata', tag:'Small Molecules & Protein Regulation',
+    lo:'Give examples of three different small molecules that bind to proteins in cells and describe how they regulate protein function',
+    stem:'Which statements about small molecule regulation of protein function are correct? <strong>Select all that apply.</strong>',
+    opts:[
+      'ATP binds to kinases at the active site and is used as a phosphate donor; many cancer drugs (e.g., imatinib) compete with ATP at kinase active sites to inhibit activity',
+      'GTP binds to RAS; GTP-bound RAS is active and signals downstream; intrinsic GTPase activity hydrolyzes GTP to GDP, inactivating RAS',
+      'Steroid hormones such as estrogen are small hydrophobic molecules that diffuse across the membrane and bind intracellular nuclear receptors, which then act as transcription factors',
+      'cAMP is a second messenger generated from ATP by adenylyl cyclase; it binds and activates protein kinase A (PKA) by releasing its inhibitory regulatory subunits',
+      'All small molecules that regulate proteins must bind at the active site (orthosteric regulation); allosteric binding sites do not exist in biological systems'
+    ],
+    correct:[0,1,2,3],
+    explain:'E is false — allosteric regulation is widespread and important. Many small molecules bind at sites <em>distant from</em> the active site (allosteric sites) and regulate protein conformation and activity — e.g., allosteric inhibitors of hemoglobin (2,3-BPG), feedback inhibition of metabolic enzymes, and allosteric kinase activators. A (ATP/kinase inhibitors), B (GTP/RAS cycle), C (steroid hormones/nuclear receptors), and D (cAMP/PKA) are all correct examples of small molecule protein regulation.'
+  },
+
+/* ── PRIMARY LITERATURE (Exam 3 Lessons 11/12) ── */
+  {
+    topic:'methods', type:'sata', tag:'Primary Literature',
+    lo:'Understand the major components of a scientific paper; differences between primary literature and reviews',
+    stem:'Which statements correctly distinguish primary research articles from review articles? <strong>Select all that apply.</strong>',
+    opts:[
+      'Primary research articles include a Methods section describing the experiments performed; review articles synthesize published work and typically do not include a Methods section with new experiments',
+      'A primary research article presents original experimental data collected by the authors; a review article summarizes and interprets data from multiple previously published studies',
+      'Review articles are more reliable than primary articles because they represent consensus across many studies, whereas primary articles may contain errors or artifacts',
+      'In a primary research article, figures present the raw or processed experimental data; the Results section describes what was observed without interpretation, and the Discussion interprets the findings',
+      'Both primary articles and reviews undergo peer review, but they serve different purposes: primary articles advance new knowledge while reviews consolidate existing knowledge'
+    ],
+    correct:[0,1,3,4],
+    explain:'C is false — neither format is inherently "more reliable." Primary articles contain new data that may later be challenged or refined; reviews may contain the author\'s biases in selecting and interpreting studies. Reliability depends on experimental rigor and the quality of interpretation in both. A, B, D, E correctly describe the structural and functional differences between primary and review literature.'
+  },
+  {
+    topic:'methods', type:'false', tag:'Interpreting Experimental Data',
+    lo:'Understand how to interpret figures and data from primary literature; evaluate experimental design',
+    stem:'A paper reports that protein A co-immunoprecipitates with protein B, and immunofluorescence shows they co-localize in the nucleus. The authors conclude "protein A directly binds protein B to regulate transcription." Which statement about this conclusion is <strong>FALSE</strong>?',
+    opts:[
+      'The co-IP result supports that A and B are in the same protein complex, but does not prove direct physical contact without additional experiments (e.g., crosslinking or BiFC)',
+      'The IF co-localization result is consistent with A and B being in the same compartment, but does not prove interaction on its own',
+      'Together, co-IP and co-localization are sufficient to definitively conclude that A directly binds B at a molecular level with no intermediary proteins',
+      'To strengthen the conclusion that A directly binds B, the authors could perform a pull-down with purified recombinant proteins in vitro',
+      'The conclusion that they "regulate transcription" requires additional evidence, such as reporter assays or transcriptomic data, beyond the localization and interaction data'
+    ],
+    correct:[2],
+    explain:'C is false — co-IP plus co-localization together are <em>not</em> sufficient to conclude direct binding. Co-IP detects complex membership (direct or indirect), and co-localization only shows the same compartment. Definitive proof of direct binding requires in vitro pull-down with purified proteins (removing all potential bridging partners), crosslinking mass spectrometry, or structural data. A, B, D, E correctly identify the limitations and what additional experiments would strengthen the conclusion.'
+  },
+
+/* ── MEMBRANE FUNCTIONS (Exam 2 Lesson 7) ── */
+  {
+    topic:'cell', type:'sata', tag:'Membrane Functions',
+    lo:'Explain the various functions of membranes; understand the variability of membrane composition',
+    stem:'Which statements about membrane structure and function are correct? <strong>Select all that apply.</strong>',
+    opts:[
+      'Membranes serve as selectively permeable barriers that compartmentalize cellular reactions and maintain distinct chemical environments in each organelle',
+      'The fluidity of a membrane is influenced by lipid composition: unsaturated fatty acids and cholesterol (in animal cells) increase fluidity by preventing tight packing of acyl chains',
+      'Membrane proteins include integral transmembrane proteins (anchored in the bilayer) and peripheral membrane proteins (associated with the surface); they mediate transport, signaling, adhesion, and enzymatic functions',
+      'All membranes in a cell have identical lipid and protein compositions because they are derived from the same ER membrane',
+      'Glycolipids and glycoproteins on the extracellular leaflet of the plasma membrane form the glycocalyx, which participates in cell recognition and adhesion'
+    ],
+    correct:[0,1,2,4],
+    explain:'D is false — different cellular membranes have distinct and characteristic lipid and protein compositions. For example, the plasma membrane is enriched in cholesterol and sphingomyelin; the inner mitochondrial membrane is enriched in cardiolipin; the ER membrane has a different composition from the Golgi. This compositional diversity is functionally important. A, B, C, E are all correct.'
+  },
+
+/* ── NUCLEAR IMPORT & VESICLE TRANSPORT (Exam 2 Lesson 8) ── */
+  {
+    topic:'cell', type:'mc', tag:'Nuclear Import',
+    lo:'Outline the machinery that accomplishes nuclear import; describe general mechanism of protein transit among membrane-bound organelles',
+    stem:'A newly synthesized transcription factor contains a nuclear localization signal (NLS). Which sequence of events correctly describes its nuclear import?',
+    opts:[
+      'Importin-α recognizes and binds the NLS in the cytoplasm → importin-α/β complex docks at the nuclear pore → RanGTP in the nucleus binds importin-β, causing complex dissociation and release of the cargo inside the nucleus → RanGDP is exported and recharged to RanGTP by RanGEF',
+      'The NLS is cleaved by a signal peptidase in the cytoplasm → the processed protein diffuses through the nuclear pore passively',
+      'SRP recognizes the NLS and docks the ribosome to the nuclear envelope for co-translational import into the nucleus',
+      'The protein is imported into the ER lumen first, then transported via vesicles to the nucleus',
+      'Importin binds the NLS, carries the protein through the ER membrane, and releases it into the nucleoplasm when it encounters DNA'
+    ],
+    correct:[0],
+    explain:'A is the correct sequence. Importin-α recognizes cytoplasmic NLS sequences and forms a complex with importin-β, which docks at nuclear pore complexes (NPCs). RanGTP (maintained at high levels in the nucleus by RanGEF/RCC1) binds importin-β and triggers conformational changes that release the cargo. The importins are then exported and RanGTP is hydrolyzed to RanGDP in the cytoplasm by RanGAP, resetting the cycle. B, C, D, E all describe incorrect mechanisms (SRP targets to ER, not nucleus; there are no ER vesicles to the nucleus; NLS is not cleaved).'
+  },
+
+/* ── GLYCOLYSIS & FERMENTATION (Exam 2 Lesson 9) ── */
+  {
+    topic:'cell', type:'false', tag:'Glycolysis & Fermentation',
+    lo:'Know the location of glycolysis; identify inputs and outputs; describe alcoholic fermentation and anaerobic respiration in human muscle; understand NADH recycling',
+    stem:'Which statement about glycolysis and fermentation is <strong>FALSE</strong>?',
+    opts:[
+      'Glycolysis occurs in the cytoplasm and does not require oxygen; it produces a net gain of 2 ATP and 2 NADH per glucose',
+      'Under anaerobic conditions, human muscle cells convert pyruvate to lactate using lactate dehydrogenase, regenerating NAD⁺ to allow glycolysis to continue',
+      'In alcoholic fermentation (yeast), pyruvate is first decarboxylated to acetaldehyde, then reduced to ethanol by alcohol dehydrogenase, regenerating NAD⁺',
+      'The primary purpose of fermentation is to generate additional ATP beyond what glycolysis produces, increasing the cell\'s energy output under oxygen-limited conditions',
+      'Under aerobic conditions, NADH produced in glycolysis is reoxidized by the electron transport chain in the mitochondria, allowing continued NAD⁺ supply for glycolysis'
+    ],
+    correct:[3],
+    explain:'D is false — fermentation does <em>not</em> produce additional ATP. Its sole purpose is to regenerate NAD⁺ from NADH so that glycolysis can continue producing its 2 ATP per glucose. Fermentation itself is energetically neutral with respect to ATP synthesis. The pyruvate or acetaldehyde simply acts as an electron acceptor to oxidize NADH. A, B, C, E correctly describe glycolysis location/outputs, lactic acid fermentation, alcoholic fermentation, and aerobic NADH reoxidation.'
+  },
+
+/* ── MOTOR PROTEINS & CYTOSKELETON DETAILS (Exam 2 Lesson 10) ── */
+  {
+    topic:'cell', type:'sata', tag:'Motor Proteins',
+    lo:'Understand the source of kinetic energy of molecular motors; recognize the features (head, neck, tail) that endow different myosins with distinct functions',
+    stem:'Which statements about molecular motors are correct? <strong>Select all that apply.</strong>',
+    opts:[
+      'Molecular motors (kinesins, dyneins, myosins) derive their mechanical energy from ATP hydrolysis — each ATPase cycle produces a conformational change that generates force and movement',
+      'The motor domain (head) of myosin contains the actin-binding site and ATPase activity; the neck region acts as a lever arm that amplifies the conformational change; the tail domain determines cargo specificity',
+      'Kinesin-1 moves toward the plus end of microtubules (away from the cell body in neurons), transporting cargo toward the cell periphery; dynein moves toward the minus end (toward the cell body)',
+      'Different myosin family members perform different cellular functions because they share identical tail domains that bind the same set of cellular cargoes',
+      'Nucleation of new actin filaments from free G-actin monomers is kinetically slow without help; the Arp2/3 complex nucleates branched actin networks by providing a template that bypasses the slow nucleation step'
+    ],
+    correct:[0,1,2,4],
+    explain:'D is false — different myosin family members have <em>distinct</em> tail domains that confer different cargo specificities and cellular functions. For example, myosin II (muscle contraction, cytokinesis) has a tail that forms bipolar filaments; myosin V (organelle transport) has a tail that binds vesicles; myosin VI (endocytosis, minus-end directed) has a unique converter domain. Tail diversity is what makes the myosin superfamily so functionally diverse. A, B, C, E are correct.'
+  },
+  {
+    topic:'cell', type:'mc', tag:'Dynamic Instability vs Treadmilling',
+    lo:'Differentiate between dynamic instability and treadmilling',
+    stem:'Which of the following correctly distinguishes dynamic instability from treadmilling?',
+    opts:[
+      'Dynamic instability is the stochastic GTP-cap-dependent switching of individual microtubule ends between growth and catastrophic shrinkage; treadmilling is the steady-state addition of subunits at the plus end and loss at the minus end at equal rates, causing net filament translocation without length change',
+      'Dynamic instability occurs only in actin filaments; treadmilling occurs only in microtubules',
+      'Dynamic instability requires ATP hydrolysis; treadmilling requires GTP hydrolysis',
+      'Both dynamic instability and treadmilling describe the same phenomenon of rapid filament turnover and are interchangeable terms',
+      'Treadmilling involves catastrophic depolymerization events; dynamic instability involves slow steady-state turnover'
+    ],
+    correct:[0],
+    explain:'A is the correct distinction. Dynamic instability is a feature of microtubules (and to some extent actin): individual filament ends stochastically switch between polymerization and rapid depolymerization (catastrophe), driven by GTP hydrolysis that destabilizes the lattice behind the GTP cap. Treadmilling is a steady-state phenomenon where net addition at the plus end equals net loss at the minus end — the filament moves as a unit without changing length. B is wrong (both phenomena occur in both filament types to varying degrees). C has the nucleotides reversed. D and E are incorrect.'
+  },
+
+/* ── CELL COMMUNICATION: INTERPRETING CO-IP (Exam 3 Lesson 13) ── */
+  {
+    topic:'signaling', type:'sata', tag:'Interpreting Co-IP Data',
+    lo:'Interpret data from a co-immunoprecipitation; evaluate whether a newly discovered protein acts upstream or downstream in a signaling pathway',
+    stem:'You perform a co-IP experiment: pull down receptor R with anti-R antibody, then blot for adaptor protein A and kinase K. Both A and K appear in the precipitate. You then treat cells with a receptor antagonist and repeat: A disappears from the precipitate but K remains. Which conclusions are supported? <strong>Select all that apply.</strong>',
+    opts:[
+      'Adaptor protein A associates with receptor R in a ligand-dependent manner — its interaction with R requires receptor activation',
+      'Kinase K associates with receptor R constitutively (independent of receptor activation), suggesting K is a permanent part of the receptor complex',
+      'The disappearance of A from the precipitate after antagonist treatment proves A is upstream of K in the signaling pathway',
+      'These results suggest A is recruited to the active receptor and may relay the signal, while K may be a constitutive binding partner with a structural or regulatory role',
+      'A proper negative control for this co-IP would be using a non-specific IgG antibody instead of anti-R, to confirm A and K are not non-specifically precipitating with antibody or beads'
+    ],
+    correct:[0,1,3,4],
+    explain:'C is false — co-IP data tells you about physical association under different conditions, not pathway order. You cannot determine upstream/downstream relationships from co-IP alone; epistasis experiments or functional assays are needed for that. A (ligand-dependent A recruitment), B (constitutive K association), D (functional interpretation of the data), and E (essential negative control) are all valid and correct conclusions from the experiment as described.'
+  },
+
+/* ── GENETICS: PHENOTYPIC RATIOS & GENE INTERACTIONS (Primary Focus PDF) ── */
+  {
+    topic:'genetics', type:'sata', tag:'Gene Interactions & Phenotypic Ratios',
+    lo:'Interpret phenotypic ratios and assign genotypes when two genes are interacting; explain how one or more genes can result in a particular phenotype',
+    stem:'A cross between two pure-breeding strains gives the following F2 ratios. Match each ratio to its correct genetic explanation. Which pairings are correct? <strong>Select all that apply.</strong>',
+    opts:[
+      '9:3:4 F2 ratio — recessive epistasis: homozygous recessive at one gene (aa) masks expression of the other gene, producing a modified 9:3:4 ratio instead of 9:3:3:1',
+      '12:3:1 F2 ratio — dominant epistasis: a dominant allele at one gene (A_) masks the other gene\'s phenotype regardless of its genotype',
+      '15:1 F2 ratio — duplicate dominant genes: dominant alleles at either gene alone are sufficient to produce the phenotype; only the double recessive (aabb) lacks the phenotype',
+      '9:7 F2 ratio — duplicate recessive epistasis (complementary genes): both genes must have at least one dominant allele (A_B_) for the phenotype; any homozygous recessive at either locus produces the alternate phenotype',
+      'A 1:1 phenotypic ratio always indicates epistasis between two independently assorting genes'
+    ],
+    correct:[0,1,2,3],
+    explain:'E is false — a 1:1 ratio is characteristic of a testcross (heterozygote × homozygous recessive) for a single gene, or a backcross, not epistasis between two independently assorting genes. A (9:3:4 recessive epistasis), B (12:3:1 dominant epistasis), C (15:1 duplicate dominant), and D (9:7 complementary/duplicate recessive) are all correct descriptions of modified dihybrid ratios resulting from gene interactions.'
+  },
+  {
+    topic:'genetics', type:'mc', tag:'Assigning Genotypes from Ratios',
+    lo:'Interpret phenotypic ratios and assign genotypes when two genes are interacting',
+    stem:'In a cross of AaBb × AaBb, you observe an F2 ratio of 9 colored : 3 yellow : 4 white. Gene A produces an enzyme converting white → yellow pigment; gene B converts yellow → colored. Which genotype produces white flowers?',
+    opts:[
+      'aaB_ — lacks the first enzyme, so no yellow pigment is made; B cannot act on a substrate that doesn\'t exist, yielding white; this is recessive epistasis (aa masks B)',
+      'A_bb — lacks the second enzyme; yellow pigment accumulates but cannot be converted to colored, yielding yellow; these plants appear in the 3/16 class',
+      'aabb — lacks both enzymes; produces white (same as aaB_)',
+      'All of the above genotypic classes that include at least one recessive allele produce white',
+      'Only aabb produces white; all other genotypes produce either yellow or colored pigment'
+    ],
+    correct:[0],
+    explain:'The 9:3:4 ratio reflects recessive epistasis where <em>aa</em> masks gene B. Genotypes producing white: aaB_ (3/16) — lacks enzyme 1, no substrate for B, white; AND aabb (1/16) — lacks both enzymes, also white. Together that\'s 4/16 white. The "4" in 9:3:4 = aaB_ (3) + aabb (1). A_bb produces yellow (3/16). A_B_ produces colored (9/16). Answer A is the best answer because it correctly identifies aaB_ as a white genotype and explains <em>why</em> (no substrate for enzyme B), which is the recessive epistasis mechanism. B correctly describes yellow (not white). The question asks for the white class mechanism.'
+  },
+
+/* ── CANCER: CELL FATE & SELECTIVE PRESSURES APPLIED ── */
+  {
+    topic:'cancer', type:'sata', tag:'Cancer Cell Fate Integration',
+    lo:'Analyze how cells make decisions to proliferate, differentiate, or undergo cell death; explain how these regulatory processes are disrupted in cancer',
+    stem:'A biopsy reveals a tumor with the following characteristics: 30% of cells are cycling rapidly, 5% are quiescent CD44⁺/CD24⁻ cells, and 65% are poorly differentiated post-mitotic cells. After chemotherapy, 95% of cells die, but the tumor regrows within 6 months. Which statements best explain this? <strong>Select all that apply.</strong>',
+    opts:[
+      'The 30% rapidly cycling cells are bulk tumor cells that are preferentially killed by cytotoxic chemotherapy, explaining the 95% cell death',
+      'The 5% CD44⁺/CD24⁻ quiescent cells are likely cancer stem cells (CSCs) that survive chemotherapy due to quiescence and drug efflux, and regenerate the tumor',
+      'Tumor regrowth after chemotherapy means the chemotherapy was completely ineffective and had no biological effect on the tumor',
+      'The 65% poorly differentiated post-mitotic cells represent cells that have undergone incomplete differentiation — a hallmark of disrupted differentiation programs in cancer',
+      'Targeting the CSC population (e.g., with agents that disrupt Wnt or Notch signaling maintaining their self-renewal) alongside conventional chemo could reduce relapse risk'],
+    correct:[0,1,3,4],
+    explain:'C is false — the chemotherapy clearly had a major biological effect (95% cell death). The problem is that the 5% quiescent CSC population survived and regenerated the tumor. This illustrates why conventional chemotherapy can fail even when dramatically effective against bulk tumor cells. A, B, D, E correctly apply CSC theory, the differentiation defect of cancer cells, and the rationale for targeting CSC-specific signaling pathways.'
+  },
+
+/* ── ANGIOGENESIS NEGATIVE FEEDBACK APPLIED ── */
+  {
+    topic:'cancer', type:'mc', tag:'Angiogenesis Negative Feedback Applied',
+    lo:'Describe how tumors induce angiogenesis and analyze the role of negative feedback signaling loops in regulating blood vessel growth',
+    stem:'Anti-VEGF therapy (bevacizumab) initially shrinks a tumor but the patient develops resistance after 8 months, and the tumor resumes growth despite continued treatment. Which mechanism best explains acquired resistance to anti-VEGF therapy?',
+    opts:[
+      'The tumor upregulates alternative pro-angiogenic factors (e.g., FGF2, PDGF, angiopoietin) that bypass the VEGF/VEGFR axis, restoring angiogenesis despite VEGF blockade',
+      'Bevacizumab permanently destroys VEGF protein and the tumor cannot synthesize more',
+      'HIF-1α is degraded when bevacizumab is present, so the negative feedback loop permanently silences VEGF gene transcription',
+      'The tumor switches entirely to aerobic metabolism and no longer requires blood vessel supply',
+      'Anti-VEGF therapy increases HIF-1α levels indefinitely, which directly kills tumor cells through apoptosis'
+    ],
+    correct:[0],
+    explain:'A is the correct mechanism of acquired anti-VEGF resistance — tumors evolve to use alternative angiogenic drivers (FGF2, PDGF, angiopoietins, IL-8) that are not blocked by bevacizumab, restoring vessel growth through a different pathway. B is wrong — bevacizumab neutralizes circulating VEGF but tumor cells continuously produce more. C misapplies feedback logic. D is wrong — tumors are not able to simply switch to pure aerobic metabolism without blood supply; they still need oxygen and nutrients. E is incorrect — anti-VEGF therapy does not directly induce apoptosis via HIF-1α.'
   }
 ];
 

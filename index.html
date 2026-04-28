@@ -56,8 +56,15 @@ body{
   background:rgba(13,17,23,0.95);
   backdrop-filter:blur(12px);
   border-bottom:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 2rem;height:54px;
+  display:flex;align-items:center;gap:1rem;
+  padding:0 1.5rem;height:54px;
+}
+.sitenav .logo{margin-right:auto;}
+.sitenav .user-badge{margin-left:.5rem;}
+@media(max-width:680px){
+  .sitenav{padding:0 .8rem;gap:.5rem;}
+  .sitenav .tabs{flex:1;justify-content:center;overflow-x:auto;}
+  .sitenav .tab{padding:6px 10px;font-size:12px;}
 }
 .logo{
   font-family:'Lora',serif;
@@ -550,6 +557,738 @@ hr.div{border:none;border-top:1px solid var(--border);margin:2.5rem 0;}
 .qzf-protein.qzf-on{background:var(--green);}
 .qzf-exam2.qzf-on{background:var(--amber);}
 .qzf-exam3.qzf-on{background:var(--pink);}
+
+/* ════════════════════════════════
+   GAMIFICATION — LOGIN SCREEN
+════════════════════════════════ */
+.login-overlay{
+  position:fixed;inset:0;z-index:1000;
+  background:radial-gradient(ellipse at center,#0d1f35 0%,#0d1117 70%);
+  display:flex;align-items:center;justify-content:center;
+  padding:1.5rem;
+}
+.login-box{
+  background:var(--surface);border:1px solid var(--border2);
+  border-radius:14px;padding:2.4rem 2.2rem;max-width:380px;width:100%;
+  box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 80px rgba(45,212,191,.08);
+  animation:fadeup .4s ease;
+}
+.login-box h2{font-family:'Lora',serif;font-size:1.5rem;color:var(--text);margin-bottom:.4rem;}
+.login-box h2 em{color:var(--teal);font-style:italic;}
+.login-box p{color:var(--text2);font-size:13px;margin-bottom:1.4rem;}
+.login-box input{
+  width:100%;background:var(--bg3);border:1px solid var(--border);
+  border-radius:8px;padding:.75rem .95rem;color:var(--text);
+  font-family:'Source Sans 3',sans-serif;font-size:14px;
+  margin-bottom:.9rem;transition:border-color .15s;
+}
+.login-box input:focus{outline:none;border-color:var(--teal);}
+.login-box button.login-go{
+  width:100%;background:var(--teal);color:var(--bg);
+  border:none;border-radius:8px;padding:.8rem;
+  font-family:'Source Sans 3',sans-serif;font-size:14px;font-weight:700;
+  cursor:pointer;transition:all .15s;letter-spacing:.02em;
+}
+.login-box button.login-go:hover{background:#5eead4;transform:translateY(-1px);}
+.login-recent{margin-top:1.2rem;padding-top:1.2rem;border-top:1px solid var(--border);}
+.login-recent-label{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:.5rem;}
+.login-recent-item{
+  display:flex;justify-content:space-between;align-items:center;
+  background:var(--bg3);border:1px solid var(--border);border-radius:6px;
+  padding:.5rem .7rem;margin-bottom:.4rem;cursor:pointer;
+  font-size:12.5px;color:var(--text2);transition:all .15s;
+}
+.login-recent-item:hover{border-color:var(--teal);color:var(--text);}
+.login-recent-item .lr-stats{font-size:10.5px;color:var(--text3);}
+
+/* USER BADGE IN NAV */
+.user-badge{
+  display:flex;align-items:center;gap:8px;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:20px;padding:3px 10px 3px 4px;
+  font-size:12px;font-weight:600;color:var(--text);
+  cursor:pointer;transition:all .15s;
+}
+.user-badge:hover{border-color:var(--teal);}
+.user-avatar{
+  width:24px;height:24px;border-radius:50%;
+  background:linear-gradient(135deg,var(--teal),var(--purple));
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;color:#fff;text-transform:uppercase;
+}
+.user-points{
+  display:flex;align-items:center;gap:4px;
+  font-size:11.5px;color:var(--amber);font-weight:700;
+}
+.user-points::before{content:'✦';font-size:10px;}
+
+/* QUIZ HUD — POINTS, STREAK, COMBO */
+.quiz-hud{
+  display:flex;gap:10px;flex-wrap:wrap;align-items:center;
+  margin-bottom:1.2rem;padding:.7rem .9rem;
+  background:linear-gradient(135deg,rgba(45,212,191,.06),rgba(167,139,250,.06));
+  border:1px solid var(--border);border-radius:10px;
+}
+.hud-stat{
+  display:flex;align-items:center;gap:6px;
+  font-size:12px;font-weight:600;
+}
+.hud-stat .hud-icon{font-size:14px;}
+.hud-stat .hud-val{font-family:'Lora',serif;font-size:15px;}
+.hud-points .hud-val{color:var(--amber);}
+.hud-streak .hud-val{color:var(--red);}
+.hud-combo .hud-val{color:var(--purple);}
+.hud-divider{width:1px;height:18px;background:var(--border);}
+.hud-shop-btn{
+  margin-left:auto;background:linear-gradient(135deg,var(--purple),var(--pink));
+  color:#fff;border:none;border-radius:20px;padding:5px 14px;
+  font-size:11.5px;font-weight:700;cursor:pointer;
+  font-family:'Source Sans 3',sans-serif;letter-spacing:.04em;
+  text-transform:uppercase;transition:all .15s;
+  box-shadow:0 2px 12px rgba(167,139,250,.3);
+}
+.hud-shop-btn:hover{transform:translateY(-1px);box-shadow:0 4px 18px rgba(167,139,250,.5);}
+
+/* COMBO METER */
+.combo-meter{
+  flex:1;min-width:80px;height:6px;background:var(--surface2);
+  border-radius:3px;overflow:hidden;position:relative;
+}
+.combo-fill{
+  height:100%;border-radius:3px;
+  background:linear-gradient(90deg,var(--amber),var(--red),var(--purple));
+  width:0%;transition:width .4s ease;
+  box-shadow:0 0 12px rgba(248,113,113,.5);
+}
+
+/* FLOATING POINT POPUPS */
+.point-popup{
+  position:fixed;pointer-events:none;z-index:500;
+  font-family:'Lora',serif;font-size:1.6rem;font-weight:700;
+  text-shadow:0 0 12px currentColor,0 2px 8px rgba(0,0,0,.5);
+  animation:floatUp 1.2s ease-out forwards;
+}
+.pp-points{color:var(--amber);}
+.pp-bonus{color:var(--purple);}
+.pp-streak{color:var(--red);}
+@keyframes floatUp{
+  0%{opacity:0;transform:translate(-50%,0) scale(.5);}
+  20%{opacity:1;transform:translate(-50%,-20px) scale(1.1);}
+  60%{opacity:1;transform:translate(-50%,-60px) scale(1);}
+  100%{opacity:0;transform:translate(-50%,-100px) scale(.9);}
+}
+
+/* CORRECT ANSWER CELEBRATION */
+@keyframes correctPulse{
+  0%{transform:scale(1);}
+  30%{transform:scale(1.015);}
+  100%{transform:scale(1);}
+}
+.qz-card.celebrate{animation:correctPulse .5s ease;}
+
+@keyframes shake{
+  0%,100%{transform:translateX(0);}
+  20%,60%{transform:translateX(-4px);}
+  40%,80%{transform:translateX(4px);}
+}
+.qz-card.shake{animation:shake .35s ease;}
+
+/* CONFETTI BURST */
+.confetti-burst{
+  position:fixed;pointer-events:none;z-index:400;
+  width:8px;height:8px;border-radius:50%;
+}
+
+/* COMBO BANNER */
+.combo-banner{
+  position:fixed;top:80px;left:50%;
+  z-index:600;pointer-events:none;
+  background:linear-gradient(135deg,var(--purple),var(--pink));
+  color:#fff;padding:.6rem 1.5rem;border-radius:30px;
+  font-family:'Lora',serif;font-weight:700;
+  box-shadow:0 8px 30px rgba(167,139,250,.5),0 0 60px rgba(244,114,182,.3);
+  opacity:0;animation:comboIn 1.6s ease-out forwards;
+  letter-spacing:.04em;text-transform:uppercase;font-size:.9rem;
+}
+@keyframes comboIn{
+  0%{opacity:0;transform:translate(-50%,-30px) scale(.7);}
+  15%{opacity:1;transform:translate(-50%,0) scale(1.1);}
+  25%{transform:translate(-50%,0) scale(1);}
+  80%{opacity:1;transform:translate(-50%,0) scale(1);}
+  100%{opacity:0;transform:translate(-50%,-20px) scale(.95);}
+}
+
+/* ════════════════════════════════
+   COLLECTION PAGE
+════════════════════════════════ */
+.coll-hero{
+  background:linear-gradient(160deg,#1a0d2e 0%,#0d1117 65%);
+  padding:3rem 2.5rem 2.5rem;
+  border-bottom:1px solid var(--border);
+  position:relative;overflow:hidden;
+}
+.coll-hero::after{
+  content:'';position:absolute;right:-100px;top:-100px;
+  width:420px;height:420px;
+  background:radial-gradient(circle,rgba(244,114,182,.09) 0%,transparent 70%);
+  pointer-events:none;
+}
+.coll-hero-in{max-width:900px;margin:0 auto;position:relative;}
+.coll-hero h2{font-family:'Lora',serif;font-size:clamp(1.8rem,3.5vw,2.5rem);color:#fff;margin-bottom:.4rem;}
+.coll-hero h2 em{color:var(--pink);font-style:italic;}
+.coll-hero p{color:var(--text2);font-size:14px;max-width:520px;margin-bottom:1.2rem;}
+
+.collwrap{max-width:980px;margin:0 auto;padding:2rem 2rem 5rem;}
+
+/* SHOP / BOX SECTION */
+.shop-row{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:14px;margin-bottom:2.5rem;
+}
+.shop-box{
+  background:linear-gradient(160deg,var(--surface),var(--surface2));
+  border:1px solid var(--border2);border-radius:14px;
+  padding:1.4rem 1.2rem;text-align:center;
+  position:relative;overflow:hidden;
+  transition:transform .2s,border-color .2s;
+}
+.shop-box::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 0%,rgba(255,255,255,.05),transparent 60%);
+  pointer-events:none;
+}
+.shop-box:hover{transform:translateY(-3px);border-color:var(--teal);}
+.shop-box-icon{
+  font-size:3rem;margin-bottom:.6rem;line-height:1;
+  filter:drop-shadow(0 4px 12px rgba(0,0,0,.4));
+}
+.shop-box-name{font-family:'Lora',serif;font-size:1.15rem;color:var(--text);margin-bottom:.25rem;}
+.shop-box-desc{font-size:12px;color:var(--text2);line-height:1.5;margin-bottom:.9rem;min-height:36px;}
+.shop-box-buy{
+  width:100%;background:var(--teal);color:var(--bg);
+  border:none;border-radius:8px;padding:.55rem;
+  font-family:'Source Sans 3',sans-serif;font-size:13px;font-weight:700;
+  cursor:pointer;transition:all .15s;letter-spacing:.02em;
+}
+.shop-box-buy:hover{background:#5eead4;transform:translateY(-1px);}
+.shop-box-buy:disabled{background:var(--surface2);color:var(--text3);cursor:not-allowed;transform:none;}
+.shop-box-cost{display:inline-flex;align-items:center;gap:4px;}
+.shop-box-cost::before{content:'✦';font-size:12px;color:var(--amber);}
+
+/* Box tier accents */
+.shop-box-basic{box-shadow:0 0 0 1px rgba(74,222,128,.15);}
+.shop-box-basic .shop-box-icon{filter:drop-shadow(0 0 14px rgba(74,222,128,.4));}
+.shop-box-premium{box-shadow:0 0 0 1px rgba(96,165,250,.2);}
+.shop-box-premium .shop-box-icon{filter:drop-shadow(0 0 18px rgba(96,165,250,.5));}
+.shop-box-legendary{box-shadow:0 0 0 1px rgba(251,191,36,.25);}
+.shop-box-legendary .shop-box-icon{filter:drop-shadow(0 0 22px rgba(251,191,36,.6));}
+.shop-box-legendary{
+  background:linear-gradient(160deg,#2a1f0a,#1a1408);
+  border-color:rgba(251,191,36,.3);
+}
+
+/* ODDS BREAKDOWN */
+.odds-list{
+  display:flex;flex-direction:column;gap:3px;margin:.6rem 0 .9rem;
+  font-size:10.5px;color:var(--text3);text-align:left;
+}
+.odds-row{display:flex;justify-content:space-between;}
+.odds-row span:first-child{font-weight:600;}
+.odds-com{color:#94a3b8;}
+.odds-unc{color:var(--green);}
+.odds-rar{color:var(--blue);}
+.odds-epi{color:var(--purple);}
+.odds-leg{color:var(--amber);}
+
+/* COLLECTION STATS */
+.coll-stats{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:10px;margin-bottom:1.8rem;
+}
+.coll-stat-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:10px;padding:.9rem 1rem;text-align:center;
+}
+.coll-stat-n{font-family:'Lora',serif;font-size:1.6rem;line-height:1;color:var(--teal);}
+.coll-stat-l{font-size:10.5px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-top:4px;}
+
+/* RARITY FILTER */
+.rarity-filter{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.4rem;}
+.rf-btn{
+  background:var(--surface);border:1px solid var(--border);
+  color:var(--text2);font-size:11.5px;font-weight:600;
+  padding:5px 12px;border-radius:20px;cursor:pointer;
+  transition:all .15s;font-family:'Source Sans 3',sans-serif;
+}
+.rf-btn:hover{border-color:var(--border2);color:var(--text);}
+.rf-btn.active{border-color:transparent;color:#fff;}
+.rf-btn.rf-all.active{background:var(--teal);color:var(--bg);}
+.rf-btn.rf-com.active{background:#64748b;color:#fff;}
+.rf-btn.rf-unc.active{background:var(--green);color:var(--bg);}
+.rf-btn.rf-rar.active{background:var(--blue);color:#fff;}
+.rf-btn.rf-epi.active{background:var(--purple);color:#fff;}
+.rf-btn.rf-leg.active{background:var(--amber);color:var(--bg);}
+
+/* COLLECTION GRID */
+.coll-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+  gap:12px;
+}
+.coll-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:10px;padding:1rem .9rem;text-align:center;
+  position:relative;overflow:hidden;cursor:pointer;
+  transition:transform .15s,border-color .15s;
+}
+.coll-card:hover{transform:translateY(-3px);}
+.coll-card.locked{opacity:.4;filter:grayscale(.85);}
+.coll-card.locked .coll-icon{filter:blur(2px);}
+.coll-card.locked::after{
+  content:'?';position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-110%);
+  font-family:'Lora',serif;font-size:2.4rem;color:var(--text3);
+  font-weight:700;
+}
+.coll-icon{
+  font-size:2.4rem;line-height:1;margin-bottom:.5rem;
+  position:relative;display:inline-block;
+}
+.coll-name{font-size:12px;font-weight:600;color:var(--text);margin-bottom:.2rem;line-height:1.3;}
+.coll-rarity-tag{
+  display:inline-block;font-size:9px;font-weight:700;
+  padding:1.5px 7px;border-radius:8px;
+  text-transform:uppercase;letter-spacing:.06em;
+  margin-top:3px;
+}
+.coll-count{
+  position:absolute;top:6px;right:8px;
+  font-size:10px;font-weight:700;color:var(--text3);
+  background:var(--bg3);border-radius:10px;padding:1px 6px;
+  border:1px solid var(--border);
+}
+
+/* RARITY COLORS */
+.rare-com{border-color:#475569 !important;}
+.rare-com .coll-rarity-tag{background:rgba(148,163,184,.15);color:#94a3b8;}
+.rare-unc{border-color:rgba(74,222,128,.4) !important;}
+.rare-unc .coll-rarity-tag{background:var(--green-bg);color:var(--green);}
+.rare-unc{box-shadow:0 0 0 1px rgba(74,222,128,.1);}
+.rare-rar{border-color:rgba(96,165,250,.5) !important;}
+.rare-rar .coll-rarity-tag{background:var(--blue-bg);color:var(--blue);}
+.rare-rar{box-shadow:0 0 18px rgba(96,165,250,.15),0 0 0 1px rgba(96,165,250,.2);}
+.rare-epi{border-color:rgba(167,139,250,.5) !important;}
+.rare-epi .coll-rarity-tag{background:var(--purple-bg);color:var(--purple);}
+.rare-epi{
+  box-shadow:0 0 22px rgba(167,139,250,.25),0 0 0 1px rgba(167,139,250,.3);
+  background:linear-gradient(160deg,var(--surface),rgba(167,139,250,.05));
+}
+.rare-leg{border-color:rgba(251,191,36,.6) !important;}
+.rare-leg .coll-rarity-tag{background:var(--amber-bg);color:var(--amber);}
+.rare-leg{
+  box-shadow:0 0 28px rgba(251,191,36,.3),0 0 0 1px rgba(251,191,36,.4);
+  background:linear-gradient(160deg,#2a1f0a 0%,#1a1408 100%);
+  animation:legendaryShimmer 3s ease-in-out infinite;
+}
+@keyframes legendaryShimmer{
+  0%,100%{box-shadow:0 0 28px rgba(251,191,36,.3),0 0 0 1px rgba(251,191,36,.4);}
+  50%{box-shadow:0 0 40px rgba(251,191,36,.5),0 0 0 1px rgba(251,191,36,.6);}
+}
+
+/* BOX OPENING MODAL */
+.modal-overlay{
+  position:fixed;inset:0;z-index:900;
+  background:rgba(0,0,0,.85);backdrop-filter:blur(8px);
+  display:none;align-items:center;justify-content:center;
+  padding:1.5rem;opacity:0;transition:opacity .25s;
+}
+.modal-overlay.show{display:flex;opacity:1;}
+
+.box-open-stage{
+  position:relative;text-align:center;
+  width:100%;max-width:420px;
+}
+.box-3d{
+  width:160px;height:160px;margin:0 auto 1.5rem;
+  position:relative;font-size:7rem;line-height:160px;
+  filter:drop-shadow(0 10px 30px rgba(0,0,0,.6));
+  cursor:pointer;
+}
+.box-3d.shaking{animation:boxShake .15s ease infinite;}
+@keyframes boxShake{
+  0%,100%{transform:translate(0,0) rotate(0);}
+  25%{transform:translate(-3px,-2px) rotate(-2deg);}
+  50%{transform:translate(3px,2px) rotate(2deg);}
+  75%{transform:translate(-2px,3px) rotate(-1deg);}
+}
+.box-3d.opening{animation:boxOpen 1s ease forwards;}
+@keyframes boxOpen{
+  0%{transform:scale(1) rotate(0);}
+  50%{transform:scale(1.4) rotate(15deg);filter:drop-shadow(0 0 50px gold) brightness(1.5);}
+  100%{transform:scale(0) rotate(180deg);opacity:0;}
+}
+
+.box-glow{
+  position:absolute;inset:-40px;
+  background:radial-gradient(circle,rgba(251,191,36,.3),transparent 70%);
+  border-radius:50%;pointer-events:none;
+  animation:glowPulse 1.5s ease-in-out infinite;
+}
+@keyframes glowPulse{
+  0%,100%{opacity:.5;transform:scale(.95);}
+  50%{opacity:1;transform:scale(1.1);}
+}
+
+.box-prompt{font-size:14px;color:var(--text2);margin-top:.6rem;}
+.box-prompt strong{color:var(--teal);}
+
+/* REVEAL CARD */
+.reveal-card{
+  display:none;background:var(--surface);
+  border-radius:16px;padding:2rem 1.6rem;
+  text-align:center;position:relative;overflow:hidden;
+  border:2px solid;
+  animation:revealIn .5s ease;
+}
+.reveal-card.show{display:block;}
+@keyframes revealIn{
+  0%{opacity:0;transform:scale(.5) rotate(-10deg);}
+  60%{opacity:1;transform:scale(1.08) rotate(2deg);}
+  100%{opacity:1;transform:scale(1) rotate(0);}
+}
+.reveal-rarity-banner{
+  font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  margin-bottom:1.2rem;
+}
+.reveal-icon{
+  font-size:6rem;line-height:1;margin-bottom:1rem;
+  display:inline-block;
+  animation:revealFloat 2.5s ease-in-out infinite;
+}
+@keyframes revealFloat{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-8px);}
+}
+.reveal-name{font-family:'Lora',serif;font-size:1.6rem;color:var(--text);margin-bottom:.3rem;}
+.reveal-tagline{font-size:12.5px;color:var(--text2);font-style:italic;margin-bottom:1rem;line-height:1.5;}
+.reveal-fact{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:8px;padding:.7rem .9rem;
+  font-size:12px;color:var(--text2);line-height:1.55;
+  margin-bottom:1.4rem;text-align:left;
+}
+.reveal-fact strong{color:var(--text);}
+.reveal-actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+.reveal-btn{
+  border:none;border-radius:8px;padding:.6rem 1.3rem;
+  font-family:'Source Sans 3',sans-serif;font-size:13px;font-weight:700;
+  cursor:pointer;transition:all .15s;letter-spacing:.02em;
+}
+.reveal-btn-primary{background:var(--teal);color:var(--bg);}
+.reveal-btn-primary:hover{background:#5eead4;}
+.reveal-btn-secondary{background:transparent;color:var(--text2);border:1px solid var(--border2);}
+.reveal-btn-secondary:hover{background:var(--surface2);color:var(--text);}
+
+/* DUPLICATE BADGE */
+.dup-badge{
+  display:inline-block;background:var(--surface2);
+  color:var(--text3);font-size:10.5px;font-weight:700;
+  padding:2px 8px;border-radius:10px;margin-top:.4rem;
+  letter-spacing:.06em;text-transform:uppercase;
+}
+.dup-badge.new{background:var(--teal);color:var(--bg);}
+
+/* RARITY SPECIFIC REVEAL BORDERS */
+.reveal-com{border-color:#64748b;}
+.reveal-com .reveal-rarity-banner{color:#94a3b8;}
+.reveal-unc{border-color:var(--green);box-shadow:0 0 50px rgba(74,222,128,.3);}
+.reveal-unc .reveal-rarity-banner{color:var(--green);}
+.reveal-rar{border-color:var(--blue);box-shadow:0 0 60px rgba(96,165,250,.4);}
+.reveal-rar .reveal-rarity-banner{color:var(--blue);}
+.reveal-epi{
+  border-color:var(--purple);
+  box-shadow:0 0 80px rgba(167,139,250,.5),inset 0 0 40px rgba(167,139,250,.05);
+  background:linear-gradient(160deg,var(--surface) 0%,rgba(167,139,250,.07) 100%);
+}
+.reveal-epi .reveal-rarity-banner{color:var(--purple);}
+.reveal-leg{
+  border-color:var(--amber);
+  box-shadow:0 0 100px rgba(251,191,36,.6),inset 0 0 60px rgba(251,191,36,.08);
+  background:linear-gradient(160deg,#2a1f0a 0%,#1a1408 50%,#2a1f0a 100%);
+  background-size:200% 200%;
+  animation:legendaryBg 4s ease infinite;
+}
+.reveal-leg .reveal-rarity-banner{color:var(--amber);}
+@keyframes legendaryBg{
+  0%,100%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+}
+
+/* SPARKLE PARTICLES */
+.sparkle{
+  position:absolute;pointer-events:none;
+  width:6px;height:6px;border-radius:50%;
+  animation:sparkleOut 1.4s ease-out forwards;
+}
+@keyframes sparkleOut{
+  0%{opacity:1;transform:translate(0,0) scale(1);}
+  100%{opacity:0;transform:translate(var(--sx),var(--sy)) scale(0);}
+}
+
+/* DETAIL MODAL FOR COLLECTION ITEMS */
+.detail-modal{
+  background:var(--surface);border-radius:14px;
+  padding:1.8rem 1.6rem;max-width:380px;width:100%;
+  border:2px solid var(--border2);text-align:center;
+  position:relative;
+}
+.detail-close{
+  position:absolute;top:10px;right:14px;
+  background:none;border:none;color:var(--text3);
+  font-size:1.5rem;cursor:pointer;line-height:1;
+}
+.detail-close:hover{color:var(--text);}
+
+/* QUIZ TYPE BONUS INDICATOR */
+.qz-points-preview{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:10.5px;font-weight:700;color:var(--amber);
+  background:var(--amber-bg);border:1px solid rgba(251,191,36,.25);
+  padding:2px 8px;border-radius:10px;
+  text-transform:uppercase;letter-spacing:.06em;
+}
+.qz-points-preview::before{content:'✦';font-size:9px;}
+
+/* TOAST NOTIFICATIONS */
+.toast{
+  position:fixed;bottom:24px;left:50%;
+  background:var(--surface);border:1px solid var(--border2);
+  border-radius:10px;padding:.7rem 1.2rem;
+  font-size:13px;color:var(--text);font-weight:600;
+  box-shadow:0 8px 30px rgba(0,0,0,.5);
+  z-index:1100;opacity:0;
+  animation:toastIn 2.6s ease forwards;
+  display:flex;align-items:center;gap:8px;
+  transform:translateX(-50%);
+}
+.toast .toast-icon{font-size:16px;}
+@keyframes toastIn{
+  0%{opacity:0;transform:translate(-50%,20px);}
+  10%{opacity:1;transform:translate(-50%,0);}
+  85%{opacity:1;transform:translate(-50%,0);}
+  100%{opacity:0;transform:translate(-50%,20px);}
+}
+
+/* LOGOUT BTN */
+.logout-btn{
+  background:transparent;border:1px solid var(--border2);
+  color:var(--text3);font-size:11.5px;font-weight:600;
+  padding:5px 12px;border-radius:20px;cursor:pointer;
+  font-family:'Source Sans 3',sans-serif;letter-spacing:.04em;
+  transition:all .15s;
+}
+.logout-btn:hover{border-color:var(--red);color:var(--red);}
+
+/* ════════════════════════════════
+   QUESTION ANALYSIS
+════════════════════════════════ */
+.qa-container{max-width:900px;margin:0 auto;padding:2.5rem 2rem 4rem;}
+
+.qa-header{margin-bottom:2rem;}
+.qa-header h2{
+  font-family:'Lora',serif;
+  font-size:2rem;color:var(--text);margin-bottom:0.5rem;
+}
+.qa-header p{color:var(--text2);font-size:14px;}
+
+.qa-filters{
+  display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:2rem;
+}
+.qa-filter-group{display:flex;gap:8px;}
+.qa-filter-label{
+  font-size:12px;font-weight:600;
+  color:var(--text3);text-transform:uppercase;
+  letter-spacing:0.05em;align-self:center;
+}
+.qa-filter-btn{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:6px;padding:6px 12px;
+  font-size:12px;font-weight:500;color:var(--text2);
+  cursor:pointer;transition:all 0.15s;
+}
+.qa-filter-btn:hover{border-color:var(--border2);color:var(--text);}
+.qa-filter-btn.active{
+  background:var(--teal);border-color:var(--teal);color:var(--bg);
+}
+
+.qa-stats{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:12px;margin-bottom:2.5rem;
+}
+.qa-stat-box{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:8px;padding:1.2rem;text-align:center;
+}
+.qa-stat-number{
+  font-family:'Lora',serif;font-size:2rem;
+  color:var(--teal);line-height:1;margin-bottom:6px;
+}
+.qa-stat-label{
+  font-size:11px;font-weight:600;
+  color:var(--text3);text-transform:uppercase;
+  letter-spacing:0.05em;
+}
+
+.qa-question-item{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:10px;padding:1.4rem;margin-bottom:1.2rem;
+  transition:all 0.15s;cursor:pointer;
+}
+.qa-question-item:hover{
+  border-color:var(--border2);background:var(--surface2);
+}
+
+.qa-question-header{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1rem;}
+.qa-status-icon{
+  font-size:1.8rem;flex-shrink:0;margin-top:2px;
+}
+.qa-question-text{flex:1;}
+.qa-question-num{
+  font-size:12px;font-weight:600;color:var(--text3);
+  text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;
+}
+.qa-question-text h3{
+  font-size:15px;font-weight:600;color:var(--text);
+  margin-bottom:0.5rem;line-height:1.4;
+}
+
+.qa-answer-row{display:flex;gap:1.5rem;margin-bottom:0.8rem;font-size:13px;}
+.qa-answer-col{flex:1;}
+.qa-answer-label{
+  font-weight:600;color:var(--text2);font-size:11px;
+  text-transform:uppercase;letter-spacing:0.04em;
+  margin-bottom:4px;display:block;
+}
+.qa-answer-value{color:var(--text);}
+
+.qa-correct{color:var(--green);}
+.qa-incorrect{color:var(--red);}
+
+.qa-concepts{margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);}
+.qa-concepts-label{
+  font-size:11px;font-weight:600;color:var(--text3);
+  text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;
+}
+.qa-concept-tags{display:flex;flex-wrap:wrap;gap:6px;}
+.qa-concept-tag{
+  font-size:11px;padding:4px 10px;border-radius:6px;
+  font-weight:500;letter-spacing:0.03em;
+}
+.qact-weak{background:var(--red-bg);color:var(--red);}
+.qact-review{background:var(--amber-bg);color:var(--amber);}
+.qact-strong{background:var(--green-bg);color:var(--green);}
+
+.qa-modal{
+  display:none;position:fixed;top:0;left:0;
+  width:100%;height:100%;background:rgba(0,0,0,0.6);
+  z-index:300;align-items:center;justify-content:center;
+  padding:1.5rem;
+}
+.qa-modal.show{display:flex;}
+.qa-modal-content{
+  background:var(--bg);border:1px solid var(--border);
+  border-radius:12px;max-width:700px;width:100%;
+  max-height:85vh;overflow-y:auto;padding:2rem;
+  position:relative;
+}
+.qa-modal-close{
+  position:absolute;top:1.5rem;right:1.5rem;
+  background:none;border:none;color:var(--text3);
+  font-size:24px;cursor:pointer;
+  transition:color 0.15s;
+}
+.qa-modal-close:hover{color:var(--text);}
+
+.qa-detail-header{margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--border);}
+.qa-detail-num{
+  font-size:12px;font-weight:600;color:var(--text3);
+  text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;
+}
+.qa-detail-q{
+  font-family:'Lora',serif;font-size:1.1rem;
+  font-weight:600;color:var(--text);margin-bottom:0.5rem;line-height:1.5;
+}
+
+.qa-detail-section{margin-bottom:1.8rem;}
+.qa-section-title{
+  font-size:13px;font-weight:600;color:var(--teal);
+  text-transform:uppercase;letter-spacing:0.05em;
+  margin-bottom:10px;
+}
+.qa-detail-answer{
+  background:var(--surface);border-left:3px solid var(--blue);
+  padding:1rem;border-radius:6px;margin-bottom:1rem;
+  font-size:13.5px;line-height:1.6;
+}
+.qa-detail-answer.correct{border-left-color:var(--green);}
+.qa-detail-answer.incorrect{border-left-color:var(--red);}
+
+.qa-detail-explanation{
+  background:var(--surface);border-left:3px solid var(--purple);
+  padding:1rem;border-radius:6px;
+  font-size:13.5px;line-height:1.65;color:var(--text);
+}
+
+.qa-concept-breakdown{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:12px;
+}
+.qa-concept-item{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:8px;padding:1rem;
+}
+.qa-concept-item.weak{background:rgba(248,113,113,0.06);border-color:rgba(248,113,113,0.2);}
+.qa-concept-item.review{background:rgba(251,191,36,0.06);border-color:rgba(251,191,36,0.2);}
+.qa-concept-item.strong{background:rgba(74,222,128,0.06);border-color:rgba(74,222,128,0.2);}
+
+.qa-concept-title{
+  font-size:12px;font-weight:600;color:var(--text);margin-bottom:6px;
+}
+.qa-concept-desc{
+  font-size:12px;color:var(--text2);line-height:1.5;
+}
+
+.qa-action-buttons{
+  display:flex;gap:1rem;margin-top:1.5rem;padding-top:1rem;
+  border-top:1px solid var(--border);
+}
+.qa-btn{
+  flex:1;padding:0.7rem 1rem;border:none;border-radius:6px;
+  font-size:13px;font-weight:600;cursor:pointer;
+  transition:all 0.15s;letter-spacing:0.02em;
+}
+.qa-btn-secondary{
+  background:var(--surface);color:var(--text2);border:1px solid var(--border);
+}
+.qa-btn-secondary:hover{background:var(--surface2);border-color:var(--border2);}
+.qa-btn-primary{
+  background:var(--teal);color:var(--bg);border:none;
+}
+.qa-btn-primary:hover{background:#20c997;}
+
+.qa-empty{
+  text-align:center;padding:3rem 2rem;
+  color:var(--text3);font-size:14px;
+}
+.qa-empty-icon{font-size:3rem;margin-bottom:1rem;opacity:0.5;}
+
+@media(max-width:680px){
+  .qa-container{padding:2rem 1rem 3rem;}
+  .qa-filters{flex-direction:column;}
+  .qa-filter-group{flex-wrap:wrap;}
+  .qa-stats{grid-template-columns:repeat(2,1fr);}
+  .qa-question-header{flex-direction:column;}
+  .qa-answer-row{flex-direction:column;gap:0.5rem;}
+}
 </style>
 </head>
 <body>
@@ -559,9 +1298,44 @@ hr.div{border:none;border-top:1px solid var(--border);margin:2.5rem 0;}
   <div class="tabs">
     <button class="tab active" onclick="sw('learn',this)">Learning Guide</button>
     <button class="tab" onclick="sw('connect',this)">Connections</button>
-    <button class="tab" onclick="sw('practice',this)">Practice Questions</button>
+    <button class="tab" onclick="sw('practice',this)">Practice</button>
+    <button class="tab" onclick="sw('collection',this)">Collection</button>
+    <button class="tab" onclick="sw('analysis',this)">Analysis</button>
+  </div>
+  <div class="user-badge" id="userBadge" onclick="sw('collection',document.querySelectorAll('.tab')[3])" style="display:none;">
+    <div class="user-avatar" id="userAvatar">?</div>
+    <span id="userName">guest</span>
+    <span class="user-points" id="userPoints">0</span>
   </div>
 </nav>
+
+<!-- LOGIN OVERLAY -->
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-box">
+    <h2>Welcome to <em>BIOL 240</em></h2>
+    <p>Pick a name to track your progress, points, and biology specimen collection. Your data saves automatically on this device.</p>
+    <input type="text" id="loginInput" placeholder="Enter your name…" maxlength="20" autocomplete="off">
+    <button class="login-go" onclick="doLogin()">Start studying</button>
+    <div class="login-recent" id="loginRecent" style="display:none;">
+      <div class="login-recent-label">Continue as</div>
+      <div id="loginRecentList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- BOX OPENING MODAL -->
+<div class="modal-overlay" id="boxModal">
+  <div class="box-open-stage" id="boxStage">
+    <!-- dynamically filled -->
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="modal-overlay" id="detailModal" onclick="if(event.target===this)closeDetail()">
+  <div class="detail-modal" id="detailModalInner">
+    <!-- filled dynamically -->
+  </div>
+</div>
 
 <!-- ══════════════════ PAGE 1 ══════════════════ -->
 <div id="learn" class="page active">
@@ -1022,6 +1796,19 @@ hr.div{border:none;border-top:1px solid var(--border);margin:2.5rem 0;}
     <button class="qzf qzf-exam3" onclick="setFilter('exam3',this)">Exam 3 (Cytoskeleton–Cell Comm)</button>
   </div>
 
+  <div class="quiz-hud">
+    <div class="hud-stat hud-points"><span class="hud-icon">✦</span><span class="hud-val" id="hudPoints">0</span><span style="color:var(--text3);font-size:11px;">pts</span></div>
+    <div class="hud-divider"></div>
+    <div class="hud-stat hud-streak"><span class="hud-icon">🔥</span><span class="hud-val" id="hudStreak">0</span><span style="color:var(--text3);font-size:11px;">streak</span></div>
+    <div class="hud-divider"></div>
+    <div class="hud-stat hud-combo" style="flex:1;min-width:140px;">
+      <span class="hud-icon">⚡</span>
+      <span class="hud-val" id="hudCombo">×1</span>
+      <div class="combo-meter"><div class="combo-fill" id="hudComboFill"></div></div>
+    </div>
+    <button class="hud-shop-btn" onclick="sw('collection',document.querySelectorAll('.tab')[3])">🎁 Shop</button>
+  </div>
+
   <div class="quiz-topbar">
     <div class="quiz-progress-track"><div class="quiz-progress-fill" id="qzProgressFill"></div></div>
     <div class="quiz-counter" id="qzCounter">Question 1 of 20</div>
@@ -1051,6 +1838,78 @@ hr.div{border:none;border-top:1px solid var(--border);margin:2.5rem 0;}
 </div>
 </div>
 
+<!-- ══════════════════ PAGE 4 — COLLECTION ══════════════════ -->
+<div id="collection" class="page">
+<div class="coll-hero">
+  <div class="coll-hero-in">
+    <h2>Your <em>Specimen Collection</em></h2>
+    <p>Earn points by answering questions, then crack open mystery boxes to discover biology specimens. Catch them all — from common bacteria to legendary cellular machinery.</p>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+      <span class="qm-pill qm-purple"><span style="margin-right:4px;">✦</span><span id="collPointsHero">0</span> points</span>
+      <span class="qm-pill qm-teal"><span id="collOwnedHero">0</span>/<span id="collTotalHero">0</span> discovered</span>
+      <button class="logout-btn" onclick="logout()">Switch user</button>
+    </div>
+  </div>
+</div>
+
+<div class="collwrap">
+
+  <h3 style="font-family:'Lora',serif;font-size:1.2rem;margin-bottom:1rem;color:var(--text);">🎁 Mystery Boxes</h3>
+  <div class="shop-row" id="shopRow"></div>
+
+  <h3 style="font-family:'Lora',serif;font-size:1.2rem;margin-bottom:1rem;color:var(--text);">📊 Collection Progress</h3>
+  <div class="coll-stats" id="collStats"></div>
+
+  <div class="rarity-filter" id="rarityFilter">
+    <button class="rf-btn rf-all active" onclick="setRarityFilter('all',this)">All</button>
+    <button class="rf-btn rf-com" onclick="setRarityFilter('common',this)">Common</button>
+    <button class="rf-btn rf-unc" onclick="setRarityFilter('uncommon',this)">Uncommon</button>
+    <button class="rf-btn rf-rar" onclick="setRarityFilter('rare',this)">Rare</button>
+    <button class="rf-btn rf-epi" onclick="setRarityFilter('epic',this)">Epic</button>
+    <button class="rf-btn rf-leg" onclick="setRarityFilter('legendary',this)">Legendary</button>
+  </div>
+
+  <div class="coll-grid" id="collGrid"></div>
+</div>
+</div><!-- end collection page -->
+
+<!-- QUESTION ANALYSIS PAGE -->
+<div class="page" id="analysis">
+  <div class="qa-container">
+    <div class="qa-header">
+      <h2>Question Analysis</h2>
+      <p>Review your answered questions and identify concept gaps</p>
+    </div>
+
+    <div class="qa-filters">
+      <div class="qa-filter-group">
+        <span class="qa-filter-label">Filter:</span>
+        <button class="qa-filter-btn active" onclick="setQAFilter('all', this)">All</button>
+        <button class="qa-filter-btn" onclick="setQAFilter('correct', this)">✓ Correct</button>
+        <button class="qa-filter-btn" onclick="setQAFilter('incorrect', this)">✗ Incorrect</button>
+      </div>
+    </div>
+
+    <div class="qa-stats" id="qaStats"></div>
+
+    <div id="qaContent">
+      <div class="qa-empty">
+        <div class="qa-empty-icon">📝</div>
+        <p>No questions answered yet. Complete a quiz to see analysis.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- QUESTION DETAIL MODAL -->
+<div class="qa-modal" id="qaModal">
+  <div class="qa-modal-content">
+    <button class="qa-modal-close" onclick="closeQAModal()">×</button>
+    <div id="qaModalBody"></div>
+  </div>
+</div>
+</div><!-- end analysis page -->
+
 <script>
 function sw(id, btn) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -1058,6 +1917,9 @@ function sw(id, btn) {
   document.getElementById(id).classList.add('active');
   btn.classList.add('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
+  if(id === 'collection'){ buildShop(); buildCollection(); refreshUserUI(); }
+  if(id === 'practice'){ refreshUserUI(); }
+  if(id === 'analysis'){ buildQAPage(); refreshUserUI(); }
 }
 
 const ALL_QUESTIONS = [
@@ -1749,207 +2611,263 @@ const ALL_QUESTIONS = [
     opts:['Morphogen gradients (e.g., Bicoid, BMPs, Wnts) are interpreted by cells through concentration-dependent gene expression thresholds','Lateral inhibition (Notch–Delta signaling) specifies cell fate and prevents neighboring cells from adopting the same fate, generating salt-and-pepper patterns','Wnt/β-catenin signaling specifies posterior/axial fates in vertebrate gastrulation and is repressed by BMP antagonists (Chordin, Noggin) at the organizer','Fibroblast growth factor (FGF) signaling promotes mesodermal and endodermal differentiation; blocking FGF (e.g., with SU5402 inhibitor) prevents posterior mesoderm formation','The "organizer" (Spemann organizer in Xenopus, node in mouse) is a tissue region that expresses inhibitors of BMP and Wnt signaling, permitting Wnt-driven posterior specification while BMPs drive anterior ectoderm'],
     correct:[0,1,2,3,4],
     explain:'All five (A–E) are correct and represent major signaling themes in development. Morphogen gradients and their thresholds, lateral inhibition, and signaling cross-talk (Wnt/BMP antagonism, FGF cooperation) are universal patterning principles. The organizer coordinates these signals to establish the basic body plan.'
-  },
-
-  /* ═══════════════════════════════════════════════════════════
-     MOLECULE TRANSPORT ACROSS MEMBRANES
-     ═════════════════════════════════════════════════════════ */
-
-  {
-    topic:'exam2', type:'sata', tag:'Molecule Transport',
-    stem:'A glucose molecule (polar, uncharged, ~180 Da) is placed outside a mammalian cell. By which mechanism(s) could it enter the cell? <strong>Select all that apply.</strong>',
-    opts:['Simple diffusion directly through the lipid bilayer (glucose is small enough to diffuse slowly, though not efficiently)','Facilitated diffusion via GLUT transporters (glucose carriers) down the concentration gradient without ATP','Active transport via SGLT1 (sodium-glucose cotransporter) coupled to Na⁺ gradient (established by Na⁺/K⁺-ATPase)','Ion channels such as aquaporin water channels (glucose cannot pass through aquaporins, which are selective for water)','Endocytosis of the external medium containing glucose (internalization of vesicles from the plasma membrane)'],
-    correct:[1,2,3,4],
-    explain:'B, C, D, E can internalize glucose (though via different means). A is misleading — glucose is polar and hydrophilic; it crosses bilayers extremely slowly (not practically relevant). Main routes: GLUT (B) is primary in most tissues (passive, down gradient); SGLT1 (C) absorbs glucose against its gradient in intestines/kidneys. Aquaporins (D answer "cannot pass") — correct, but endocytosis (E) technically internalizes glucose nonspecifically. Practically, glucose enters via B or C.'
-  },
-  {
-    topic:'exam2', type:'sata', tag:'Molecule Transport',
-    stem:'A small hydrophobic drug (lipophilic, uncharged, ~300 Da) needs to cross a cell membrane. Which transport mechanisms would allow its passage? <strong>Select all that apply.</strong>',
-    opts:['Simple diffusion through the lipid bilayer — high lipid solubility makes this the primary route for hydrophobic drugs','Passive facilitated diffusion via specific carrier proteins (hydrophobic drugs typically bind nonspecifically to many carriers, making this less selective)','ABC transporter (multidrug resistance pump) may pump the drug out of the cell, lowering intracellular accumulation','Ion channels (selective for ions) cannot transport lipophilic drugs because channels are aqueous pores','Energy-dependent active transport via carriers is required for all hydrophobic drugs to enter cells, overriding simple diffusion'],
-    correct:[0,1,2],
-    explain:'A, B, C are correct. Hydrophobic drugs readily cross via simple diffusion (A) — this is their primary route of entry. Carriers (B) exist but are less specific. ABC transporters (C) pump drugs out, reducing drug efficacy (a major resistance mechanism in cancer). D is correct — ion channels cannot transport lipophilic molecules. E is false — hydrophobic drugs do NOT require active transport; simple diffusion is passive and efficient for them.'
-  },
-  {
-    topic:'exam2', type:'mc', tag:'Molecule Transport',
-    stem:'Sodium ions (Na⁺) are more concentrated outside cells (~140 mM) than inside (~12 mM). How can Na⁺ move from low concentration (inside) to high concentration (outside) across the cell membrane?',
-    opts:['Via simple diffusion down the concentration gradient (high outside → low inside)','Via facilitated diffusion through selective Na⁺ channels, moving down the gradient (high outside → low inside)','Via the Na⁺/K⁺-ATPase pump, which directly couples ATP hydrolysis to extrude 3 Na⁺ to the outside against the gradient','Via secondary active transport, using the energy stored in the Na⁺ gradient (established by the Na⁺/K⁺-ATPase) to drive other transporters','Via endocytosis, internalizing Na⁺ from the extracellular space'],
-    correct:[1],
-    explain:'B is correct. Na⁺ is <em>already</em> at high concentration outside, so it flows inward (down the gradient) through Na⁺ channels passively. The Na⁺/K⁺-ATPase (C) pumps Na⁺ OUT (against gradient) using ATP. Secondary active transport (D) uses the <em>inward</em> Na⁺ gradient (high outside) to drive other processes (e.g., SGLT1 couples Na⁺ entry to glucose uptake). A is backward — Na⁺ does not diffuse outward when outside concentration is higher.'
-  },
-  {
-    topic:'exam2', type:'sata', tag:'Molecule Transport',
-    stem:'An amino acid (hydrophilic, charged, ~150 Da) needs to enter a cell against its concentration gradient. Which mechanism(s) could accomplish this? <strong>Select all that apply.</strong>',
-    opts:['Simple diffusion through the lipid bilayer (amino acids are too hydrophilic to cross efficiently)','Facilitated diffusion down the concentration gradient (passive, but amino acid is moving against gradient, so this fails)','Primary active transport via amino acid-specific ATPase pumps that couple ATP hydrolysis directly to amino acid movement','Secondary active transport via symporter or antiporter coupled to Na⁺ or H⁺ gradients established by primary pumps (e.g., Na⁺-dependent amino acid symporters)','Endocytosis of the external medium containing amino acids (bulk internalization without selectivity)'],
-    correct:[2,3,4],
-    explain:'C, D, E can move amino acids against gradient. A and B fail because amino acids are hydrophilic (no simple diffusion) and moving against gradient (no facilitated). C (primary active transport) directly uses ATP. D (secondary) is most common — amino acid symporters couple to Na⁺ gradients. E (endocytosis) internalizes non-selectively but requires energy (endosome formation). Practically, D is the predominant mechanism for amino acid uptake.'
-  },
-  {
-    topic:'exam2', type:'mc', tag:'Molecule Transport',
-    stem:'A large protein (40 kDa, heavily charged with many amino acids) is applied to the outside of a cell. Which is the ONLY realistic mechanism by which this protein could enter the cell?',
-    opts:['Simple diffusion through the lipid bilayer','Facilitated diffusion via carrier proteins','Primary active transport via ATP-dependent pumps','Receptor-mediated endocytosis (if the protein has a ligand-binding receptor on the cell surface)','Passive ion channel transport'],
-    correct:[3],
-    explain:'D is correct. A 40 kDa charged protein cannot cross the membrane directly — it is too large and hydrophilic for diffusion (A, B impossible). No pumps transport entire proteins (C is not realistic). Receptor-mediated endocytosis (D) binds the protein to cell-surface receptors, internalizes it via clathrin-coated pits, and delivers it to early endosomes. This is the primary route for protein internalization. E (ion channels) are too small.'
-  },
-  {
-    topic:'exam2', type:'sata', tag:'Molecule Transport',
-    stem:'Water molecules need to cross cell membranes to regulate cell volume in response to osmotic stress. Which transport routes are available? <strong>Select all that apply.</strong>',
-    opts:['Simple diffusion directly through the lipid bilayer (water is small and polar; it crosses slowly but measurably)','Facilitated diffusion via aquaporin water channels (AQP1, AQP3), which dramatically increase water permeability','Coupled co-transport via osmolytes (e.g., sorbitol, taurine, betaine) that osmotically drive water influx','Vesicular transport (endocytosis/exocytosis) that internalizes or externalizes bulk water','Active transport via ATP-dependent water pumps (does not exist; water movement is always passive, driven by osmotic gradients)'],
-    correct:[0,1,2],
-    explain:'A, B, C are correct. Water crosses very slowly via simple diffusion (A), but aquaporins (B) boost permeability 100-fold. Osmolytes (C) are organic solutes that cells accumulate to adjust osmolarity and drive osmotic water influx. D is false — endocytosis is not a regulated water transport mechanism. E is correct in identifying no ATP-driven water pumps exist — water transport is always passive (osmotic).'
-  },
-
-  /* ───── MORE SIGNAL TRANSDUCTION QUESTIONS ───── */
-  {
-    topic:'signaling', type:'sata', tag:'Receptor Tyrosine Kinases',
-    stem:'Which statements about receptor tyrosine kinase (RTK) signaling are correct? <strong>Select all that apply.</strong>',
-    opts:['RTK ligand binding causes receptor dimerization and trans-autophosphorylation of tyrosine residues in the intracellular domain','Phosphorylated tyrosines serve as docking sites for SH2-domain proteins such as Grb2 and PI3K, recruiting effectors to the membrane','RTK signaling proceeds through canonical pathways like Ras/RAF/MEK/ERK and PI3K/Akt, which control proliferation, survival, and migration','Negative feedback via ERK phosphorylation of Sos (GEF) or Grb2 attenuates Ras signaling, preventing signal runaway','Ligand-induced internalization of RTKs via clathrin-mediated endocytosis terminates signaling and routes receptors for lysosomal degradation (often) or recycling'],
-    correct:[0,1,2,3,4],
-    explain:'All five (A–E) are correct. RTKs are paradigmatic signaling receptors: ligand binding → dimerization → autophosphorylation → recruitment of SH2-domain effectors → dual pathways (Ras/ERK and PI3K/Akt) → negative feedback and endocytic downregulation. This multi-layered regulation ensures robust, transient signaling.'
-  },
-  {
-    topic:'signaling', type:'false', tag:'Ras/MAP Kinase Cascade',
-    stem:'Which statement about the Ras/MAP kinase cascade is <strong>FALSE</strong>?',
-    opts:['Ras is a GTPase that oscillates between GTP-bound (active) and GDP-bound (inactive) states','Grb2 (an SH2/SH3-containing adaptor) recruits Sos, a guanine nucleotide exchange factor (GEF), to activate Ras by promoting GDP release','RAF is a kinase that phosphorylates and activates MEK, which then phosphorylates and activates ERK (MAPK)','ERK/MAPK is the final kinase in the cascade and does not phosphorylate any upstream components; it only phosphorylates downstream transcription factors and cytoplasmic targets','Multiple negative feedback mechanisms, including ERK phosphorylation of Sos and RAF, attenuate the cascade and prevent excessive signaling'],
-    correct:[3],
-    explain:'D is false. ERK is <em>not</em> the final target; it is an intermediate kinase. ERK phosphorylates both downstream transcription factors (Elk1, c-Fos) <em>and</em> upstream components like Sos and RAF for negative feedback. This creates a regulatory loop. Also, RSK (a downstream target of ERK) phosphorylates other substrates. A–C and E are all correct descriptions.'
-  },
-  {
-    topic:'signaling', type:'sata', tag:'Phosphatase Signaling',
-    stem:'Which statements correctly describe the role of protein phosphatases in signal termination? <strong>Select all that apply.</strong>',
-    opts:['Phosphatases remove phosphoryl groups from signaling proteins, reversing kinase-catalyzed phosphorylation','PP1 and PP2A are serine/threonine phosphatases that dephosphorylate ERK, PKA targets, and many cytoplasmic proteins, terminating MAPK and cAMP signaling','MKPs (MAPK phosphatases / DUSPs) specifically dephosphorylate ERK and p38, providing negative feedback on stress/growth signaling','Tyrosine phosphatases (e.g., SHP1, SHP2) remove phosphoryl groups from tyrosine residues on RTKs and downstream effectors, attenuating RTK signaling','All protein phosphatase activity is constitutive; there is no specific activation or regulation of phosphatases themselves'],
-    correct:[0,1,2,3],
-    explain:'A–D are correct. E is false — phosphatase activity is often regulated: some are localized by scaffolds, others are activated by particular substrates or phosphorylation themselves. For example, SHP2 (a tyrosine phosphatase) can be activated by binding phosphotyrosines. Phosphatase regulation is as important as kinase regulation.'
-  },
-  {
-    topic:'signaling', type:'mc', tag:'Signal Integration',
-    stem:'In a cell receiving both Wnt (via Frizzled/LRP6) and BMP (via ALK2/3 serine/threonine kinase receptors) signals simultaneously, how would you predict the outcome?',
-    opts:['The signals simply add — both Wnt and BMP pathways activate their targets fully and independently','Wnt signaling stabilizes β-catenin; BMP signaling inhibits β-catenin via Smad signaling and GSK3 activation, leading to cross-inhibition and dominant outcome determined by relative signal strength','Wnt and BMP always antagonize each other; one pathway is always completely blocked by the other','The cell ignores both signals because they conflict with each other','Wnt activates one set of genes; BMP activates a completely different set with no overlap, so both pathways can be simultaneously active without interference'],
-    correct:[1],
-    explain:'B is correct. Wnt and BMP signaling antagonize each other: Wnt inhibits GSK3 (allowing β-catenin stabilization), while BMP activates it (promoting β-catenin degradation via Smad signaling). The outcome depends on relative signal strength — whichever is stronger dominates. This is a prime example of signal integration and cross-talk, not simple additivity. Both pathways share β-catenin as a target, creating antagonism.'
-  },
-
-  /* ───── MORE CELL CYCLE QUESTIONS ───── */
-  {
-    topic:'exam3', type:'sata', tag:'Mitotic Checkpoints',
-    stem:'Which statements about mitotic phase and checkpoint control are correct? <strong>Select all that apply.</strong>',
-    opts:['Prophase involves breakdown of the nuclear envelope, condensation of chromosomes, and assembly of the mitotic spindle from centrosomes','Metaphase is characterized by alignment of chromosomes at the metaphase plate (equator); the spindle checkpoint (SAC) ensures all kinetochores are attached to spindle microtubules before anaphase entry','Anaphase begins when cohesin (which holds sister chromatids together) is cleaved by separase, allowing chromatids to be pulled to opposite poles','Telophase involves nuclear envelope reformation, decondensation of chromosomes, and disassembly of the spindle','Loss of spindle checkpoint function (e.g., Mad2 mutations) allows cells to enter anaphase with unattached chromosomes, leading to aneuploidy and genomic instability'],
-    correct:[0,1,2,3,4],
-    explain:'All five (A–E) are correct. The mitotic phases are sequential and precisely orchestrated. The spindle checkpoint is crucial — its loss is a known cause of aneuploidy in cancers. Cohesin cleavage is the trigger for anaphase, and defects in this machinery cause chromosomal instability.'
-  },
-  {
-    topic:'exam3', type:'sata', tag:'Cyclin-CDK Specificity',
-    stem:'Which statements correctly explain how different CDK–cyclin complexes achieve specificity despite having similar catalytic mechanisms? <strong>Select all that apply.</strong>',
-    opts:['Different cyclin proteins bind different CDKs, conferring substrate specificity through distinct CDK–cyclin complex geometries','Cyclin-dependent kinase inhibitors (p21, p27) selectively bind certain CDK–cyclin pairs, allowing selective pathway inhibition','Substrate targeting motifs (docking sites) on different substrates recognize specific CDK–cyclin complexes, directing phosphorylation','Temporal expression of different cyclins (D in G1, E at G1/S, A in S/G2, B in G2/M) ensures that different substrates encounter the relevant CDK–cyclin at the correct cell cycle phase','Sub-cellular localization of specific CDK–cyclin complexes (e.g., cyclin B–CDK1 at the spindle poles during mitosis) restricts their access to certain substrates'],
-    correct:[0,1,2,3,4],
-    explain:'All five (A–E) contribute to specificity. A: different cyclins confer different substrate selectivity. B: CDKIs can inhibit selectively. C: substrate docking motifs target specific complexes. D: temporal expression restricts substrate availability. E: localization further refines targeting. Together, these mechanisms enable one catalytic CDK to control many distinct transitions.'
-  },
-  {
-    topic:'exam3', type:'false', tag:'p53 Function',
-    stem:'Which statement about p53 tumor suppressor function is <strong>FALSE</strong>?',
-    opts:['p53 is stabilized by DNA damage via ATM/ATR kinase phosphorylation, preventing its degradation by MDM2','p53 acts as a transcription factor, transactivating p21 (CDK inhibitor) to halt cell cycle at G1/S, allowing DNA repair time','If DNA damage is repaired, p53 levels drop and the cell cycle resumes; if damage is irreparable, p53 induces pro-apoptotic genes (BAX, PUMA) triggering programmed cell death','p53 mutations impair DNA binding affinity, preventing transactivation of target genes; since p53 is a dominant-negative mutation, one mutant allele is sufficient to eliminate p53 function','Most human cancers have TP53 mutations because loss of p53 eliminates the G1/S checkpoint, allowing damaged DNA to replicate and accumulate mutations'],
-    correct:[3],
-    explain:'D is false. While some p53 mutations are dominant-negative, most loss-of-function mutations (frameshifts, nonsense) require loss of <em>both</em> alleles (biallelic inactivation). However, TP53 is typically inactivated by a combination: one missense mutation reducing affinity + loss of the other allele. The statement is too absolute. A–C and E are correct.'
-  },
-  {
-    topic:'exam3', type:'sata', tag:'Checkpoint Recovery',
-    stem:'Which statements correctly describe how cells recover from checkpoint arrest and resume cell cycle progression? <strong>Select all that apply.</strong>',
-    opts:['If DNA damage is repaired, ATM/ATR signaling is attenuated, reducing p53 phosphorylation and allowing MDM2 to ubiquitinate and degrade p53','With p53 degraded, p21 levels drop, allowing CDK–cyclin complexes to phosphorylate Rb and drive S-phase entry','Phosphatases remove checkpoint-associated phosphates from CDK and cyclin targets, contributing to recovery from arrest','Cyclin degradation by APC/C (at the end of a checkpoint arrest phase) reduces CDK activity and prevents re-entry until cyclin levels rebuild','Recovery from checkpoint arrest requires that repair mechanisms have actually resolved the DNA damage; if damage persists, p53 stabilization and arrest continue'],
-    correct:[0,1,2,4],
-    explain:'A, B, C, E are correct. D is misleading — APC/C degrades cyclins during mitotic exit, not during checkpoint arrest recovery. During checkpoint arrest (e.g., at G1/S), p53 maintains p21 expression and CDK–cyclin levels remain low. Recovery requires damage repair → p53 degradation → p21 drop → CDK–cyclin activation → Rb inactivation → S phase. This is a carefully controlled sequence.'
-  },
-
-  /* ───── MORE DEVELOPMENTAL/SPECIFICATION QUESTIONS ───── */
-  {
-    topic:'exam3', type:'sata', tag:'Maternal Determinants',
-    stem:'Which statements correctly describe maternal determinants and autonomous specification in early embryos? <strong>Select all that apply.</strong>',
-    opts:['Maternal determinants are mRNAs, proteins, or other factors deposited in the egg cytoplasm during oogenesis, orienting the embryo before transcription begins','In Drosophila, bicoid mRNA is localized at the anterior end; after translation, Bicoid protein forms an anterior-to-posterior concentration gradient that specifies anterior fates','Nanos protein is localized posteriorly and acts as a translational repressor of hunchback mRNA in the posterior region, allowing posterior fates to develop','The precise position of a nucleus in the Drosophila embryo (relative to the bicoid/nanos gradients) determines its fate — nuclei in the same cytoplasm but at different anterior-posterior positions develop differently','Maternal determinants alone fully specify all cell fates in an embryo; no post-fertilization signaling between cells is required for normal development'],
-    correct:[0,1,2,3],
-    explain:'A–D are correct. E is false — while maternal determinants initiate patterning, post-fertilization cell-cell signaling (gap genes, pair-rule genes, segment polarity genes via Wnt, Notch, FGF) further refines specification. Development is a combination of autonomous (maternal) and conditional (signaling) mechanisms. Maternal determinants provide the initial asymmetry; signaling fine-tunes it.'
-  },
-  {
-    topic:'exam3', type:'sata', tag:'Notch Signaling',
-    stem:'Which statements correctly describe Notch/Delta lateral inhibition signaling? <strong>Select all that apply.</strong>',
-    opts:['Delta is a transmembrane ligand; Notch is a transmembrane receptor expressed on adjacent cells, allowing cell-cell signaling','When Delta on one cell binds Notch on a neighboring cell, the Notch intracellular domain (NICD) is cleaved by presenilin (γ-secretase) and enters the nucleus','NICD in the nucleus acts as a transcriptional co-activator with CSL (RBP-J in mammals), transactivating Notch target genes including <em>Delta</em> itself (positive feedback)','Lateral inhibition: cells with high Delta repress Notch signaling in neighbors (preventing their Delta expression); neighbors with low Notch proceed to adopt the same fate','Notch signaling is crucial for maintaining the stem cell niche, specifying cell fate in the developing nervous system (neurogenic vs. epidermogenic), and generating cell diversity through lateral inhibition'],
-    correct:[0,1,2,4],
-    explain:'A, B, C, E are correct. D is false — it describes positive feedback (lateral activation), not lateral inhibition. In lateral inhibition: high Notch activation in one cell induces Hes1 (a repressor of Delta), reducing its Delta → that cell inhibits neighbors\' Notch signaling, causing neighbors to <em>not</em> undergo the same fate. This creates checkerboard patterns of cell types.'
-  },
-  {
-    topic:'exam3', type:'mc', tag:'Organizer Experiment',
-    stem:'In a classic embryology experiment, the Spemann organizer (a tissue region from a donor gastrula) is transplanted to a heterotopic (ectopic) location in a host embryo. What outcome would you predict?',
-    opts:['The organizer tissue continues its normal fate (notochord/mesoderm) without affecting host tissue','The organizer induces nearby host cells to develop as if they were part of a normal embryonic axis, creating a "secondary axis" with anterior-posterior polarity','The organizer is rejected by the host immune system and fails to integrate','The organizer suppresses all development in its immediate vicinity, creating a localized developmental desert','The organizer causes randomization of all cell fates in the host embryo without establishing any particular pattern'],
-    correct:[1],
-    explain:'B is correct. The Spemann organizer is a transplantation experiment classic: the organizer tissue induces a complete secondary embryonic axis (with head, body, tail) even when transplanted to ectopic locations. This demonstrates that the organizer contains diffusible signals (BMP antagonists, Wnt antagonists) that can pattern surrounding tissue. It is a landmark discovery in developmental induction.'
-  },
-  {
-    topic:'exam3', type:'sata', tag:'Germ Layer Specification',
-    stem:'Which statements correctly describe how germ layers (ectoderm, mesoderm, endoderm) are specified during vertebrate gastrulation? <strong>Select all that apply.</strong>',
-    opts:['BMP signaling specifies ectoderm; inhibition of BMP (via antagonists like Chordin, Noggin) allows mesoderm and endoderm specification','Wnt/β-catenin signaling specifies posterior mesoderm and endoderm; high Wnt specifies more posterior fates','FGF signaling promotes mesoderm formation and is necessary for posterior mesoderm elongation during gastrulation','The organizer is a region of low BMP and high Wnt antagonism, permitting Wnt-driven mesoderm and default ectoderm specification','Nodal (a TGF-β family member) is required for endoderm and mesoderm specification; high Nodal specifies endoderm, intermediate levels specify mesoderm, and low/absent Nodal leads to ectoderm'],
-    correct:[0,1,2,4],
-    explain:'A, B, C, E are correct. D is incomplete/misleading — the organizer inhibits BMP and Wnt antagonism <em>allows</em> Wnt to specify mesoderm/posterior fates. Ectoderm is specified by <em>inhibition</em> of both BMP and Wnt (not by Wnt). The key is: organizer = BMP off, Wnt on (mesoderm); edges = BMP on (ectoderm). Nodal gradient (E) is a TGF-β signal regulating mesendoderm.'
-  },
-
-  /* ───── ADDITIONAL COMPREHENSIVE QUESTIONS ───── */
-  {
-    topic:'tissues', type:'sata', tag:'Epithelial Sheet Properties',
-    stem:'Which statements correctly describe the characteristics and functions of epithelial sheets? <strong>Select all that apply.</strong>',
-    opts:['Epithelial cells are held together by cell-cell junctions (adherens junctions, tight junctions, desmosomes) and are polarized with apical and basolateral domains','Tight junctions prevent paracellular transport and act as a "fence" that maintains membrane protein asymmetry between apical and basolateral domains','The apical surface of epithelial sheets often bears microvilli or cilia, increasing surface area for absorption or providing motility','Epithelial-to-mesenchymal transition (EMT) involves loss of E-cadherin, loss of apical-basal polarity, and acquisition of migratory capacity — common in development, wound healing, and cancer metastasis','Epithelial sheets are always a single cell layer; stratified epithelia (multi-layer) are not considered true epithelia and lack polarity'],
-    correct:[0,1,2,3],
-    explain:'A–D are correct. E is false — stratified epithelia (e.g., skin epidermis) are epithelial tissues with multiple layers. The basal layer has stem cells; upper layers are differentiated. While polarity is less pronounced than in simple epithelia, it still exists. The key epithelial characteristic is cell-cell junction expression and organization, not single-layer structure.'
-  },
-  {
-    topic:'cancer', type:'sata', tag:'Metastasis Steps',
-    stem:'Which statements correctly describe the steps of cancer metastasis (the multi-step invasion and colonization process)? <strong>Select all that apply.</strong>',
-    opts:['Epithelial-to-mesenchymal transition (EMT) enables loss of cell-cell adhesion and acquisition of migratory phenotype, allowing carcinoma cells to invade surrounding tissue','Intravasation: invasion of tumor cells through the basement membrane and into blood vessels or lymphatic vessels','Extravasation: exit of circulating tumor cells from vessels into a distant tissue microenvironment','Colonization: proliferation of extravasated cells and adaptation to the new tissue niche, dependent on angiogenesis and immune evasion','Anoikis resistance: cancer cells avoid apoptosis triggered by loss of ECM contact, enabling survival during intravasation, transit, and early colonization phases'],
-    correct:[0,1,2,3,4],
-    explain:'All five (A–E) are correct. Metastasis is multi-step: local invasion (EMT, intravasation) → systemic transit → extravasation → colonization. Each step involves distinct cellular and molecular adaptations. Only a tiny fraction of circulating tumor cells successfully colonize (1 in 1000s); most cells die due to anoikis, mechanical stress, or immune attack. Those that survive express resistance to all these barriers.'
-  },
-  {
-    topic:'stem', type:'sata', tag:'Niche Signaling',
-    stem:'Which statements correctly describe how stem cell niches maintain stemness through extrinsic signaling? <strong>Select all that apply.</strong>',
-    opts:['Niche cells (stromal cells, fibroblasts, blood vessels) secrete growth factors (SCF, Wnt, Notch ligands) and inhibit differentiation cues (BMPs)','Integrin-ECM interactions in the niche provide adhesion signals that promote self-renewal and suppress differentiation','Quiescence (slow cycling) is maintained by niche signals; loss of niche contact triggers terminal differentiation or apoptosis (anoikis)','Different niches favor different stem cell fates — the same stem cell population can self-renew or differentiate depending on niche context','Stem cell exhaustion occurs when the niche is depleted of supportive cells or signals, leading to stem cell loss and organ dysfunction with aging'],
-    correct:[0,1,2,3,4],
-    explain:'All five (A–E) are correct and encapsulate niche biology. Niches are bidirectional: niche cells support stemness, and stem cells reciprocally regulate niche cells. Niche dysfunction with aging contributes to stemness loss and tissue degeneration. This is an area of active research in regenerative medicine and aging.'
-  },
-  {
-    topic:'protein', type:'sata', tag:'Protein Folding',
-    stem:'Which statements correctly describe protein folding and misfolding consequences? <strong>Select all that apply.</strong>',
-    opts:['Nascent polypeptides fold into their native tertiary structure in the cytoplasm or endoplasmic reticulum (ER) as they emerge from the ribosome','Molecular chaperones (Hsp70, Hsp90, GroEL/ES) facilitate folding by preventing aggregation and allowing multiple folding attempts','Prion diseases (e.g., Creutzfeldt-Jakob disease, scrapie) result from misfolded prion protein (PrPˢᶜ) that propagates by inducing normal prion protein (PrPᶜ) to misfold into the same shape','The unfolded protein response (UPR) activates when misfolded proteins accumulate in the ER, upregulating chaperones and proteases to restore ER homeostasis','Protein aggregates in neurodegenerative diseases (Alzheimer\'s amyloid-β, Parkinson\'s α-synuclein) are always non-toxic and serve a protective role by sequestering monomers'],
-    correct:[0,1,2,3],
-    explain:'A–D are correct. E is false — protein aggregates are generally <em>toxic</em>, particularly oligomeric species that disrupt cellular functions (membranes, mitochondria, synaptic transmission). Some debate exists on whether fibrillary aggregates are protective (sequestering toxic oligomers) vs. directly toxic, but monomers and oligomers are widely considered the major pathogenic forms. The UPR aims to prevent accumulation.'
-  },
-  {
-    topic:'methods', type:'sata', tag:'Co-IP Interpretation',
-    stem:'In a co-immunoprecipitation (co-IP) experiment, you pull down protein A and find protein B in the eluate (along with A). Which interpretations require additional experiments to confirm? <strong>Select all that apply.</strong>',
-    opts:['Proteins A and B interact in some form (direct or indirect), as they are physically associated in the lysis conditions used','The interaction between A and B is direct (one-to-one binding) rather than mediated by a linker protein or scaffold','The interaction is specific and functional (not an artifact of the lysis buffer or antibody properties)','The interaction occurs in living cells at physiological conditions (not just in vitro)','The identified protein B is the only binding partner of A in the cell; A does not interact with other proteins'],
-    correct:[1,2,3,4],
-    explain:'A is directly confirmed by co-IP. B, C, D, E require additional experiments: direct interaction (B) needs FRET, yeast two-hybrid, or structural studies; specificity (C) needs negative controls and independent methods; physiological occurrence (D) needs live-cell methods (BiFC, BRET, proximity labeling); exclusive interaction (E) needs unbiased methods (mass spectrometry, yeast-two-hybrid screening).'
-  },
-  {
-    topic:'exam2', type:'sata', tag:'SNARE Proteins',
-    stem:'Which statements correctly describe SNARE (SNAP Receptor) proteins and vesicle fusion? <strong>Select all that apply.</strong>',
-    opts:['SNARE proteins are found on both vesicle membranes (v-SNAREs) and target membranes (t-SNAREs), and they zipper together to form a four-helix coiled-coil bundle that brings membranes into close proximity','Rab GTPases (Rab5, Rab7, Rab11) cycle between GTP-bound (active, recruiting effectors) and GDP-bound (inactive) states, and are required for tethering vesicles and recruiting SNAREs to the target compartment','NSF (N-ethylmaleimide-sensitive fusion factor) and SNAP proteins bind to SNARE complexes and use ATP hydrolysis to disassemble the coiled-coil, recycling SNAREs for reuse','SNARE assembly is unidirectional — once one configuration (e.g., ER-Golgi fusion) is assembled, the SNAREs cannot participate in reverse fusion (e.g., Golgi-to-ER recycling)','Vesicle fusion requires both SNARE zippering and PIP₂ hydrolysis in the target membrane, which generates phosphatidic acid (PA) that destabilizes the bilayer and promotes membrane merger'],
-    correct:[0,1,2,4],
-    explain:'A, B, C, E are correct. D is false — SNARE specificity is <em>combinatorial</em>: different Rabs and SNAREs at different organelles ensure directionality, but the SNAREs themselves are recycled by NSF/SNAP. The directionality comes from Rab localization and compartment-specific SNARE abundance, not from SNAREs being locked in one conformation. E adds phospholipid dynamics to SNARE-driven fusion.'
-  },
-
-  {
-    topic:'exam2', type:'false', tag:'ATP Hydrolysis',
-    stem:'Which statement about ATP hydrolysis and energy coupling is <strong>FALSE</strong>?',
-    opts:['ATP → ADP + Pi releases ~30.5 kJ/mol under standard conditions; the actual free energy depends on ATP, ADP, and Pi concentrations in the cell (ΔG\'°net)','Primary active transport pumps (Na⁺/K⁺-ATPase) couple ATP hydrolysis to conformational changes that drive ions against gradients','Secondary active transport uses a pre-established ion gradient (created by primary pumps) to drive movement of other substrates without directly using ATP','Protein synthesis by ribosomes uses GTP hydrolysis (by elongation factors EF-Tu, EF-G) to couple nucleotide incorporation to proofreading, enhancing fidelity','ATP hydrolysis is only thermodynamically favorable (ΔG < 0) when coupled to processes with low Keq; unfavorable reactions cannot be driven by ATP even at high [ATP]'],
-    correct:[4],
-    explain:'E is false. ATP hydrolysis has a large negative ΔG (~−50 kJ/mol in cells, more favorable than standard ΔG°). This large negative value allows ATP to drive <em>any</em> reaction, even those with unfavorable Keq, by coupling: ΔGtotal = ΔGreaction + ΔG_ATP hydrolysis. If the coupled ΔGtotal is negative, the reaction proceeds. No Keq is too high to overcome with sufficient ATP.'
-  },
-
-  {
-    topic:'protein', type:'sata', tag:'Enzyme Kinetics',
-    stem:'Which statements correctly describe enzyme kinetics and the Michaelis-Menten model? <strong>Select all that apply.</strong>',
-    opts:['Km is the substrate concentration at which the enzyme operates at half-maximal velocity (Vmax/2) and approximates the dissociation constant of the ES complex when kcatoff >> k₂ (product release fast)','A low Km indicates high affinity (enzyme binds substrate tightly); a high Km indicates low affinity','Vmax is the maximum velocity achieved at saturating substrate concentration and depends on the total enzyme concentration ([E]total) and the turnover number (kcat)','kcat (turnover number) is the number of substrate molecules converted to product per enzyme molecule per unit time and reflects the rate-limiting step of catalysis','Competitive inhibition increases Km without changing Vmax by binding to the active site; non-competitive inhibition decreases Vmax without changing Km by binding to an allosteric site'],
-    correct:[0,1,2,3,4],
-    explain:'All five (A–E) are correct and represent core enzyme kinetics. Km and Km relationship, Vmax dependency on enzyme concentration and kcat, and the distinction between competitive and non-competitive inhibition are foundational. These principles explain how enzymes achieve catalytic power and how inhibitors (drugs, poisons) interfere with enzymatic function.'
   }
 ];
 
 let questions = [], current = 0, score = 0, answered = [], missedQ = [], activeFilter = 'all';
+
+/* ════════════════════════════════════════════════════════════════════
+   GAMIFICATION SYSTEM
+═══════════════════════════════════════════════════════════════════ */
+
+// ─── BIOLOGY SPECIMENS — the collection ───
+const SPECIMENS = [
+  // COMMON (60% combined)
+  {id:'bact_ec',  name:'E. coli',           icon:'🦠', rarity:'common', tag:'Bacterium', tagline:'The lab workhorse', fact:'A single <strong>E. coli</strong> cell can divide every 20 minutes — under perfect conditions, one cell would yield 10²¹ descendants in a day. The dominant model organism for molecular biology.'},
+  {id:'rbc',      name:'Red Blood Cell',    icon:'🔴', rarity:'common', tag:'Erythrocyte', tagline:'Oxygen courier', fact:'Mature mammalian RBCs lack nuclei and mitochondria — sacrificing reproduction for maximum hemoglobin packing. They live ~120 days before macrophages clear them in the spleen.'},
+  {id:'cell_g',   name:'Generic Cell',      icon:'🟢', rarity:'common', tag:'Cell', tagline:'The basic unit of life', fact:'There are roughly <strong>30 trillion cells</strong> in the human body, plus another ~38 trillion microbes. Every one of them descends, unbroken, from the same first cell ~3.8 billion years ago.'},
+  {id:'dna',      name:'DNA Strand',        icon:'🧬', rarity:'common', tag:'Nucleic acid', tagline:'The double helix', fact:'Stretched out, the DNA in a single human cell is about 2 meters long — yet it folds into a nucleus only 6 µm wide. That\'s a packing ratio of over 300,000:1.'},
+  {id:'mito',     name:'Mitochondrion',     icon:'🔋', rarity:'common', tag:'Organelle', tagline:'Powerhouse', fact:'Mitochondria have their own circular genome — relics of an ancient α-proteobacterium engulfed ~1.5 billion years ago. You inherited yours <em>only</em> from your mother.'},
+  {id:'water',    name:'Water Molecule',    icon:'💧', rarity:'common', tag:'Solvent', tagline:'The biological solvent', fact:'About 60% of you is water, but it\'s not just filler — its polarity drives protein folding, membrane formation, and the hydrophobic effect that organizes life itself.'},
+  {id:'glucose',  name:'Glucose',           icon:'🍬', rarity:'common', tag:'Sugar', tagline:'Cellular fuel', fact:'Complete oxidation of one glucose yields up to <strong>~32 ATP</strong>. Your brain alone burns ~120 g of glucose per day — about half your body\'s total glucose budget.'},
+
+  // UNCOMMON (25% combined)
+  {id:'rib',      name:'Ribosome',          icon:'⚙️', rarity:'uncommon', tag:'RNA-protein complex', tagline:'The protein factory', fact:'Each ribosome adds ~5–20 amino acids per second. A typical human cell has ~10 million ribosomes — they\'re the most abundant macromolecular machine in life.'},
+  {id:'enz',      name:'Enzyme',            icon:'✂️', rarity:'uncommon', tag:'Catalyst', tagline:'The molecular shears', fact:'Enzymes lower activation energy, often accelerating reactions <strong>10⁶ to 10¹⁷ fold</strong>. Carbonic anhydrase is one of the fastest known — converting up to a million CO₂ molecules per second.'},
+  {id:'memb',     name:'Lipid Bilayer',     icon:'🟫', rarity:'uncommon', tag:'Membrane', tagline:'The cellular boundary', fact:'A phospholipid in the membrane diffuses laterally about 2 µm per second — fluid sideways, but flipping across the bilayer happens once per hour at most. Hence "fluid mosaic."'},
+  {id:'neuron',   name:'Neuron',            icon:'🧠', rarity:'uncommon', tag:'Nerve cell', tagline:'Electrical communicator', fact:'A neuron can fire up to <strong>200 times per second</strong>. The longest one in your body — sciatic nerve — runs nearly a meter, from spine to toe, in a single cell.'},
+  {id:'virus',    name:'Bacteriophage',     icon:'🦠', rarity:'uncommon', tag:'Virus', tagline:'Bacterial assassin', fact:'Bacteriophages outnumber bacteria ~10:1 in nature — there are an estimated <strong>10³¹ phages on Earth</strong>, more than any other biological entity. They drive bacterial evolution.'},
+  {id:'tcell',    name:'T-cell',            icon:'🛡️', rarity:'uncommon', tag:'Immune cell', tagline:'Adaptive defender', fact:'Each T-cell carries a unique receptor generated by V(D)J recombination — your body builds an estimated <strong>10¹² distinct T-cell receptors</strong>, ready for nearly any antigen.'},
+
+  // RARE (10% combined)
+  {id:'isc',      name:'Intestinal Stem Cell', icon:'⭐', rarity:'rare', tag:'Lgr5⁺ CBC', tagline:'Crypt-base regenerator', fact:'Lgr5⁺ stem cells at the crypt base divide ~once per day, replacing the entire intestinal epithelium every 4–5 days. The fastest-renewing tissue in the adult body.'},
+  {id:'ipsc',     name:'iPSC',              icon:'🌟', rarity:'rare', tag:'Induced pluripotent SC', tagline:'Reprogrammed potential', fact:'Yamanaka\'s 2006 discovery: just <strong>4 transcription factors (OSKM)</strong> can rewind any adult cell to embryonic-like pluripotency. Earned the 2012 Nobel Prize in just six years.'},
+  {id:'crispr',   name:'CRISPR-Cas9',       icon:'✂️', rarity:'rare', tag:'Gene editor', tagline:'Molecular scalpel', fact:'CRISPR was originally a bacterial immune system — they store snippets of phage DNA to recognize and cut returning invaders. Doudna and Charpentier won the 2020 Nobel for repurposing it.'},
+  {id:'gpcr',     name:'GPCR',              icon:'📡', rarity:'rare', tag:'Receptor', tagline:'7-pass signal antenna', fact:'GPCRs are the largest receptor family in your genome (~800 members) and the target of <strong>~34% of all FDA-approved drugs</strong>. Light, smell, taste, and most hormones all signal through them.'},
+  {id:'kinase',   name:'CDK / Cyclin',      icon:'⏰', rarity:'rare', tag:'Cell cycle gate', tagline:'The division switch', fact:'Cyclin levels oscillate in waves — Cyclin D for G1, E for S-entry, A for S, B for mitosis. Hartwell, Hunt, and Nurse won the 2001 Nobel for revealing this clockwork.'},
+
+  // EPIC (4% combined)
+  {id:'p53',      name:'p53',               icon:'👑', rarity:'epic', tag:'TP53 / Tumor suppressor', tagline:'The guardian of the genome', fact:'p53 is mutated in <strong>~50% of all human cancers</strong> — more than any other gene. It senses DNA damage and triggers either repair, arrest, or apoptosis. Lose it, and mutations accumulate freely.'},
+  {id:'csc',      name:'Cancer Stem Cell',  icon:'☣️', rarity:'epic', tag:'CD44⁺/CD24⁻', tagline:'Tumor seed', fact:'CSCs are a rare, self-renewing subpopulation that survive chemo by staying quiescent — then regrow the tumor months or years later. They\'re the prime suspects in cancer relapse.'},
+  {id:'organizer',name:'Spemann Organizer', icon:'🌐', rarity:'epic', tag:'Embryonic patterning', tagline:'The body-plan architect', fact:'Hans Spemann\'s 1924 transplant: graft this tiny dorsal lip into a ventral region, and you induce a <strong>second complete embryo</strong>. It secretes Chordin, Noggin, and Wnt inhibitors to organize all three germ layers.'},
+  {id:'telomere', name:'Telomerase',        icon:'⌛', rarity:'epic', tag:'Reverse transcriptase', tagline:'Chromosome immortalizer', fact:'Telomerase rebuilds the TTAGGG repeats at chromosome ends — silenced in most adult cells, reactivated in <strong>~85–90% of cancers</strong> to grant unlimited divisions. The molecular fountain of youth, weaponized.'},
+
+  // LEGENDARY (1% combined)
+  {id:'spliceo',  name:'Spliceosome',       icon:'💎', rarity:'legendary', tag:'snRNP megacomplex', tagline:'The RNA editor supreme', fact:'A 12-megadalton dynamic machine of <strong>5 snRNAs and over 150 proteins</strong> — it removes introns from every protein-coding pre-mRNA you make. Most cellular proteins exist only because the spliceosome built the right exon order.'},
+  {id:'oct4',     name:'OCT4–SOX2–NANOG',   icon:'✨', rarity:'legendary', tag:'Pluripotency core', tagline:'The trinity of stemness', fact:'These three transcription factors form a self-reinforcing loop that <strong>defines pluripotency</strong>. Force them into a fibroblast and you get an iPSC. Lose any one, and stemness collapses into differentiation.'},
+  {id:'atpsynth', name:'ATP Synthase',      icon:'🌀', rarity:'legendary', tag:'F₀F₁ rotor', tagline:'The molecular turbine', fact:'A real rotary motor: protons flowing through the c-ring spin it at <strong>~100–300 rpm</strong>, mechanically forcing ADP + Pi into ATP. You make and burn ~your own body weight in ATP every day.'},
+];
+
+const SPECIMENS_BY_ID = Object.fromEntries(SPECIMENS.map(s => [s.id, s]));
+const RARITY_ORDER = ['common','uncommon','rare','epic','legendary'];
+const RARITY_LABELS = {common:'Common',uncommon:'Uncommon',rare:'Rare',epic:'Epic',legendary:'LEGENDARY'};
+
+// Box definitions — odds must sum to 100
+const BOXES = [
+  {id:'basic', name:'Petri Dish', icon:'🧫', cost:50,
+   desc:'Routine specimens with a chance of something interesting.',
+   tier:'basic',
+   odds:{common:70, uncommon:22, rare:6, epic:1.7, legendary:0.3}},
+  {id:'premium', name:'Lab Specimen Crate', icon:'🎁', cost:150,
+   desc:'Better odds across the board — uncommon and rare tilt up.',
+   tier:'premium',
+   odds:{common:45, uncommon:35, rare:14, epic:5, legendary:1}},
+  {id:'legendary', name:'Nobel Prize Vault', icon:'🏆', cost:500,
+   desc:'For the dedicated collector. Significantly boosted epic and legendary odds.',
+   tier:'legendary',
+   odds:{common:20, uncommon:30, rare:30, epic:15, legendary:5}},
+];
+
+// ─── USER STATE ───
+let user = null;       // {name, points, owned:{id:count}, totalEarned, quizStats:{correct,wrong,streak,bestStreak}}
+let currentStreak = 0;
+let currentCombo = 1;  // multiplier
+let comboProgress = 0; // fills meter, resets on wrong
+let collFilter = 'all';
+
+const USERS_KEY = 'biol240_users_list';
+const USER_PREFIX = 'biol240_user_';
+
+function loadUsersList(){
+  try{ return JSON.parse(localStorage.getItem(USERS_KEY)||'[]'); }catch(e){ return []; }
+}
+function saveUsersList(list){
+  try{ localStorage.setItem(USERS_KEY, JSON.stringify(list)); }catch(e){}
+}
+function loadUser(name){
+  try{
+    const raw = localStorage.getItem(USER_PREFIX + name.toLowerCase());
+    if(raw) return JSON.parse(raw);
+  }catch(e){}
+  return null;
+}
+function saveUser(){
+  if(!user) return;
+  try{
+    localStorage.setItem(USER_PREFIX + user.name.toLowerCase(), JSON.stringify(user));
+    let list = loadUsersList();
+    list = list.filter(n => n.toLowerCase() !== user.name.toLowerCase());
+    list.unshift(user.name);
+    if(list.length > 5) list = list.slice(0,5);
+    saveUsersList(list);
+  }catch(e){}
+}
+function newUser(name){
+  return {
+    name: name,
+    points: 25,           // starter points so they can immediately try a box
+    totalEarned: 25,
+    owned: {},            // id → count
+    quizStats:{ correct:0, wrong:0, bestStreak:0, totalAnswered:0 },
+    boxesOpened: 0,
+    created: Date.now()
+  };
+}
+
+// ─── LOGIN FLOW ───
+function showLogin(){
+  document.getElementById('loginOverlay').style.display = 'flex';
+  document.getElementById('loginInput').value = '';
+  // recent users
+  const recent = loadUsersList();
+  const wrap = document.getElementById('loginRecent');
+  const list = document.getElementById('loginRecentList');
+  if(recent.length === 0){ wrap.style.display = 'none'; return; }
+  wrap.style.display = 'block';
+  list.innerHTML = recent.map(n => {
+    const u = loadUser(n);
+    if(!u) return '';
+    const owned = Object.keys(u.owned||{}).length;
+    return `<div class="login-recent-item" onclick="loginAs('${n.replace(/'/g,"\\'")}')">
+      <span>${escapeHTML(n)}</span>
+      <span class="lr-stats">✦ ${u.points} · ${owned} found</span>
+    </div>`;
+  }).join('');
+  setTimeout(()=>document.getElementById('loginInput').focus(), 100);
+}
+function escapeHTML(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function doLogin(){
+  const name = document.getElementById('loginInput').value.trim();
+  if(!name){ document.getElementById('loginInput').focus(); return; }
+  if(name.length > 20) return;
+  loginAs(name);
+}
+function loginAs(name){
+  let existing = loadUser(name);
+  if(!existing){
+    user = newUser(name);
+    saveUser();
+    toast('🎉','Welcome, '+name+'! Starting points: ✦25');
+  } else {
+    user = existing;
+    toast('👋','Welcome back, '+name);
+  }
+  document.getElementById('loginOverlay').style.display = 'none';
+  refreshUserUI();
+  buildQuiz();
+  buildShop();
+  buildCollection();
+}
+function logout(){
+  if(!confirm('Switch user? Your progress is saved.')) return;
+  user = null;
+  document.getElementById('userBadge').style.display = 'none';
+  showLogin();
+}
+
+function refreshUserUI(){
+  if(!user) return;
+  document.getElementById('userBadge').style.display = 'flex';
+  document.getElementById('userAvatar').textContent = user.name.charAt(0).toUpperCase();
+  document.getElementById('userName').textContent = user.name;
+  document.getElementById('userPoints').textContent = user.points;
+  // HUD
+  if(document.getElementById('hudPoints')){
+    document.getElementById('hudPoints').textContent = user.points;
+    document.getElementById('hudStreak').textContent = currentStreak;
+    document.getElementById('hudCombo').textContent = '×'+currentCombo;
+    document.getElementById('hudComboFill').style.width = (comboProgress*100/4) + '%';
+  }
+  // Collection hero
+  if(document.getElementById('collPointsHero')){
+    document.getElementById('collPointsHero').textContent = user.points;
+    document.getElementById('collOwnedHero').textContent = Object.keys(user.owned).length;
+    document.getElementById('collTotalHero').textContent = SPECIMENS.length;
+  }
+}
+
+// ─── POINT AWARDING ───
+function pointsForQuestion(q, isCorrect){
+  if(!isCorrect) return 0;
+  let base = 10;
+  if(q.type === 'sata') base = 18;       // SATA harder
+  else if(q.type === 'false') base = 12;
+  return Math.round(base * currentCombo);
+}
+
+function awardPoints(amount, label, x, y){
+  if(!user || amount <= 0) return;
+  user.points += amount;
+  user.totalEarned += amount;
+  saveUser();
+  refreshUserUI();
+  if(x !== undefined && y !== undefined){
+    spawnPointPopup(amount, label, x, y);
+  }
+}
+
+function spawnPointPopup(amount, label, x, y){
+  const pop = document.createElement('div');
+  pop.className = 'point-popup ' + (label === 'streak' ? 'pp-streak' : label === 'bonus' ? 'pp-bonus' : 'pp-points');
+  pop.style.left = x+'px';
+  pop.style.top = y+'px';
+  pop.textContent = '+'+amount+' ✦';
+  document.body.appendChild(pop);
+  setTimeout(()=>pop.remove(), 1300);
+}
+
+function spawnComboBanner(text){
+  const b = document.createElement('div');
+  b.className = 'combo-banner';
+  b.style.left = '50%';
+  b.style.transform = 'translateX(-50%)';
+  b.textContent = text;
+  document.body.appendChild(b);
+  setTimeout(()=>b.remove(), 1700);
+}
+
+function spawnConfetti(centerX, centerY, count, colors){
+  colors = colors || ['#4ade80','#fbbf24','#a78bfa','#60a5fa','#f472b6'];
+  for(let i=0; i<count; i++){
+    const c = document.createElement('div');
+    c.className = 'confetti-burst';
+    c.style.background = colors[Math.floor(Math.random()*colors.length)];
+    c.style.left = centerX+'px';
+    c.style.top = centerY+'px';
+    document.body.appendChild(c);
+    const angle = Math.random() * Math.PI * 2;
+    const dist = 60 + Math.random()*120;
+    const dx = Math.cos(angle)*dist;
+    const dy = Math.sin(angle)*dist - 40;
+    c.animate([
+      {transform:'translate(0,0) scale(1)', opacity:1},
+      {transform:`translate(${dx}px,${dy}px) rotate(${Math.random()*720}deg) scale(.3)`, opacity:0}
+    ], {duration:900+Math.random()*400, easing:'cubic-bezier(.2,.6,.4,1)'}).onfinish = ()=>c.remove();
+  }
+}
+
+function toast(icon, msg){
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.innerHTML = `<span class="toast-icon">${icon}</span><span>${escapeHTML(msg)}</span>`;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(), 2700);
+}
+
+// ════════════════════════════════════════════════════════════════════
+// QUIZ (gamified)
+// ════════════════════════════════════════════════════════════════════
 
 function buildQuiz() {
   questions = activeFilter === 'all' ? [...ALL_QUESTIONS] : ALL_QUESTIONS.filter(q => q.topic === activeFilter);
@@ -1958,7 +2876,9 @@ function buildQuiz() {
     [questions[i], questions[j]] = [questions[j], questions[i]];
   }
   current = 0; score = 0; answered = []; missedQ = [];
+  currentCombo = 1; comboProgress = 0;
   document.getElementById('qzResults').classList.remove('show');
+  refreshUserUI();
   renderCard();
   updateBar();
 }
@@ -1972,15 +2892,18 @@ function renderCard() {
   const typeClass = q.type === 'sata' ? 'sata' : q.type === 'false' ? 'false-q' : 'mc';
   const instrClass = q.type === 'sata' ? 'sata-inst' : q.type === 'false' ? 'false-inst' : '';
   const tagColors = {stem:'var(--amber)',cancer:'var(--red)',gene:'var(--green)',signaling:'var(--purple)',methods:'var(--blue)',genetics:'var(--indigo)',tissues:'var(--pink)',protein:'var(--green)',exam2:'var(--amber)',exam3:'var(--pink)'};
-  const tagBgs = {stem:'var(--amber-bg)',cancer:'var(--red-bg)',gene:'var(--green-bg)',signaling:'var(--purple-bg)',methods:'var(--blue-bg)',genetics:'var(--indigo-bg)',tissues:'var(--pink-bg)',protein:'var(--green-bg)',exam2:'var(--amber-bg)',exam3:'var(--pink-bg)'};;
+  const tagBgs = {stem:'var(--amber-bg)',cancer:'var(--red-bg)',gene:'var(--green-bg)',signaling:'var(--purple-bg)',methods:'var(--blue-bg)',genetics:'var(--indigo-bg)',tissues:'var(--pink-bg)',protein:'var(--green-bg)',exam2:'var(--amber-bg)',exam3:'var(--pink-bg)'};
   const singleSelect = q.type === 'mc' || q.type === 'false';
   const instrText = q.type === 'sata' ? 'Select every correct statement — all must be chosen for full credit' : q.type === 'false' ? 'Choose the one statement that is incorrect' : 'Choose the single best answer';
+  const basePts = q.type === 'sata' ? 18 : q.type === 'false' ? 12 : 10;
+  const ptsLabel = currentCombo > 1 ? `+${basePts} × ${currentCombo} = ${basePts*currentCombo}` : `+${basePts}`;
 
   container.innerHTML = `
-    <div class="qz-card active">
+    <div class="qz-card active" id="activeQzCard">
       <div class="qz-meta">
         <span class="qz-num">Q${current+1} of ${questions.length}</span>
         <span class="qz-tag" style="background:${tagBgs[q.topic]};color:${tagColors[q.topic]}">${q.tag}</span>
+        <span class="qz-points-preview" title="Points if correct (×combo)">${ptsLabel}</span>
         <span class="qz-type ${typeClass}">${typeLabel}</span>
       </div>
       <div class="qz-stem">${q.stem}</div>
@@ -2013,15 +2936,69 @@ function submitAnswer() {
     else if(!q.correct.includes(i) && selected.includes(i)) b.classList.add('wrong');
     else if(q.correct.includes(i) && !selected.includes(i)) b.classList.add('missed');
   });
-  if(isCorrect) score++; else missedQ.push({num:current+1, stem:q.stem});
+
+  const card = document.getElementById('activeQzCard');
+  const rect = card.getBoundingClientRect();
+
+  if(isCorrect){
+    score++;
+    currentStreak++;
+    comboProgress++;
+    // Combo level-up at 3 / 7 / 12
+    let leveledUp = false;
+    if(comboProgress >= 4 && currentCombo === 1){ currentCombo = 2; leveledUp = true; spawnComboBanner('🔥 Combo ×2!'); }
+    else if(comboProgress >= 8 && currentCombo === 2){ currentCombo = 3; leveledUp = true; spawnComboBanner('⚡ Combo ×3!'); }
+    else if(comboProgress >= 12 && currentCombo === 3){ currentCombo = 4; leveledUp = true; spawnComboBanner('🌟 ×4 ON FIRE!'); }
+    const earned = pointsForQuestion(q, true);
+    awardPoints(earned, 'points', rect.left + rect.width/2, rect.top + 60);
+    // Streak bonuses every 5
+    if(currentStreak > 0 && currentStreak % 5 === 0){
+      const bonus = currentStreak * 5;
+      setTimeout(()=>{
+        awardPoints(bonus, 'streak', rect.left + rect.width/2, rect.top + 110);
+        spawnComboBanner(`🔥 ${currentStreak} streak +${bonus}!`);
+      }, 250);
+    }
+    // confetti
+    spawnConfetti(rect.left + rect.width/2, rect.top + 80, currentCombo >= 3 ? 30 : currentCombo >= 2 ? 20 : 12);
+    card.classList.add('celebrate');
+    setTimeout(()=>card.classList.remove('celebrate'), 500);
+
+    if(user){
+      user.quizStats.correct = (user.quizStats.correct||0) + 1;
+      user.quizStats.totalAnswered = (user.quizStats.totalAnswered||0) + 1;
+      if(currentStreak > (user.quizStats.bestStreak||0)) user.quizStats.bestStreak = currentStreak;
+      saveUser();
+    }
+  } else {
+    missedQ.push({num:current+1, stem:q.stem});
+    // shake card
+    card.classList.add('shake');
+    setTimeout(()=>card.classList.remove('shake'), 400);
+    // reset combo + streak
+    if(currentCombo > 1) toast('💔','Combo broken — back to ×1');
+    currentCombo = 1;
+    comboProgress = 0;
+    currentStreak = 0;
+    if(user){
+      user.quizStats.wrong = (user.quizStats.wrong||0) + 1;
+      user.quizStats.totalAnswered = (user.quizStats.totalAnswered||0) + 1;
+      saveUser();
+    }
+  }
   answered.push(isCorrect);
+
   const fb = document.getElementById('qzFeedback');
   fb.className = 'qz-feedback show ' + (isCorrect ? 'fb-correct' : 'fb-wrong');
-  fb.innerHTML = isCorrect
-    ? `<strong>Correct <span class="fb-score-tag fb-full">+1</span></strong>${q.explain}`
-    : `<strong>Incorrect <span class="fb-score-tag fb-zero">+0 — no partial credit</span></strong>${q.explain}`;
+  if(isCorrect){
+    const earned = pointsForQuestion(q, true);
+    fb.innerHTML = `<strong>Correct! <span class="fb-score-tag fb-full">+${earned} ✦</span></strong>${q.explain}`;
+  } else {
+    fb.innerHTML = `<strong>Incorrect <span class="fb-score-tag fb-zero">+0 — no partial credit</span></strong>${q.explain}`;
+  }
   document.getElementById('qzNextBtn').style.display = 'inline-flex';
   document.getElementById('qzScoreLive').textContent = `Score: ${score}`;
+  refreshUserUI();
   updateBar();
 }
 
@@ -2044,6 +3021,16 @@ function showResults() {
   document.getElementById('resSub').textContent = `You answered ${score} of ${total} questions correctly.`;
   document.getElementById('resCorrect').textContent = score;
   document.getElementById('resWrong').textContent = total - score;
+
+  // End-of-quiz bonus
+  if(user && total > 0){
+    let bonus = 0;
+    if(pct === 100){ bonus = 100; toast('🏆','Perfect score! +100 ✦ bonus'); }
+    else if(pct >= 90){ bonus = 50; toast('🥇','+50 ✦ bonus for 90%+'); }
+    else if(pct >= 75){ bonus = 25; toast('🥈','+25 ✦ bonus for 75%+'); }
+    if(bonus){ user.points += bonus; user.totalEarned += bonus; saveUser(); refreshUserUI(); }
+  }
+
   if(missedQ.length > 0) {
     document.getElementById('resMissedList').style.display = 'block';
     document.getElementById('resMissedItems').innerHTML = missedQ.map(m => `<div class="missed-item"><span class="missed-q-num">Q${m.num}</span><span>${m.stem.replace(/<[^>]*>/g,'').slice(0,90)}…</span></div>`).join('');
@@ -2067,7 +3054,476 @@ function setFilter(f, btn) {
   buildQuiz();
 }
 
-document.addEventListener('DOMContentLoaded', buildQuiz);
+// ════════════════════════════════════════════════════════════════════
+// SHOP & BOX OPENING
+// ════════════════════════════════════════════════════════════════════
+
+function buildShop(){
+  const row = document.getElementById('shopRow');
+  if(!row) return;
+  row.innerHTML = BOXES.map(b => {
+    const o = b.odds;
+    const canAfford = user && user.points >= b.cost;
+    return `
+      <div class="shop-box shop-box-${b.tier}">
+        <div class="shop-box-icon">${b.icon}</div>
+        <div class="shop-box-name">${b.name}</div>
+        <div class="shop-box-desc">${b.desc}</div>
+        <div class="odds-list">
+          <div class="odds-row"><span class="odds-com">Common</span><span>${o.common}%</span></div>
+          <div class="odds-row"><span class="odds-unc">Uncommon</span><span>${o.uncommon}%</span></div>
+          <div class="odds-row"><span class="odds-rar">Rare</span><span>${o.rare}%</span></div>
+          <div class="odds-row"><span class="odds-epi">Epic</span><span>${o.epic}%</span></div>
+          <div class="odds-row"><span class="odds-leg">Legendary</span><span>${o.legendary}%</span></div>
+        </div>
+        <button class="shop-box-buy" ${canAfford?'':'disabled'} onclick="openBox('${b.id}')">
+          ${canAfford ? `Open <span class="shop-box-cost">${b.cost}</span>` : `Need ✦${b.cost}`}
+        </button>
+      </div>`;
+  }).join('');
+}
+
+function rollRarity(odds){
+  const r = Math.random() * 100;
+  let cum = 0;
+  for(const rar of RARITY_ORDER){
+    cum += odds[rar];
+    if(r < cum) return rar;
+  }
+  return 'common';
+}
+
+function rollSpecimen(rarity){
+  const pool = SPECIMENS.filter(s => s.rarity === rarity);
+  return pool[Math.floor(Math.random()*pool.length)];
+}
+
+function openBox(boxId){
+  if(!user) return;
+  const box = BOXES.find(b => b.id === boxId);
+  if(!box || user.points < box.cost) return;
+
+  user.points -= box.cost;
+  user.boxesOpened = (user.boxesOpened||0) + 1;
+  saveUser();
+  refreshUserUI();
+  buildShop();
+
+  const rarity = rollRarity(box.odds);
+  const spec = rollSpecimen(rarity);
+  const isNew = !user.owned[spec.id];
+  user.owned[spec.id] = (user.owned[spec.id]||0) + 1;
+  saveUser();
+
+  // Open modal — show shaking box first
+  const modal = document.getElementById('boxModal');
+  const stage = document.getElementById('boxStage');
+  stage.innerHTML = `
+    <div class="box-3d shaking" id="boxAnim">
+      <div class="box-glow"></div>
+      <span style="position:relative;">${box.icon}</span>
+    </div>
+    <div class="box-prompt">Opening <strong>${box.name}</strong>…</div>
+  `;
+  modal.classList.add('show');
+
+  // Build shake intensity by rarity for suspense
+  const suspenseTime = rarity === 'legendary' ? 2200 : rarity === 'epic' ? 1700 : rarity === 'rare' ? 1300 : 900;
+  // Burst of sparkles around box during shake (more for higher rarity)
+  const sparkleColor = rarity === 'legendary' ? '#fbbf24' : rarity === 'epic' ? '#a78bfa' : rarity === 'rare' ? '#60a5fa' : rarity === 'uncommon' ? '#4ade80' : '#94a3b8';
+  const sparkleInterval = setInterval(()=>{
+    const boxEl = document.getElementById('boxAnim');
+    if(!boxEl) return;
+    const rect = boxEl.getBoundingClientRect();
+    const cx = rect.left + rect.width/2;
+    const cy = rect.top + rect.height/2;
+    for(let i=0;i<3;i++){
+      const sp = document.createElement('div');
+      sp.className = 'sparkle';
+      sp.style.background = sparkleColor;
+      sp.style.boxShadow = `0 0 8px ${sparkleColor}`;
+      sp.style.left = cx + 'px';
+      sp.style.top = cy + 'px';
+      const ang = Math.random()*Math.PI*2;
+      const dist = 80 + Math.random()*60;
+      sp.style.setProperty('--sx', Math.cos(ang)*dist+'px');
+      sp.style.setProperty('--sy', Math.sin(ang)*dist+'px');
+      document.body.appendChild(sp);
+      setTimeout(()=>sp.remove(), 1400);
+    }
+  }, rarity === 'legendary' ? 80 : rarity === 'epic' ? 130 : 200);
+
+  setTimeout(()=>{
+    clearInterval(sparkleInterval);
+    const boxEl = document.getElementById('boxAnim');
+    if(boxEl) boxEl.classList.add('opening');
+    setTimeout(()=>showReveal(spec, isNew, box, rarity), 600);
+  }, suspenseTime);
+}
+
+function showReveal(spec, isNew, box, rarity){
+  const stage = document.getElementById('boxStage');
+  const rarLabel = RARITY_LABELS[rarity];
+  const rarShort = rarity.slice(0,3);
+  stage.innerHTML = `
+    <div class="reveal-card show reveal-${rarShort}" id="revealCard">
+      <div class="reveal-rarity-banner">★ ${rarLabel} ★</div>
+      <div class="reveal-icon">${spec.icon}</div>
+      <div class="reveal-name">${spec.name}</div>
+      <div class="reveal-tagline">${spec.tagline}</div>
+      <div class="reveal-fact">${spec.fact}</div>
+      ${isNew
+        ? `<div class="dup-badge new">✨ NEW DISCOVERY</div>`
+        : `<div class="dup-badge">DUPLICATE — you already had this</div>`}
+      <div class="reveal-actions" style="margin-top:1rem;">
+        <button class="reveal-btn reveal-btn-secondary" onclick="closeBoxModal()">Continue</button>
+        ${user && user.points >= box.cost ? `<button class="reveal-btn reveal-btn-primary" onclick="closeBoxModal();openBox('${box.id}')">Open another (${box.cost} ✦)</button>` : ''}
+      </div>
+    </div>
+  `;
+  // confetti based on rarity
+  const card = document.getElementById('revealCard');
+  setTimeout(()=>{
+    const rect = card.getBoundingClientRect();
+    const cx = rect.left + rect.width/2;
+    const cy = rect.top + rect.height/2;
+    const colors = rarity === 'legendary' ? ['#fbbf24','#fff','#fde68a','#f59e0b'] :
+                   rarity === 'epic' ? ['#a78bfa','#c4b5fd','#ddd6fe','#8b5cf6'] :
+                   rarity === 'rare' ? ['#60a5fa','#93c5fd','#bfdbfe','#3b82f6'] :
+                   rarity === 'uncommon' ? ['#4ade80','#86efac','#22c55e'] :
+                   ['#94a3b8','#cbd5e1'];
+    const count = rarity === 'legendary' ? 80 : rarity === 'epic' ? 60 : rarity === 'rare' ? 40 : rarity === 'uncommon' ? 25 : 12;
+    spawnConfetti(cx, cy, count, colors);
+    if(rarity === 'legendary' || rarity === 'epic'){
+      // second wave
+      setTimeout(()=>spawnConfetti(cx, cy-40, count/2, colors), 300);
+      setTimeout(()=>spawnConfetti(cx, cy-80, count/2, colors), 600);
+    }
+  }, 100);
+
+  if(isNew && (rarity === 'epic' || rarity === 'legendary')){
+    setTimeout(()=>toast('🎊', `${rarLabel} unlocked: ${spec.name}!`), 600);
+  }
+  buildCollection();
+}
+
+function closeBoxModal(){
+  document.getElementById('boxModal').classList.remove('show');
+  document.getElementById('boxStage').innerHTML = '';
+}
+
+// ════════════════════════════════════════════════════════════════════
+// COLLECTION PAGE
+// ════════════════════════════════════════════════════════════════════
+
+function setRarityFilter(r, btn){
+  document.querySelectorAll('.rf-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  collFilter = r;
+  buildCollection();
+}
+
+function buildCollection(){
+  const grid = document.getElementById('collGrid');
+  if(!grid) return;
+  if(!user) return;
+  // Stats
+  const stats = {common:[0,0],uncommon:[0,0],rare:[0,0],epic:[0,0],legendary:[0,0]};
+  SPECIMENS.forEach(s => {
+    stats[s.rarity][1]++;
+    if(user.owned[s.id]) stats[s.rarity][0]++;
+  });
+  const ownedTotal = Object.keys(user.owned).length;
+  const statsHTML = `
+    <div class="coll-stat-card"><div class="coll-stat-n" style="color:var(--teal);">${ownedTotal}/${SPECIMENS.length}</div><div class="coll-stat-l">Discovered</div></div>
+    <div class="coll-stat-card"><div class="coll-stat-n" style="color:#94a3b8;">${stats.common[0]}/${stats.common[1]}</div><div class="coll-stat-l">Common</div></div>
+    <div class="coll-stat-card"><div class="coll-stat-n" style="color:var(--green);">${stats.uncommon[0]}/${stats.uncommon[1]}</div><div class="coll-stat-l">Uncommon</div></div>
+    <div class="coll-stat-card"><div class="coll-stat-n" style="color:var(--blue);">${stats.rare[0]}/${stats.rare[1]}</div><div class="coll-stat-l">Rare</div></div>
+    <div class="coll-stat-card"><div class="coll-stat-n" style="color:var(--purple);">${stats.epic[0]}/${stats.epic[1]}</div><div class="coll-stat-l">Epic</div></div>
+    <div class="coll-stat-card"><div class="coll-stat-n" style="color:var(--amber);">${stats.legendary[0]}/${stats.legendary[1]}</div><div class="coll-stat-l">Legendary</div></div>
+    <div class="coll-stat-card"><div class="coll-stat-n" style="color:var(--pink);">${user.boxesOpened||0}</div><div class="coll-stat-l">Boxes opened</div></div>
+  `;
+  document.getElementById('collStats').innerHTML = statsHTML;
+
+  // Grid — sorted by rarity (legendary first), then by id
+  const ordered = [...SPECIMENS].sort((a,b)=>{
+    const ra = RARITY_ORDER.indexOf(a.rarity);
+    const rb = RARITY_ORDER.indexOf(b.rarity);
+    if(ra !== rb) return rb - ra;
+    return a.name.localeCompare(b.name);
+  });
+  const filtered = collFilter === 'all' ? ordered : ordered.filter(s => s.rarity === collFilter);
+  grid.innerHTML = filtered.map(s => {
+    const owned = user.owned[s.id] || 0;
+    const locked = owned === 0;
+    const rarShort = s.rarity.slice(0,3);
+    return `
+      <div class="coll-card rare-${rarShort} ${locked?'locked':''}" onclick="${locked?'':`showDetail('${s.id}')`}">
+        ${owned > 1 ? `<div class="coll-count">×${owned}</div>` : ''}
+        <div class="coll-icon">${s.icon}</div>
+        <div class="coll-name">${locked ? '???' : s.name}</div>
+        <div class="coll-rarity-tag">${RARITY_LABELS[s.rarity]}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function showDetail(id){
+  const s = SPECIMENS_BY_ID[id];
+  if(!s) return;
+  const owned = user.owned[id] || 0;
+  const rarShort = s.rarity.slice(0,3);
+  const inner = document.getElementById('detailModalInner');
+  inner.className = 'detail-modal reveal-card show reveal-'+rarShort;
+  inner.innerHTML = `
+    <button class="detail-close" onclick="closeDetail()">×</button>
+    <div class="reveal-rarity-banner">★ ${RARITY_LABELS[s.rarity]} ★</div>
+    <div class="reveal-icon">${s.icon}</div>
+    <div class="reveal-name">${s.name}</div>
+    <div class="reveal-tagline">${s.tagline}</div>
+    <div class="reveal-fact">${s.fact}</div>
+    <div class="dup-badge">Owned: ×${owned} · ${s.tag}</div>
+  `;
+  document.getElementById('detailModal').classList.add('show');
+}
+function closeDetail(){
+  document.getElementById('detailModal').classList.remove('show');
+}
+
+// ════════════════════════════════════════════════════════════════════
+// QUESTION ANALYSIS
+// ════════════════════════════════════════════════════════════════════
+
+let qaFilter = 'all';
+
+const CONCEPT_MAP = {
+  'Paneth cells': { category: 'Stem Cell Niche', difficulty: 'review', desc: 'Cellular components and signaling in the intestinal stem cell niche' },
+  'Stem cell potency': { category: 'Stem Cell Types', difficulty: 'strong', desc: 'Understanding totipotent, pluripotent, multipotent, and unipotent cells' },
+  'Intestinal epithelium': { category: 'GI Biology', difficulty: 'review', desc: 'Cell types and structure of the intestinal lining' },
+  'Cell signaling': { category: 'Molecular Biology', difficulty: 'review', desc: 'Signal transduction pathways and cellular communication' },
+  'Cell differentiation': { category: 'Developmental Biology', difficulty: 'weak', desc: 'Process of cells becoming specialized cell types' },
+  'Tissue homeostasis': { category: 'Physiology', difficulty: 'review', desc: 'Maintenance of tissue structure and function' },
+  'Stem cell niche': { category: 'Stem Cell Biology', difficulty: 'review', desc: 'Microenvironment supporting stem cell maintenance' },
+  'Epigenetics': { category: 'Molecular Biology', difficulty: 'weak', desc: 'Heritable changes in gene expression without DNA sequence changes' }
+};
+
+function setQAFilter(filter, btn) {
+  document.querySelectorAll('.qa-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  qaFilter = filter;
+  buildQAPage();
+}
+
+function buildQAPage() {
+  const container = document.getElementById('qaContent');
+  if (!answered || answered.length === 0) {
+    container.innerHTML = `
+      <div class="qa-empty">
+        <div class="qa-empty-icon">📝</div>
+        <p>No questions answered yet. Complete a quiz to see analysis.</p>
+      </div>
+    `;
+    updateQAStats([], []);
+    return;
+  }
+
+  // Filter questions
+  const filtered = qaFilter === 'all' ? answered : 
+                   qaFilter === 'correct' ? answered.filter(a => a.isCorrect) :
+                   answered.filter(a => !a.isCorrect);
+
+  // Build stats
+  updateQAStats(answered, filtered);
+
+  // Build question list
+  if (filtered.length === 0) {
+    container.innerHTML = `
+      <div class="qa-empty">
+        <div class="qa-empty-icon">✨</div>
+        <p>No ${qaFilter} answers to display.</p>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = filtered.map((answer, idx) => {
+    const q = answer.question;
+    const icon = answer.isCorrect ? '✓' : '✗';
+    const iconColor = answer.isCorrect ? '#4ade80' : '#f87171';
+    
+    // Extract concepts from explanation for this question
+    const concepts = extractConceptsFromQuestion(q);
+    
+    return `
+      <div class="qa-question-item" onclick="openQAModal('${idx}', '${qaFilter}')">
+        <div class="qa-question-header">
+          <div class="qa-status-icon" style="color:${iconColor};">${icon}</div>
+          <div class="qa-question-text">
+            <div class="qa-question-num">${q.tag || 'General'}</div>
+            <h3>${q.stem.replace(/<[^>]*>/g, '')}</h3>
+          </div>
+        </div>
+        <div class="qa-answer-row">
+          <div class="qa-answer-col">
+            <span class="qa-answer-label">Your answer:</span>
+            <span class="qa-answer-value">${getAnswerText(answer)}</span>
+          </div>
+          <div class="qa-answer-col">
+            <span class="qa-answer-label">Correct answer:</span>
+            <span class="qa-answer-value qa-correct">${getCorrectAnswerText(q)}</span>
+          </div>
+        </div>
+        ${concepts.length > 0 ? `
+          <div class="qa-concepts">
+            <div class="qa-concepts-label">Key Concepts</div>
+            <div class="qa-concept-tags">
+              ${concepts.map(c => `<span class="qa-concept-tag qact-${CONCEPT_MAP[c]?.difficulty || 'review'}">${c}</span>`).join('')}
+            </div>
+          </div>
+        ` : ''}
+      </div>
+    `;
+  }).join('');
+}
+
+function updateQAStats(allAnswered, filtered) {
+  const statsDiv = document.getElementById('qaStats');
+  const totalCorrect = allAnswered.filter(a => a.isCorrect).length;
+  const totalAnswered = allAnswered.length;
+  const accuracy = totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : 0;
+
+  statsDiv.innerHTML = `
+    <div class="qa-stat-box">
+      <div class="qa-stat-number">${filtered.length}</div>
+      <div class="qa-stat-label">Questions</div>
+    </div>
+    <div class="qa-stat-box">
+      <div class="qa-stat-number" style="color:var(--green);">${filtered.filter(a => a.isCorrect).length}</div>
+      <div class="qa-stat-label">Correct</div>
+    </div>
+    <div class="qa-stat-box">
+      <div class="qa-stat-number" style="color:var(--red);">${filtered.filter(a => !a.isCorrect).length}</div>
+      <div class="qa-stat-label">Incorrect</div>
+    </div>
+    <div class="qa-stat-box">
+      <div class="qa-stat-number" style="color:var(--teal);">${accuracy}%</div>
+      <div class="qa-stat-label">Accuracy</div>
+    </div>
+  `;
+}
+
+function extractConceptsFromQuestion(q) {
+  // Extract concepts based on question tag and stem
+  const concepts = [];
+  const stem = q.stem.toLowerCase();
+  
+  Object.keys(CONCEPT_MAP).forEach(concept => {
+    if (stem.includes(concept.toLowerCase()) || q.tag?.toLowerCase().includes(concept.toLowerCase())) {
+      concepts.push(concept);
+    }
+  });
+  
+  return concepts.length > 0 ? concepts : [q.tag || 'General Biology'];
+}
+
+function getAnswerText(answer) {
+  if (answer.question.type === 'sata') {
+    return answer.userAnswer.map(idx => answer.question.opts[idx]).join('; ') || 'No answer selected';
+  }
+  return answer.userAnswer !== null ? answer.question.opts[answer.userAnswer] : 'No answer selected';
+}
+
+function getCorrectAnswerText(q) {
+  if (q.type === 'sata') {
+    return q.correct.map(idx => q.opts[idx]).join('; ');
+  } else if (q.type === 'false') {
+    return q.opts[q.correct[0]];
+  }
+  return q.opts[q.correct[0]];
+}
+
+function openQAModal(idx, filter) {
+  const allAnswered = filter === 'all' ? answered :
+                      filter === 'correct' ? answered.filter(a => a.isCorrect) :
+                      answered.filter(a => !a.isCorrect);
+  const answer = allAnswered[parseInt(idx)];
+  const q = answer.question;
+  const concepts = extractConceptsFromQuestion(q);
+
+  const body = document.getElementById('qaModalBody');
+  body.innerHTML = `
+    <div class="qa-detail-header">
+      <div class="qa-detail-num">${q.tag || 'General'} Question</div>
+      <div class="qa-detail-q">${q.stem}</div>
+    </div>
+
+    <div class="qa-detail-section">
+      <div class="qa-section-title">Your Answer</div>
+      <div class="qa-detail-answer ${answer.isCorrect ? 'correct' : 'incorrect'}">
+        <strong style="color:${answer.isCorrect ? 'var(--green)' : 'var(--red)'};">
+          ${answer.isCorrect ? '✓ Correct' : '✗ Incorrect'}
+        </strong>
+        <div style="margin-top:0.5rem;">${getAnswerText(answer)}</div>
+      </div>
+    </div>
+
+    <div class="qa-detail-section">
+      <div class="qa-section-title">Correct Answer</div>
+      <div class="qa-detail-answer correct">
+        ${getCorrectAnswerText(q)}
+      </div>
+    </div>
+
+    <div class="qa-detail-section">
+      <div class="qa-section-title">Explanation</div>
+      <div class="qa-detail-explanation">${q.explain}</div>
+    </div>
+
+    ${concepts.length > 0 ? `
+      <div class="qa-detail-section">
+        <div class="qa-section-title">Concepts Involved</div>
+        <div class="qa-concept-breakdown">
+          ${concepts.map(concept => {
+            const info = CONCEPT_MAP[concept];
+            return `
+              <div class="qa-concept-item ${info?.difficulty || 'review'}">
+                <div class="qa-concept-title">${concept}</div>
+                <div class="qa-concept-desc">${info?.desc || 'Related biological concept'}</div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    ` : ''}
+
+    <div class="qa-action-buttons">
+      <button class="qa-btn qa-btn-secondary" onclick="closeQAModal()">Close</button>
+      ${!answer.isCorrect ? `<button class="qa-btn qa-btn-primary" onclick="closeQAModal(); alert('Review materials for: ' + '${concepts.join(', ')}'">Study These Concepts</button>` : ''}
+    </div>
+  `;
+
+  document.getElementById('qaModal').classList.add('show');
+}
+
+function closeQAModal() {
+  document.getElementById('qaModal').classList.remove('show');
+}
+
+// ════════════════════════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  // login input enter key
+  document.getElementById('loginInput').addEventListener('keydown', e=>{
+    if(e.key === 'Enter') doLogin();
+  });
+  // close modal on overlay click (boxModal)
+  document.getElementById('boxModal').addEventListener('click', e=>{
+    if(e.target.id === 'boxModal') closeBoxModal();
+  });
+  // Always show login first
+  showLogin();
+});
 </script>
 </body>
 </html>
